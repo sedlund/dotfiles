@@ -1,0 +1,5 @@
+syntax:glob
+redis-*/
+.*.sw*
+.*.un~
+.DS_Store

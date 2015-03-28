@@ -1,0 +1,20 @@
+[ui]
+username = Ben Firshman <ben@firshman.co.uk>
+ignore = ~/.hgignore
+
+[extensions]
+color = 
+fetch = 
+progress = 
+graphlog = 
+hgk = 
+hgshelve = ~/.hgext/hgshelve.py
+hgext.bookmarks =
+#hggit = 
+
+[merge-tools]
+threesome.executable = mvim
+threesome.args = -f $base $local $other $output -c 'ThreesomeInit'
+threesome.premerge = keep
+threesome.priority = 1
+
