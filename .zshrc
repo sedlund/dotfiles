@@ -95,11 +95,13 @@ set -o vi
 #export HISTFILE=/tmp/zsh_history
 export EDITOR="vim"
 export PAGER="less"
-export TZ=EST
+export TZ=US/Eastern
 
 #export PATH=$PATH:/usr/sbin:/usr/src/google_appengine:~/bin:/usr/local/share/npm/bin:/usr/local/packer
 #export PATH=$PATH:
 export NODE_PATH=/usr/local/lib/node_modules
+
+bindkey -M vicmd v edit-command-line
 
 if [ -f /usr/bin/dircolors ]; then
     eval `dircolors ~/.dir_colors`
