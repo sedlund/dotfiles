@@ -33,4 +33,4 @@
 [push]
     default = simple
 [credential]
-    helper = cache --timeout=216000
+	helper = store
