@@ -53,7 +53,7 @@ source $ZSH/oh-my-zsh.sh
 
 # User configuration
 
-export PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/sbin:./:/usr/java/bin:~/bin
+export PATH=~/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/sbin:./:/usr/java/bin
 export MANPATH="/usr/local/man:$MANPATH"
 
 # You may need to manually set your language environment
@@ -123,7 +123,7 @@ function start_agent {
 
 # Host specific configs
 case `hostname -s` in
-    'silo')
+    'milo')
         # http://hints.macworld.com/article.php?story=20060410092629437
         #export XAUTHORITY=/tmp/.Xauthority.$USER
         alias ls="ls -F --color"
@@ -145,7 +145,7 @@ case `hostname -s` in
         }
 
     ;;
-    'kiwi')
+    'kiwi'| 'megatron' | 'hoptimus')
         # http://hints.macworld.com/article.php?story=20060410092629437
         #export XAUTHORITY=/tmp/.Xauthority.$USER
         alias ls="ls -F --color"
@@ -197,3 +197,4 @@ function git_prompt_info() {
   ref=$(git symbolic-ref HEAD 2> /dev/null) || return
   echo "$ZSH_THEME_GIT_PROMPT_PREFIX${ref#refs/heads/}${ZSH_THEME_GIT_PROMPT_CLEAN}${ZSH_THEME_GIT_PROMPT_SUFFIX}"
 }
+
