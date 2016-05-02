@@ -95,9 +95,13 @@ set -o vi
 #export HISTFILE=/tmp/zsh_history
 export EDITOR="vim"
 export PAGER="less"
+export TZ=US/Eastern
+
 #export PATH=$PATH:/usr/sbin:/usr/src/google_appengine:~/bin:/usr/local/share/npm/bin:/usr/local/packer
 #export PATH=$PATH:
 export NODE_PATH=/usr/local/lib/node_modules
+
+bindkey -M vicmd v edit-command-line
 
 if [ -f /usr/bin/dircolors ]; then
     eval `dircolors ~/.dir_colors`
@@ -123,7 +127,7 @@ function start_agent {
 
 # Host specific configs
 case `hostname -s` in
-    'silo')
+    'milo')
         # http://hints.macworld.com/article.php?story=20060410092629437
         #export XAUTHORITY=/tmp/.Xauthority.$USER
         alias ls="ls -F --color"
