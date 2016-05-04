@@ -202,7 +202,3 @@ function git_prompt_info() {
   echo "$ZSH_THEME_GIT_PROMPT_PREFIX${ref#refs/heads/}${ZSH_THEME_GIT_PROMPT_CLEAN}${ZSH_THEME_GIT_PROMPT_SUFFIX}"
 }
 
-<<<<<<< HEAD
-=======
-~/bin/untilvest.py
->>>>>>> f873d6a918f9bd57a0751c098499c2d24c73454d
