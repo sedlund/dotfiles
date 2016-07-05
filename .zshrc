@@ -202,3 +202,12 @@ function git_prompt_info() {
   echo "$ZSH_THEME_GIT_PROMPT_PREFIX${ref#refs/heads/}${ZSH_THEME_GIT_PROMPT_CLEAN}${ZSH_THEME_GIT_PROMPT_SUFFIX}"
 }
 
+# The next line updates PATH for the Google Cloud SDK.
+source '/home/ubuntu/src/google-cloud-sdk/path.zsh.inc'
+
+# The next line enables shell command completion for gcloud.
+source '/home/ubuntu/src/google-cloud-sdk/completion.zsh.inc'
+
+#lolcat -a -d 2 ~/.todo
+#lolcat -F 1.2 -p 14 ~/.todo
+lolcat -F 1.5 -p 24 ~/.todo
