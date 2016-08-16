@@ -1,12 +1,12 @@
 dotfiles
 ========
 
-    $ git clone https://github.com/sedlund/dotfiles .
+    $ cd; git clone https://github.com/sedlund/dotfiles .
 
 Or if you have a current homedir
 
-    $ git clone https://github.com/sedlund/dotfiles.git tmp && mv tmp/.git . && rm -rf tmp && git reset --hard
+    $ cd; git clone https://github.com/sedlund/dotfiles.git tmp && mv tmp/.git . && rm -rf tmp && git reset --hard
 
-pull submodules
+After the above pull submodules
 
     $ git submodule update --recursive --init
