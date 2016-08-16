@@ -108,7 +108,7 @@ if [ -f /usr/bin/dircolors ]; then
 fi
 
 # Add : to select chars in gnome-terminal
-if [ -e /usr/bin/dconf ]; then
+if [[ -e /usr/bin/dconf ]]; then
     dconf write /org/gnome/terminal/legacy/profiles:/:b1dcc9dd-5262-4d8d-a863-c897e6d979b9/word-char-exceptions '@ms "-#%&+,./:=?@_~"'
 fi
 
@@ -209,4 +209,6 @@ function git_prompt_info() {
 }
 
 lolcat -F 1.5 -p 24 ~/.todo
-~/bin/untilvest.py | lolcat
+if [[ -e ~/bin/untilvest.py ]]; then
+    ~/bin/untilvest.py | lolcat
+fi
