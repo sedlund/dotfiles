@@ -43,13 +43,6 @@ ZSH_THEME="bureau"
 # Would you like to use another custom folder than $ZSH/custom?
 # ZSH_CUSTOM=/path/to/new-custom-folder
 
-# Which plugins would you like to load? (plugins can be found in ~/.oh-my-zsh/plugins/*)
-# Custom plugins may be added to ~/.oh-my-zsh/custom/plugins/
-# Example format: plugins=(rails git textmate ruby lighthouse)
-# Add wisely, as too many plugins slow down shell startup.
-#plugins=(git)
-
-
 # User configuration
 
 export PATH=~/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/sbin:./:/usr/java/bin
@@ -88,7 +81,7 @@ export MANPATH="/usr/local/man:$MANPATH"
 # Which plugins would you like to load? (plugins can be found in ~/.oh-my-zsh/plugins/*)
 # Example format: plugins=(rails git textmate ruby lighthouse)
 #plugins=(autoenv bower brew bundler cloudapp coffee django emoji-clock extract fabric git github heroku lein node npm nyan pip postgres python rbenv safe-paste )
-plugins=(autoenv bundler docker git github pip postgres python rbenv safe-paste )
+plugins=(autoenv bundler docker docker-compose git github pip postgres python rbenv safe-paste )
 
 set -o vi
 #export HISTFILE=/tmp/zsh_history
