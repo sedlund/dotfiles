@@ -49,7 +49,6 @@ ZSH_THEME="bureau"
 # Add wisely, as too many plugins slow down shell startup.
 #plugins=(git)
 
-source $ZSH/oh-my-zsh.sh
 
 # User configuration
 
@@ -89,7 +88,7 @@ export MANPATH="/usr/local/man:$MANPATH"
 # Which plugins would you like to load? (plugins can be found in ~/.oh-my-zsh/plugins/*)
 # Example format: plugins=(rails git textmate ruby lighthouse)
 #plugins=(autoenv bower brew bundler cloudapp coffee django emoji-clock extract fabric git github heroku lein node npm nyan pip postgres python rbenv safe-paste )
-plugins=(autoenv bower brew bundler cloudapp coffee django extract fabric git github heroku lein node npm nyan pip postgres python rbenv safe-paste )
+plugins=(autoenv bundler docker git github pip postgres python rbenv safe-paste )
 
 set -o vi
 #export HISTFILE=/tmp/zsh_history
@@ -212,3 +211,8 @@ lolcat -F 1.5 -p 24 ~/.todo
 if [[ -e ~/bin/untilvest.py ]]; then
     ~/bin/untilvest.py | lolcat
 fi
+
+#export LC_ALL=en_US.UTF-8
+#export LANG=en_US.UTF-8
+
+source $ZSH/oh-my-zsh.sh
