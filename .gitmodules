@@ -19,15 +19,12 @@
 [submodule ".vim/bundle/vim-coffee-script"]
 	path = .vim/bundle/vim-coffee-script
 	url = https://github.com/kchmck/vim-coffee-script.git
-[submodule ".vim/bundle/handlebars"]
-	path = .vim/bundle/handlebars
-	url = https://github.com/nono/vim-handlebars.git
 [submodule ".vim/bundle/scss-syntax.vim"]
 	path = .vim/bundle/scss-syntax.vim
 	url = https://github.com/cakebaker/scss-syntax.vim.git
 [submodule ".vim/bundle/ctrlp.vim"]
 	path = .vim/bundle/ctrlp.vim
-	url = https://github.com/kien/ctrlp.vim.git
+	url = https://github.com/ctrlpvim/ctrlp.vim
 [submodule ".vim/bundle/vim-actionscript"]
 	path = .vim/bundle/vim-actionscript
 	url = https://github.com/jeroenbourgois/vim-actionscript.git
@@ -77,3 +74,6 @@
 [submodule ".vim/bundle/supertab"]
 	path = .vim/bundle/supertab
 	url = https://github.com/ervandew/supertab.git
+[submodule ".vim/bundle/vim-mode"]
+	path = .vim/bundle/vim-mode
+	url = https://github.com/mustache/vim-mode
