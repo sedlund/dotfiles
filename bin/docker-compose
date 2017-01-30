@@ -1,7 +1,8 @@
 #!/bin/sh
 docker run --rm -v $(pwd):/app \
   -e DOCKER_IP=$DOCKER_IP \
+  -e HOME=$HOME \
   -v /var/run/docker.sock:/var/run/docker.sock \
   -v "$(pwd):$(pwd)" -w "$(pwd)" \
-  -it dduportal/docker-compose:latest ${1+"$@"}
+  -it docker/compose:1.10.0 ${1+"$@"}
                                             
