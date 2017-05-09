@@ -200,8 +200,6 @@ function git_prompt_info() {
   echo "$ZSH_THEME_GIT_PROMPT_PREFIX${ref#refs/heads/}${ZSH_THEME_GIT_PROMPT_CLEAN}${ZSH_THEME_GIT_PROMPT_SUFFIX}"
 }
 
-lolcat -F 1.5 -p 24 ~/.todo
-
 #export LC_ALL=en_US.UTF-8
 #export LANG=en_US.UTF-8
 
