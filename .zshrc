@@ -81,19 +81,36 @@ export MANPATH="/usr/local/man:$MANPATH"
 # Which plugins would you like to load? (plugins can be found in ~/.oh-my-zsh/plugins/*)
 # Example format: plugins=(rails git textmate ruby lighthouse)
 #plugins=(autoenv bower brew bundler cloudapp coffee django emoji-clock extract fabric git github heroku lein node npm nyan pip postgres python rbenv safe-paste )
-plugins=(aws autoenv bundler docker docker-compose git github pip postgres python rbenv safe-paste )
+plugins=(aws autoenv bundler docker docker-compose git github history-substring-search pip postgres python rbenv safe-paste )
 
-set -o vi
 #export HISTFILE=/tmp/zsh_history
 export EDITOR="vim"
 export PAGER="less"
-export TZ=US/Eastern
+export TZ=Singapore
 
 #export PATH=$PATH:/usr/sbin:/usr/src/google_appengine:~/bin:/usr/local/share/npm/bin:/usr/local/packer
 #export PATH=$PATH:
 export NODE_PATH=/usr/local/lib/node_modules
 
 bindkey -M vicmd v edit-command-line
+
+# bind UP and DOWN arrow keys
+zmodload zsh/terminfo
+bindkey "$terminfo[kcuu1]" history-substring-search-up
+bindkey "$terminfo[kcud1]" history-substring-search-down
+
+# bind UP and DOWN arrow keys (compatibility fallback
+# for Ubuntu 12.04, Fedora 21, and MacOSX 10.9 users)
+bindkey '^[[A' history-substring-search-up
+bindkey '^[[B' history-substring-search-down
+
+# bind P and N for EMACS mode
+bindkey -M emacs '^P' history-substring-search-up
+bindkey -M emacs '^N' history-substring-search-down
+
+# bind k and j for VI mode
+bindkey -M vicmd 'k' history-substring-search-up
+bindkey -M vicmd 'j' history-substring-search-down
 
 if [ -f /usr/bin/dircolors ]; then
     eval `dircolors ~/.dir_colors`
@@ -202,5 +219,7 @@ function git_prompt_info() {
 
 #export LC_ALL=en_US.UTF-8
 #export LANG=en_US.UTF-8
+
+set -o vi
 
 source $ZSH/oh-my-zsh.sh
