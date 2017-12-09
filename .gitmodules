@@ -1,4 +1,4 @@
-# Don't Edit - Use git submodule add 
+# Don't Edit - Use git submodule add 'repo'
 #
 [submodule ".vim/bundle/ack.vim"]
     path = .vim/bundle/ack.vim
