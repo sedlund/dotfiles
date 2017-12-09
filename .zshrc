@@ -86,7 +86,7 @@ plugins=(aws autoenv bundler docker docker-compose git github history-substring-
 #export HISTFILE=/tmp/zsh_history
 export EDITOR="vim"
 export PAGER="less"
-export TZ=Singapore
+#export TZ=Singapore
 
 #export PATH=$PATH:/usr/sbin:/usr/src/google_appengine:~/bin:/usr/local/share/npm/bin:/usr/local/packer
 #export PATH=$PATH:
