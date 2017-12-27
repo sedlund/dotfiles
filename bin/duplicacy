@@ -1,0 +1,19 @@
+# if docker not running
+#     if duplicacy binary doesnt exist
+#         call download function
+#     if it does
+#         call install file checker
+#             if install file doesnt exist
+#                 call download function
+#             if last update > 7 days
+#                 call download function
+#             call duplicacy
+
+# url=https://github.com/; wget -O /duplicacy ${url}$(wget -qO- ${url}gilbertchen/duplicacy/releases | awk -F "\"" -v a=$arch '$0~a{print $2;exit}')'")
+
+pgrep dockerd > /dev/null
+if [ "$?" = "0" ]; then
+    docker run -it --rm --mount type=bind,src=${HOME},dst=/backup sedlund/duplicacy $@
+else
+    echo docker not running
+fi

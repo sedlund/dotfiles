@@ -11,11 +11,33 @@ if v:version < 703 || !has( 'patch584' )
     let g:loaded_youcompleteme = 1
 endif
 
-" Pathogen
-filetype off
-execute pathogen#infect()
-filetype plugin indent on
+" {{{ vim-plug
+if empty(glob('~/.vim/autoload/plug.vim'))
+  silent !curl -fLo ~/.vim/autoload/plug.vim --create-dirs
+    \ https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
+  autocmd VimEnter * PlugInstall --sync | source $MYVIMRC
+endif
 
+" Specify a directory for plugins
+" - For Neovim: ~/.local/share/nvim/plugged
+" - Avoid using standard Vim directory names like 'plugin'
+call plug#begin('~/.vim/plugged')
+
+" plugins
+Plug 'vim-scripts/taglist.vim'
+Plug 'tpope/vim-fugitive'
+Plug 'terryma/vim-multiple-cursors'
+Plug 'pearofducks/ansible-vim', { 'do': 'cd ./UltiSnips; python2 generate.py' }
+Plug 'Valloric/YouCompleteMe', { 'do': 'python2 install.py' }
+Plug 'scrooloose/nerdtree', { 'on':  'NERDTreeToggle' }
+Plug 'altercation/vim-colors-solarized'
+Plug 'bling/vim-airline'
+Plug 'airblade/vim-gitgutter'
+Plug 'edkolev/tmuxline.vim'
+
+" Initialize plugin system
+call plug#end()
+" }}}
 " {{{ General
 
 "make backspace work
