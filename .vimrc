@@ -34,6 +34,8 @@ Plug 'altercation/vim-colors-solarized'
 Plug 'bling/vim-airline'
 Plug 'airblade/vim-gitgutter'
 Plug 'edkolev/tmuxline.vim'
+Plug 'honza/vim-snippets'
+Plug 'ekalinin/Dockerfile.vim'
 
 " Initialize plugin system
 call plug#end()
