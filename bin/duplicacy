@@ -28,7 +28,7 @@ download() {
 
     wget -q --show-progress -O ${goBin} ${url}$(wget -qO- ${url}gilbertchen/duplicacy/releases | awk -F "\"" -v a=${os}_${arch} '$0~a{print $2;exit}') \
         && chmod +x ${goBin}
-    echo $(( ${sse} + $((60*60*24*7)) )) > ${updateCheckFile}
+    echo $(( $(date +%s) + $((60*60*24*7)) )) > ${updateCheckFile}
 }
 
 checkVersion() {
