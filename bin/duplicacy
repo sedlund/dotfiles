@@ -32,7 +32,7 @@ download() {
 }
 
 checkVersion() {
-    currentVersion=v$( ${path}/${goBin} | grep -A1 VERSION | tail -1 | awk '{print $1}' )
+    currentVersion=v$( ${goBin} | grep -A1 VERSION | tail -1 | awk '{print $1}' )
     latestVersion=$(wget -qO- ${url}gilbertchen/duplicacy/releases/latest | awk -F "/" -v v=releases/download '$0~v{print $6;exit}')
 
     if [ "${latestVersion}" != "${currentVersion}" ]; then
