@@ -1,19 +1,68 @@
-# if docker not running
-#     if duplicacy binary doesnt exist
-#         call download function
-#     if it does
-#         call install file checker
-#             if install file doesnt exist
-#                 call download function
-#             if last update > 7 days
-#                 call download function
-#             call duplicacy
+#!/bin/bash
 
-# url=https://github.com/; wget -O /duplicacy ${url}$(wget -qO- ${url}gilbertchen/duplicacy/releases | awk -F "\"" -v a=$arch '$0~a{print $2;exit}')'")
+# Scott Edlund <scott.edlund@gmail.com>
 
-pgrep dockerd > /dev/null
-if [ "$?" = "0" ]; then
-    docker run -it --rm --mount type=bind,src=${HOME},dst=/backup sedlund/duplicacy $@
-else
-    echo docker not running
+# Change this to where you want duplicacy
+dir=~/bin
+
+# Globals: Shouldn't need to change anything below
+bin=duplicacy
+goBin=${dir}/${bin}.bin
+updateCheckFile=/tmp/.duplicacy_check.tmp
+url=https://github.com/
+
+# Functions
+download() {
+    case "$(uname -m)" in
+        x86_64) arch=x64;;
+        386)    arch=i386;;
+        armf)   arch=arm;;
+    esac
+    
+    case "$(uname)" in
+        FreeBSD)                        os=freebsd;;
+        Linux)                          os=linux;;
+        Darwin)                         os=osx;;
+        *MINGW* | *WIN32* | *CYGWIN*)   os=win;;
+    esac
+
+    wget -q --show-progress -O ${goBin} ${url}$(wget -qO- ${url}gilbertchen/duplicacy/releases | awk -F "\"" -v a=${os}_${arch} '$0~a{print $2;exit}') \
+        && chmod +x ${goBin}
+    echo $(( ${sse} + $((60*60*24*7)) )) > ${updateCheckFile}
+}
+
+checkVersion() {
+    currentVersion=v$( ${path}/${goBin} | grep -A1 VERSION | tail -1 | awk '{print $1}' )
+    latestVersion=$(wget -qO- ${url}gilbertchen/duplicacy/releases/latest | awk -F "/" -v v=releases/download '$0~v{print $6;exit}')
+
+    if [ "${latestVersion}" != "${currentVersion}" ]; then
+        echo Updated release of Duplicacy found...
+        download
+    fi
+}
+
+# MAIN
+if [ ! -e ${goBin} ]; then
+    echo Downloading Duplicacy...
+    download
 fi
+
+if [ -e ${updateCheckFile} ]; then
+    nextCheckTime=$(<${update_check_file})
+else 
+    echo "Missing ${updateCheckFile}.  Suggest you delete ${goBin} and re-run ${0}"
+fi
+
+sinceEpoch=$(date +%s)
+if [ "${nextCheckTime}" > "${sinceEpoch}" ]; then
+    checkVersion
+fi
+
+${goBin} $@
+
+#pgrep dockerd > /dev/null
+#if [ "$?" = "0" ]; then
+#    docker run -it --rm --mount type=bind,src=${HOME},dst=/backup sedlund/duplicacy $@
+#else
+#    echo docker not running
+#fi
