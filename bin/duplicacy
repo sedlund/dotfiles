@@ -8,7 +8,7 @@ dir=~/bin
 # Globals: Shouldn't need to change anything below
 bin=duplicacy
 goBin=${dir}/${bin}.bin
-updateCheckFile=/tmp/.duplicacy_check.tmp
+updateCheckFile=/tmp/.duplicacy_check_${USER}.tmp
 url=https://github.com/
 sinceEpoch=$(date +%s)
 
@@ -55,6 +55,7 @@ if [ -e ${updateCheckFile} ]; then
     nextCheckTime=$(<${updateCheckFile})
 else 
     echo "Missing ${updateCheckFile}.  Suggest you delete ${goBin} and re-run ${0}"
+    exit 1
 fi
 
 if [ ${sinceEpoch} -gt ${nextCheckTime} ]; then
