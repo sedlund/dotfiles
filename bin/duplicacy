@@ -10,6 +10,7 @@ bin=duplicacy
 goBin=${dir}/${bin}.bin
 updateCheckFile=/tmp/.duplicacy_check.tmp
 url=https://github.com/
+sinceEpoch=$(date +%s)
 
 # Functions
 download() {
@@ -28,16 +29,19 @@ download() {
 
     wget -q --show-progress -O ${goBin} ${url}$(wget -qO- ${url}gilbertchen/duplicacy/releases | awk -F "\"" -v a=${os}_${arch} '$0~a{print $2;exit}') \
         && chmod +x ${goBin}
-    echo $(( $(date +%s) + $((60*60*24*7)) )) > ${updateCheckFile}
+    echo $(( ${sinceEpoch} + $((60*60*24*7)) )) > ${updateCheckFile}
 }
 
-checkVersion() {
+checkUpdate() {
     currentVersion=v$( ${goBin} | grep -A1 VERSION | tail -1 | awk '{print $1}' )
     latestVersion=$(wget -qO- ${url}gilbertchen/duplicacy/releases/latest | awk -F "/" -v v=releases/download '$0~v{print $6;exit}')
 
     if [ "${latestVersion}" != "${currentVersion}" ]; then
         echo Updated release of Duplicacy found...
         download
+    else
+        echo Current version is latest...
+        echo $(( ${sinceEpoch} + $((60*60*24*7)) )) > ${updateCheckFile}
     fi
 }
 
@@ -48,14 +52,14 @@ if [ ! -e ${goBin} ]; then
 fi
 
 if [ -e ${updateCheckFile} ]; then
-    nextCheckTime=$(<${update_check_file})
+    nextCheckTime=$(<${updateCheckFile})
 else 
     echo "Missing ${updateCheckFile}.  Suggest you delete ${goBin} and re-run ${0}"
 fi
 
-sinceEpoch=$(date +%s)
-if [ "${nextCheckTime}" > "${sinceEpoch}" ]; then
-    checkVersion
+if [ ${sinceEpoch} -gt ${nextCheckTime} ]; then
+    echo Checking for updates...
+    checkUpdate
 fi
 
 ${goBin} $@
