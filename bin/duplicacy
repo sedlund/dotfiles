@@ -17,7 +17,7 @@ download() {
     case "$(uname -m)" in
         x86_64) arch=x64;;
         386)    arch=i386;;
-        armf)   arch=arm;;
+        arm*)   arch=arm;;
     esac
     
     case "$(uname)" in
