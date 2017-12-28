@@ -141,7 +141,7 @@ function start_agent {
 
 # Host specific configs
 case `hostname -s` in
-    'milo')
+    'yyz1')
         # http://hints.macworld.com/article.php?story=20060410092629437
         #export XAUTHORITY=/tmp/.Xauthority.$USER
         alias ls="ls -F --color"
@@ -160,31 +160,7 @@ case `hostname -s` in
         . ~/bin/z.sh
         function precmd () {
             _z --add "$(pwd -P)"
-        }
-
-    ;;
-    'kiwi'| 'megatron' | 'hoptimus')
-        # http://hints.macworld.com/article.php?story=20060410092629437
-        #export XAUTHORITY=/tmp/.Xauthority.$USER
-        alias ls="ls -F --color"
-        # Source SSH settings, if applicable
-        if [ -f "${SSH_ENV}" ]; then
-            . "${SSH_ENV}" > /dev/null
-            #ps ${SSH_AGENT_PID} doesn't work under cywgin
-            ps -ef | grep ${SSH_AGENT_PID} | grep ssh-agent$ > /dev/null || {
-            start_agent;
-        }
-        else
-            start_agent;
-        fi
-        
-        # z
-        . ~/bin/z.sh
-        function precmd () {
-            _z --add "$(pwd -P)"
-        }
-
-    ;;
+        } ;;
 esac
 
 if [[ "$TERM" = screen ]]; then
@@ -211,6 +187,9 @@ then
     alias traceroute='colourify /usr/sbin/traceroute'
 fi
 
+alias ave='ansible-vault edit --vault-id ~/src/teraton/ansible/vpass'
+alias avv='ansible-vault view --vault-id ~/src/teraton/ansible/vpass'
+alias avc='ansible-vault encrypt --vault-id ~/src/teraton/ansible/vpass'
 
 function git_prompt_info() {
   ref=$(git symbolic-ref HEAD 2> /dev/null) || return
