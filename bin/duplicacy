@@ -87,8 +87,9 @@ download() {
   if [[ "${DEBUG}" ]]; then
     echo "wget -q --show-progress -O ${GOBIN} ${GITHUB_URL}/${DUPLICACY_PATH}"
   fi
-  if ! wget -q --show-progress -O "${GOBIN}" "${GITHUB_URL}/${DUPLICACY_PATH}" ; then
-    err "Error downloading ${GITHUB_URL}/${DUPLICACY_PATH} with wget to ${GOBIN}"
+  if ! wget -q --show-progress -O "${GOBIN}" \
+    "${GITHUB_URL}/${DUPLICACY_PATH}" ; then
+    err "Error downloading ${GITHUB_URL}/${DUPLICACY_PATH} to ${GOBIN}"
     exit 1
   fi
 
@@ -104,9 +105,11 @@ check_for_update() {
   echo "Checking for updates..."
 
   local return_codes
-  local current_version="v$( ${GOBIN} | grep -A1 VERSION | tail -1 | awk '{print $1}' )"
+  local current_version="v$( ${GOBIN} | grep -A1 VERSION | tail -1 \
+    | awk '{print $1}' )"
 
-  latest_version=$(wget -qO- "${GITHUB_URL}/${LATEST_RELEASE}" | awk -F "/" -v v=releases/download '$0~v{print $6;exit}')
+  latest_version=$(wget -qO- "${GITHUB_URL}/${LATEST_RELEASE}" \
+    | awk -F "/" -v v=releases/download '$0~v{print $6;exit}')
   return_codes=(${PIPESTATUS[*]})
   if [[ "${return_codes[0]}" -ne 0 ]]; then
     err "Error running wget on ${GITHUB_URL}/${LATEST_RELEASE}"
