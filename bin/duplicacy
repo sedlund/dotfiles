@@ -115,11 +115,11 @@ check_for_update() {
   fi
 
   if [[ "${latest_version}" != "${current_version}" ]]; then
-      echo "Updated release of Duplicacy found..."
-      download
+    echo "Updated release of Duplicacy found..."
+    download
   else
-      echo "Current version is latest..."
-      update_check_file
+    echo "Current version is latest..."
+    update_check_file
   fi
 }
 
