@@ -1,6 +1,6 @@
 #!/bin/bash
 #
-# Wraps duplicacy backup software with auto downloding and updating functionality
+# Wraps duplicacy backup with auto downloading and updating functionality
 #
 # Scott Edlund <scott.edlund@gmail.com>
 # v0.4
