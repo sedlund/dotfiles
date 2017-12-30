@@ -42,7 +42,6 @@ download() {
     err "Unable to exec uname -m"
     exit 1
   fi
-
   readonly UNAME_M
   
   case "${UNAME_M}" in
