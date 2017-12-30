@@ -12,7 +12,7 @@
 
 # Constants
 # 
-# Were you want duplicacy to reside
+# Where you want duplicacy to reside
 readonly DIR=~/bin
 # Time in seconds to wait between version checks
 readonly CHECK_INTERVAL="$((60*60*24*7))"
