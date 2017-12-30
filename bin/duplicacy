@@ -50,14 +50,12 @@ download() {
       386)    ARCH=i386 ;;
       arm*)   ARCH=arm ;;
   esac
-
   readonly ARCH
   
   if ! UNAME="$(uname)" ; then
     err "Unable to exec uname."
     exit 1
   fi
-
   readonly UNAME
 
   case "${UNAME}" in
