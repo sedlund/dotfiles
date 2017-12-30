@@ -1,73 +1,151 @@
 #!/bin/bash
-
+#
+# Wraps duplicacy backup software with auto downloding and updating functionality
+#
 # Scott Edlund <scott.edlund@gmail.com>
+# v0.4
 
-# Change this to where you want duplicacy
-dir=~/bin
+# Uncomment for debugging
+#DEBUG=1
+#set -x
+#export PS4='+(${BASH_SOURCE}:${LINENO}): ${FUNCNAME[0]:+${FUNCNAME[0]}(): }'
 
-# Globals: Shouldn't need to change anything below
-bin=duplicacy
-goBin=${dir}/${bin}.bin
-updateCheckFile=/tmp/.duplicacy_check_${USER}.tmp
-url=https://github.com/
-sinceEpoch=$(date +%s)
+# Constants
+# 
+# Were you want duplicacy to reside
+readonly DIR=~/bin
+# Time in seconds to wait between version checks
+readonly CHECK_INTERVAL="$((60*60*24*7))"
+readonly UPDATE_CHECK_FILE="/tmp/.duplicacy_check_${USER}.tmp"
+readonly TIME="$(date +%s)"
+readonly GOBIN="${DIR}/duplicacy.bin"
+readonly GITHUB_URL='https://github.com'
+readonly LATEST_RELEASE='gilbertchen/duplicacy/releases/latest'
 
 # Functions
-download() {
-    case "$(uname -m)" in
-        x86_64) arch=x64;;
-        386)    arch=i386;;
-        arm*)   arch=arm;;
-    esac
-    
-    case "$(uname)" in
-        FreeBSD)                        os=freebsd;;
-        Linux)                          os=linux;;
-        Darwin)                         os=osx;;
-        *MINGW* | *WIN32* | *CYGWIN*)   os=win;;
-    esac
-
-    echo Downloading Duplicacy...
-    wget -q --show-progress -O ${goBin} ${url}$(wget -qO- ${url}gilbertchen/duplicacy/releases | awk -F "\"" -v a=${os}_${arch} '$0~a{print $2;exit}') \
-        && chmod +x ${goBin}
-    echo $(( ${sinceEpoch} + $((60*60*24*7)) )) > ${updateCheckFile}
+err() {
+  echo "[$(date +'%Y-%m-%dT%H:%M:%S%z')]: $@" >&2
 }
 
-checkUpdate() {
-    currentVersion=v$( ${goBin} | grep -A1 VERSION | tail -1 | awk '{print $1}' )
-    latestVersion=$(wget -qO- ${url}gilbertchen/duplicacy/releases/latest | awk -F "/" -v v=releases/download '$0~v{print $6;exit}')
+update_check_file() {
+  local next_check_time=$(( ${TIME} + ${CHECK_INTERVAL} ))
+  if ! echo ${next_check_time} > "${UPDATE_CHECK_FILE}" ; then
+    err "Could not update ${UPDATE_CHECK_FILE} with new check interval."
+    exit 1
+  else
+    echo "Updated check file successfully."
+  fi
+}
 
-    if [ "${latestVersion}" != "${currentVersion}" ]; then
-        echo Updated release of Duplicacy found...
-        download
-    else
-        echo Current version is latest...
-        echo $(( ${sinceEpoch} + $((60*60*24*7)) )) > ${updateCheckFile}
-    fi
+download() {
+  if ! UNAME_M="$(uname -m)" ; then
+    err "Unable to exec uname -m"
+    exit 1
+  fi
+
+  readonly UNAME_M
+  
+  case "${UNAME_M}" in
+      x86_64) ARCH=x64 ;;
+      386)    ARCH=i386 ;;
+      arm*)   ARCH=arm ;;
+  esac
+
+  readonly ARCH
+  
+  if ! UNAME="$(uname)" ; then
+    err "Unable to exec uname."
+    exit 1
+  fi
+
+  readonly UNAME
+
+  case "${UNAME}" in
+      FreeBSD)  OS='freebsd' ;;
+      Linux)    OS='linux' ;;
+      Darwin)   OS='osx' ;;
+      *MINGW* | *WIN32* | *CYGWIN*) OS='win' ;;
+  esac
+
+  if [[ "${DEBUG}" ]]; then
+    echo "wget -qO- ${GITHUB_URL}/${LATEST_RELEASE} \
+      | awk -F '\"' -v a=${OS}_${ARCH} '\$0~a{print \$2;exit}'"
+  fi
+
+  local return_codes
+  DUPLICACY_PATH="$(wget -qO- ${GITHUB_URL}/${LATEST_RELEASE} \
+    | awk -F '"' -v a=${OS}_${ARCH} '$0~a{print $2;exit}')"
+  return_codes=(${PIPESTATUS[*]})
+  if [[ "${return_codes[0]}" -ne 0 ]]; then
+    err "Error issuing wget on ${GITHUB_URL}/${LATEST_RELEASE}"
+    exit 1
+  fi
+  if [[ "${return_codes[1]}" -ne 0 ]]; then
+    err "Error running awk on release html output."
+    exit 1
+  fi
+  readonly DUPLICACY_PATH
+
+  echo "Downloading Duplicacy..."
+  if [[ "${DEBUG}" ]]; then echo "wget -q --show-progress -O ${GOBIN} ${GITHUB_URL}/${DUPLICACY_PATH}"; fi
+  if ! wget -q --show-progress -O "${GOBIN}" "${GITHUB_URL}/${DUPLICACY_PATH}" ; then
+    err "Error downloading ${GITHUB_URL}/${DUPLICACY_PATH} with wget to ${GOBIN}"
+    exit 1
+  fi
+
+  if ! chmod +x ${GOBIN}; then
+    err "Error setting permissions on ${GOBIN}"
+    exit 1
+  fi
+
+  update_check_file
+}
+
+check_for_update() {
+  echo "Checking for updates..."
+
+  local return_codes
+  local current_version="v$( ${GOBIN} | grep -A1 VERSION | tail -1 | awk '{print $1}' )"
+
+  latest_version=$(wget -qO- "${GITHUB_URL}/${LATEST_RELEASE}" | awk -F "/" -v v=releases/download '$0~v{print $6;exit}')
+  return_codes=(${PIPESTATUS[*]})
+  local return_codes
+  if [[ "${return_codes[0]}" -ne 0 ]]; then
+    err "Error running wget on ${GITHUB_URL}/${LATEST_RELEASE}"
+  fi
+  if [[ "${return_codes[1]}" -ne 0 ]]; then
+    err "Error running awk on output from ${GITHUB_URL}/${LATEST_RELEASE}"
+  fi
+
+  if [[ "${latest_version}" != "${current_version}" ]]; then
+      echo "Updated release of Duplicacy found..."
+      download
+  else
+      echo "Current version is latest..."
+      update_check_file
+  fi
 }
 
 # MAIN
-if [ ! -e ${goBin} ]; then
-    download
-fi
+main() {
+  if [[ ! -e "${GOBIN}" ]]; then
+      download
+  fi
+  
+  if [[ -e "${UPDATE_CHECK_FILE}" ]]; then
+    local file_check_time="$(<${UPDATE_CHECK_FILE})"
+    if [[ "${TIME}" -gt "${file_check_time}" ]]; then
+      check_for_update
+    fi
+  else 
+    err "Missing the UPDATE_CHECK_FILE.  If this happens repeatedly, try \
+changing the path."
+    check_for_update
+  fi
+  
+  "${GOBIN}" "$@"
 
-if [ -e ${updateCheckFile} ]; then
-    nextCheckTime=$(<${updateCheckFile})
-else 
-    echo "Missing ${updateCheckFile}.  Suggest you delete ${goBin} and re-run ${0}"
-    exit 1
-fi
+  exit 0
+}
 
-if [ ${sinceEpoch} -gt ${nextCheckTime} ]; then
-    echo Checking for updates...
-    checkUpdate
-fi
-
-${goBin} $@
-
-#pgrep dockerd > /dev/null
-#if [ "$?" = "0" ]; then
-#    docker run -it --rm --mount type=bind,src=${HOME},dst=/backup sedlund/duplicacy $@
-#else
-#    echo docker not running
-#fi
+main "$@"
