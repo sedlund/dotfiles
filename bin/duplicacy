@@ -45,9 +45,9 @@ download() {
   readonly UNAME_M
   
   case "${UNAME_M}" in
-      x86_64) ARCH=x64 ;;
-      386)    ARCH=i386 ;;
-      arm*)   ARCH=arm ;;
+    x86_64) ARCH=x64 ;;
+    386)    ARCH=i386 ;;
+    arm*)   ARCH=arm ;;
   esac
   readonly ARCH
   
@@ -58,10 +58,10 @@ download() {
   readonly UNAME
 
   case "${UNAME}" in
-      FreeBSD)  OS='freebsd' ;;
-      Linux)    OS='linux' ;;
-      Darwin)   OS='osx' ;;
-      *MINGW* | *WIN32* | *CYGWIN*) OS='win' ;;
+    FreeBSD)  OS='freebsd' ;;
+    Linux)    OS='linux' ;;
+    Darwin)   OS='osx' ;;
+    *MINGW* | *WIN32* | *CYGWIN*) OS='win' ;;
   esac
 
   if [[ "${DEBUG}" ]]; then
@@ -73,6 +73,7 @@ download() {
   DUPLICACY_PATH="$(wget -qO- ${GITHUB_URL}/${LATEST_RELEASE} \
     | awk -F '"' -v a=${OS}_${ARCH} '$0~a{print $2;exit}')"
   return_codes=(${PIPESTATUS[*]})
+  readonly DUPLICACY_PATH
   if [[ "${return_codes[0]}" -ne 0 ]]; then
     err "Error issuing wget on ${GITHUB_URL}/${LATEST_RELEASE}"
     exit 1
@@ -81,7 +82,6 @@ download() {
     err "Error running awk on release html output."
     exit 1
   fi
-  readonly DUPLICACY_PATH
 
   echo "Downloading Duplicacy..."
   if [[ "${DEBUG}" ]]; then echo "wget -q --show-progress -O ${GOBIN} ${GITHUB_URL}/${DUPLICACY_PATH}"; fi
@@ -106,7 +106,6 @@ check_for_update() {
 
   latest_version=$(wget -qO- "${GITHUB_URL}/${LATEST_RELEASE}" | awk -F "/" -v v=releases/download '$0~v{print $6;exit}')
   return_codes=(${PIPESTATUS[*]})
-  local return_codes
   if [[ "${return_codes[0]}" -ne 0 ]]; then
     err "Error running wget on ${GITHUB_URL}/${LATEST_RELEASE}"
   fi
