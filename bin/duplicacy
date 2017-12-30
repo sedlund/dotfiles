@@ -84,7 +84,9 @@ download() {
   fi
 
   echo "Downloading Duplicacy..."
-  if [[ "${DEBUG}" ]]; then echo "wget -q --show-progress -O ${GOBIN} ${GITHUB_URL}/${DUPLICACY_PATH}"; fi
+  if [[ "${DEBUG}" ]]; then
+    echo "wget -q --show-progress -O ${GOBIN} ${GITHUB_URL}/${DUPLICACY_PATH}"
+  fi
   if ! wget -q --show-progress -O "${GOBIN}" "${GITHUB_URL}/${DUPLICACY_PATH}" ; then
     err "Error downloading ${GITHUB_URL}/${DUPLICACY_PATH} with wget to ${GOBIN}"
     exit 1
