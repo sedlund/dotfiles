@@ -182,7 +182,7 @@ case `hostname -s` in
             _z --add "$(pwd -P)"
         }
         # grep --files-without-match "git" ~/.oh-my-zsh/themes/*
-        ZSH_THEME=mikeh
+        #ZSH_THEME=mikeh
         ;;
 
 esac
