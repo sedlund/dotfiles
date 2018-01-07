@@ -182,20 +182,40 @@ case `hostname -s` in
 esac
 
 if [[ "$TERM" = screen ]]; then
-    export TERM=screen-256color
+	export TERM=screen-256color
 elif [[ "$TERM" = xterm ]]; then
     export TERM=xterm-256color
 fi
 
-if [[ -f /etc/grc.zsh ]]; then source /etc/grc.zsh; fi
+GRC=`which grc` 2>/dev/null
+if [[ "$TERM" != dumb ]] && [[ -x ${GRC} ]]
+then
+	alias colourify="$GRC -es --colour=auto"
+	alias configure='colourify ./configure'
+	alias diff='colourify diff'
+	alias make='colourify make'
+	alias gcc='colourify gcc'
+	alias g++='colourify g++'
+	alias as='colourify as'
+	alias gas='colourify gas'
+	alias ld='colourify ld'
+	alias ps='colourify ps'
+	alias netstat='colourify netstat'
+	alias ping='colourify ping'
+	alias traceroute='colourify /usr/sbin/traceroute'
+
+	# Newer (1.11) version of grc package have these nice configs to use
+	if [[ -f /etc/grc.zsh ]]; then source /etc/grc.zsh; fi
+fi
+
 
 alias ave='ansible-vault edit'
 alias avv='ansible-vault view'
 alias avc='ansible-vault encrypt'
 
 function git_prompt_info() {
-  ref=$(git symbolic-ref HEAD 2> /dev/null) || return
-  echo "$ZSH_THEME_GIT_PROMPT_PREFIX${ref#refs/heads/}${ZSH_THEME_GIT_PROMPT_CLEAN}${ZSH_THEME_GIT_PROMPT_SUFFIX}"
+	ref=$(git symbolic-ref HEAD 2> /dev/null) || return
+	echo "$ZSH_THEME_GIT_PROMPT_PREFIX${ref#refs/heads/}${ZSH_THEME_GIT_PROMPT_CLEAN}${ZSH_THEME_GIT_PROMPT_SUFFIX}"
 }
 
 umask 007
@@ -203,4 +223,4 @@ umask 007
 source $ZSH/oh-my-zsh.sh
 
 # Set VI keybindings - has to be below sourcing oh my zsh as bindkey -e is set in libs/key-bindings.zsh
-bindkey -v 
+bindkey -v
