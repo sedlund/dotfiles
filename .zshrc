@@ -45,7 +45,7 @@ ZSH_THEME="bureau"
 
 # User configuration
 
-export PATH=~/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/sbin:./:/usr/java/bin
+export PATH=~/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/sbin:./
 export MANPATH="/usr/local/man:$MANPATH"
 
 # You may need to manually set your language environment
@@ -72,28 +72,25 @@ export LANG=en_US.UTF-8
 # Example aliases
 # alias zshconfig="mate ~/.zshrc"
 # alias ohmyzsh="mate ~/.oh-my-zsh"
-#
-#
 
 # Set to this to use case-sensitive completion
 # export CASE_SENSITIVE="true"
 
 # Which plugins would you like to load? (plugins can be found in ~/.oh-my-zsh/plugins/*)
 # Example format: plugins=(rails git textmate ruby lighthouse)
-#plugins=(autoenv bower brew bundler cloudapp coffee django emoji-clock extract fabric git github heroku lein node npm nyan pip postgres python rbenv safe-paste )
-plugins=(aws autoenv bundler docker docker-compose git github history-substring-search pip postgres python rbenv safe-paste )
+plugins=(aws autoenv bundler docker docker-compose git github history-substring-search pip postgres python rbenv)
 
 #export HISTFILE=/tmp/zsh_history
 export EDITOR="vim"
 export PAGER="less"
+alias more="less"
 #export TZ=Singapore
 
-#export PATH=$PATH:/usr/sbin:/usr/src/google_appengine:~/bin:/usr/local/share/npm/bin:/usr/local/packer
-#export PATH=$PATH:
-export NODE_PATH=/usr/local/lib/node_modules
-
+# Enables pressing ESC-v to open current command line in vi
 bindkey -M vicmd v edit-command-line
 
+################################################################################
+# Set bindings for history-substring-search oh-my-zsh plugin
 # bind UP and DOWN arrow keys
 zmodload zsh/terminfo
 bindkey "$terminfo[kcuu1]" history-substring-search-up
@@ -111,6 +108,7 @@ bindkey -M emacs '^N' history-substring-search-down
 # bind k and j for VI mode
 bindkey -M vicmd 'k' history-substring-search-up
 bindkey -M vicmd 'j' history-substring-search-down
+################################################################################
 
 if [ -f /usr/bin/dircolors ]; then
     eval `dircolors ~/.dir_colors`
@@ -189,27 +187,11 @@ elif [[ "$TERM" = xterm ]]; then
     export TERM=xterm-256color
 fi
 
-GRC=`which grc` 2>/dev/null
-if [[ "$TERM" != dumb ]] && [[ -x ${GRC} ]]
-then
-    alias colourify="$GRC -es --colour=auto"
-    alias configure='colourify ./configure'
-    alias diff='colourify diff'
-    alias make='colourify make'
-    alias gcc='colourify gcc'
-    alias g++='colourify g++'
-    alias as='colourify as'
-    alias gas='colourify gas'
-    alias ld='colourify ld'
-    alias ps='colourify ps'
-    alias netstat='colourify netstat'
-    alias ping='colourify ping'
-    alias traceroute='colourify /usr/sbin/traceroute'
-fi
+if [[ -f /etc/grc.zsh ]]; then source /etc/grc.zsh; fi
 
-alias ave='ansible-vault edit --vault-id ~/src/teraton/ansible/vpass'
-alias avv='ansible-vault view --vault-id ~/src/teraton/ansible/vpass'
-alias avc='ansible-vault encrypt --vault-id ~/src/teraton/ansible/vpass'
+alias ave='ansible-vault edit'
+alias avv='ansible-vault view'
+alias avc='ansible-vault encrypt'
 
 function git_prompt_info() {
   ref=$(git symbolic-ref HEAD 2> /dev/null) || return
@@ -218,6 +200,7 @@ function git_prompt_info() {
 
 umask 007
 
-set -o vi
-
 source $ZSH/oh-my-zsh.sh
+
+# Set VI keybindings - has to be below sourcing oh my zsh as bindkey -e is set in libs/key-bindings.zsh
+bindkey -v 

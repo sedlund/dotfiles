@@ -21,6 +21,8 @@ endif
 " Specify a directory for plugins
 " - For Neovim: ~/.local/share/nvim/plugged
 " - Avoid using standard Vim directory names like 'plugin'
+
+
 call plug#begin('~/.vim/plugged')
 
 " plugins
@@ -31,7 +33,8 @@ Plug 'pearofducks/ansible-vim', { 'do': 'cd ./UltiSnips; python2 generate.py' }
 Plug 'Valloric/YouCompleteMe', { 'do': 'python2 install.py' }
 Plug 'scrooloose/nerdtree', { 'on':  'NERDTreeToggle' }
 Plug 'altercation/vim-colors-solarized'
-Plug 'bling/vim-airline'
+Plug 'vim-airline/vim-airline'
+Plug 'vim-airline/vim-airline-themes'
 Plug 'airblade/vim-gitgutter'
 Plug 'edkolev/tmuxline.vim'
 Plug 'honza/vim-snippets'
@@ -39,6 +42,10 @@ Plug 'ekalinin/Dockerfile.vim'
 
 " Initialize plugin system
 call plug#end()
+
+let g:airline_powerline_fonts = 1
+let g:airline_solarized_bg='dark'
+
 " }}}
 " {{{ General
 
@@ -266,8 +273,8 @@ if has("autocmd")
   autocmd bufwritepost .vimrc source $MYVIMRC
 endif
 
-" Takes forever
-let g:syntastic_disabled_filetypes = ['sass', 'python']
+" Disable if taking too long
+"let g:syntastic_disabled_filetypes = ['sass', 'python']
 
 let g:syntastic_ruby_exec = '/usr/local/opt/rbenv/versions/1.9.3-p448/bin/ruby'
 
@@ -282,5 +289,3 @@ let g:ctrlp_user_command = {
     \ 'fallback': 'find %s -type f'
 \ }
 let g:ctrlp_lazy_update = 150
-
-
