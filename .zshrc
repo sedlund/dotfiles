@@ -141,9 +141,7 @@ function start_agent {
 
 # Host specific configs
 case `hostname -s` in
-    'yyz1')
-        # http://hints.macworld.com/article.php?story=20060410092629437
-        #export XAUTHORITY=/tmp/.Xauthority.$USER
+    'yul1')
         alias ls="ls -F --color"
         # Source SSH settings, if applicable
         if [ -f "${SSH_ENV}" ]; then
@@ -162,8 +160,6 @@ case `hostname -s` in
             _z --add "$(pwd -P)"
         } ;;
     'flip')
-        # http://hints.macworld.com/article.php?story=20060410092629437
-        #export XAUTHORITY=/tmp/.Xauthority.$USER
         alias ls="ls -F --color"
         # Source SSH settings, if applicable
         if [ -f "${SSH_ENV}" ]; then
@@ -220,8 +216,7 @@ function git_prompt_info() {
   echo "$ZSH_THEME_GIT_PROMPT_PREFIX${ref#refs/heads/}${ZSH_THEME_GIT_PROMPT_CLEAN}${ZSH_THEME_GIT_PROMPT_SUFFIX}"
 }
 
-#export LC_ALL=en_US.UTF-8
-#export LANG=en_US.UTF-8
+umask 007
 
 set -o vi
 
