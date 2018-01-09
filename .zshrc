@@ -218,6 +218,8 @@ function git_prompt_info() {
 	echo "$ZSH_THEME_GIT_PROMPT_PREFIX${ref#refs/heads/}${ZSH_THEME_GIT_PROMPT_CLEAN}${ZSH_THEME_GIT_PROMPT_SUFFIX}"
 }
 
+# if you install packages with pip using sudo you should probably set the umask
+# options in sudoers to 022 to revert this
 umask 007
 
 source $ZSH/oh-my-zsh.sh
