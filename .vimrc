@@ -274,7 +274,7 @@ if has("autocmd")
   autocmd bufwritepost .vimrc source $MYVIMRC
 endif
 
-################################################################################
+"###############################################################################
 " Syntastic
 " Disable if taking too long
 "let g:syntastic_disabled_filetypes = ['sass', 'python']
@@ -287,7 +287,7 @@ let g:syntastic_always_populate_loc_list = 1
 let g:syntastic_auto_loc_list = 1
 let g:syntastic_check_on_open = 1
 let g:syntastic_check_on_wq = 0
-################################################################################
+"###############################################################################
 
 " Fix colours in sign column
 highlight clear SignColumn
