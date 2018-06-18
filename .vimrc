@@ -30,7 +30,7 @@ Plug 'vim-syntastic/syntastic'
 Plug 'vim-scripts/taglist.vim'
 Plug 'tpope/vim-fugitive'
 Plug 'terryma/vim-multiple-cursors'
-Plug 'pearofducks/ansible-vim', { 'do': 'cd ./UltiSnips; python2 generate.py' }
+"Plug 'pearofducks/ansible-vim', { 'do': 'cd ./UltiSnips; python2 generate.py' }
 Plug 'Valloric/YouCompleteMe', { 'do': 'python2 install.py' }
 Plug 'scrooloose/nerdtree', { 'on':  'NERDTreeToggle' }
 Plug 'altercation/vim-colors-solarized'
@@ -39,7 +39,8 @@ Plug 'vim-airline/vim-airline-themes'
 Plug 'airblade/vim-gitgutter'
 Plug 'edkolev/tmuxline.vim'
 Plug 'honza/vim-snippets'
-Plug 'ekalinin/Dockerfile.vim'
+"Plug 'ekalinin/Dockerfile.vim'
+Plug 'sheerun/vim-polyglot'
 
 " Initialize plugin system
 call plug#end()
