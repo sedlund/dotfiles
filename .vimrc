@@ -41,6 +41,7 @@ Plug 'edkolev/tmuxline.vim'
 Plug 'honza/vim-snippets'
 "Plug 'ekalinin/Dockerfile.vim'
 Plug 'sheerun/vim-polyglot'
+Plug 'prettier/vim-prettier', { 'do': 'npm install' }
 
 " Initialize plugin system
 call plug#end()
