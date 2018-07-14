@@ -140,7 +140,7 @@ main() {
     fi
   else 
     err "Missing the UPDATE_CHECK_FILE.  If this happens repeatedly, try \
-changing the path."
+changing the storage path."
     check_for_update
   fi
   
