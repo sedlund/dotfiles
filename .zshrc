@@ -78,7 +78,9 @@ export LANG=en_US.UTF-8
 
 # Which plugins would you like to load? (plugins can be found in ~/.oh-my-zsh/plugins/*)
 # Example format: plugins=(rails git textmate ruby lighthouse)
+# autoenv has problems with mounts with spaces in the names
 plugins=(aws autoenv bundler docker docker-compose git github history-substring-search pip postgres python rbenv)
+#plugins=(aws bundler docker docker-compose git github history-substring-search pip postgres python rbenv)
 
 #export HISTFILE=/tmp/zsh_history
 export EDITOR="vim"
