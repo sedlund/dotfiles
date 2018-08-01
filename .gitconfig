@@ -23,6 +23,10 @@
 
 #[merge]
 #    tool = threesome
+#
+#[mergetool "threesome"]
+#    cmd = "mvim -f $BASE $LOCAL $REMOTE $MERGED -c 'ThreesomeInit'"
+#    trustExitCode = true
 
 [core]
     excludesfile = ~/.gitignore_global
