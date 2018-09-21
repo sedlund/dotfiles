@@ -1,98 +1,45 @@
-# Path to your oh-my-zsh installation.
-export ZSH=$HOME/.oh-my-zsh
-
-# Set name of the theme to load.
-# Look in ~/.oh-my-zsh/themes/
-# Optionally, if you set this to "random", it'll load a random theme each
-# time that oh-my-zsh is loaded.
-#ZSH_THEME="robbyrussell"
-#ZSH_THEME="blinks"
-ZSH_THEME="bureau"
-
-# Uncomment the following line to use case-sensitive completion.
-# CASE_SENSITIVE="true"
-
-# Uncomment the following line to disable bi-weekly auto-update checks.
-# DISABLE_AUTO_UPDATE="true"
-
-# Uncomment the following line to change how often to auto-update (in days).
-# export UPDATE_ZSH_DAYS=13
-
-# Uncomment the following line to disable colors in ls.
-# DISABLE_LS_COLORS="true"
-
-# Uncomment the following line to disable auto-setting terminal title.
-# DISABLE_AUTO_TITLE="true"
-
-# Uncomment the following line to enable command auto-correction.
-# ENABLE_CORRECTION="true"
-
-# Uncomment the following line to display red dots whilst waiting for completion.
-# COMPLETION_WAITING_DOTS="true"
-
-# Uncomment the following line if you want to disable marking untracked files
-# under VCS as dirty. This makes repository status check for large repositories
-# much, much faster.
-# DISABLE_UNTRACKED_FILES_DIRTY="true"
-
-# Uncomment the following line if you want to change the command execution time
-# stamp shown in the history command output.
-# The optional three formats: "mm/dd/yyyy"|"dd.mm.yyyy"|"yyyy-mm-dd"
-# HIST_STAMPS="mm/dd/yyyy"
-
-# Would you like to use another custom folder than $ZSH/custom?
-# ZSH_CUSTOM=/path/to/new-custom-folder
-
-# User configuration
-
-export PATH=~/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/sbin:./
-export MANPATH="/usr/local/man:$MANPATH"
-
-# You may need to manually set your language environment
-export LANG=en_US.UTF-8
-
-# Preferred editor for local and remote sessions
-# if [[ -n $SSH_CONNECTION ]]; then
-#   export EDITOR='vim'
-# else
-#   export EDITOR='mvim'
-# fi
-
-# Compilation flags
-# export ARCHFLAGS="-arch x86_64"
-
-# ssh
-# export SSH_KEY_PATH="~/.ssh/dsa_id"
-
-# Set personal aliases, overriding those provided by oh-my-zsh libs,
-# plugins, and themes. Aliases can be placed here, though oh-my-zsh
-# users are encouraged to define aliases within the ZSH_CUSTOM folder.
-# For a full list of active aliases, run `alias`.
+# {{{ Antigen - ZSH plugin manager
+# Antigen: https://github.com/zsh-users/antigen
 #
-# Example aliases
-# alias zshconfig="mate ~/.zshrc"
-# alias ohmyzsh="mate ~/.oh-my-zsh"
+# ADOTDIR — This directory is used to store all the repo clones, your bundles,
+# themes, caches and everything else Antigen requires to run smoothly. Defaults
+# to $HOME/.antigen
+ADOTDIR=~/.zsh/.antigen
 
-# Set to this to use case-sensitive completion
-# export CASE_SENSITIVE="true"
+# Load
+source ~/.zsh/antigen/antigen.zsh
 
-# Which plugins would you like to load? (plugins can be found in ~/.oh-my-zsh/plugins/*)
-# Example format: plugins=(rails git textmate ruby lighthouse)
-# autoenv has problems with mounts with spaces in the names
-plugins=(aws autoenv bundler docker docker-compose git github history-substring-search pip postgres python rbenv)
-#plugins=(aws bundler docker docker-compose git github history-substring-search pip postgres python rbenv)
+# Load oh-my-zsh - many plugins/themes require its core library
+antigen use oh-my-zsh
 
-#export HISTFILE=/tmp/zsh_history
-export EDITOR="vim"
-export PAGER="less"
-alias more="less"
-#export TZ=Singapore
+# Bundles to use
+antigen bundles << EOBUNDLES
+    aws
+    bundler
+    docker
+    docker-compose
+    git
+    github
+    pip
+    postgres
+    python
+    rbenv
+    ssh-agent
+    Tarrasch/zsh-autoenv
+    zsh-users/zsh-history-substring-search
+    zsh-users/zsh-syntax-highlighting
+EOBUNDLES
 
-# Enables pressing ESC-v to open current command line in vi
-bindkey -M vicmd v edit-command-line
+# Apply theme
+antigen theme bureau
 
-################################################################################
-# Set bindings for history-substring-search oh-my-zsh plugin
+# Antigen config complete
+antigen apply
+# }}}
+# {{{ Key bindings 
+
+# {{{ for history-substring-search plugin
+
 # bind UP and DOWN arrow keys
 zmodload zsh/terminfo
 bindkey "$terminfo[kcuu1]" history-substring-search-up
@@ -110,24 +57,32 @@ bindkey -M emacs '^N' history-substring-search-down
 # bind k and j for VI mode
 bindkey -M vicmd 'k' history-substring-search-up
 bindkey -M vicmd 'j' history-substring-search-down
-################################################################################
+# }}}
+
+# Enables pressing ESC-v to open current command line in vi
+bindkey -M vicmd v edit-command-line
+
+# Set VI keybindings - has to be below sourcing oh my zsh as bindkey -e is set in libs/key-bindings.zsh
+bindkey -v
+
+# }}}
+# Solarized dir colors {{{
 
 if [ -f /usr/bin/dircolors ]; then
     eval `dircolors ~/.dir_colors`
 fi
 
-# Add : to select chars in gnome-terminal
-if [[ -e /usr/bin/dconf ]]; then
-    dconf write /org/gnome/terminal/legacy/profiles:/:b1dcc9dd-5262-4d8d-a863-c897e6d979b9/word-char-exceptions '@ms "-#%&+,./:=?@_~"'
-fi
+# }}}
+# {{{ virtualenvwrapper: https://pypi.org/project/virtualenvwrapper/
 
-# virtualenvwrapper
 export WORKON_HOME=$HOME/.virtualenvs
 if [ -f "/etc/bash_completion.d/virtualenvwrapper" ]; then
     source /etc/bash_completion.d/virtualenvwrapper
 fi
+ 
+# }}}
+# {{{ SSH agent function
 
-# SSH agent
 SSH_ENV="$HOME/.ssh/environment"
 
 function start_agent {
@@ -139,7 +94,8 @@ function start_agent {
     /usr/bin/ssh-add;
 }
 
-# Host specific configs
+# }}}
+# {{{ Host specific settings
 case `hostname -s` in
     'yul1')
         alias ls="ls -F --color"
@@ -180,15 +136,9 @@ case `hostname -s` in
         # grep --files-without-match "git" ~/.oh-my-zsh/themes/*
         #ZSH_THEME=mikeh
         ;;
-
 esac
-
-if [[ "$TERM" = screen ]]; then
-	export TERM=screen-256color
-elif [[ "$TERM" = xterm ]]; then
-    export TERM=xterm-256color
-fi
-
+# }}}
+# {{{ GRC: Generic colorizer
 GRC=`which grc` 2>/dev/null
 if [[ "$TERM" != dumb ]] && [[ -x ${GRC} ]]
 then
@@ -209,22 +159,43 @@ then
 	# Newer (1.11) version of grc package have these nice configs to use
 	if [[ -f /etc/grc.zsh ]]; then source /etc/grc.zsh; fi
 fi
-
-
-alias ave='ansible-vault edit'
-alias avv='ansible-vault view'
-alias avc='ansible-vault encrypt'
+# }}}
+# {{{ shell git prompt
 
 function git_prompt_info() {
 	ref=$(git symbolic-ref HEAD 2> /dev/null) || return
 	echo "$ZSH_THEME_GIT_PROMPT_PREFIX${ref#refs/heads/}${ZSH_THEME_GIT_PROMPT_CLEAN}${ZSH_THEME_GIT_PROMPT_SUFFIX}"
 }
+#
+# }}}
+# Umask{{{
 
 # if you install packages with pip using sudo you should probably set the umask
 # options in sudoers to 022 to revert this
 umask 007
 
-source $ZSH/oh-my-zsh.sh
+# }}}
+# {{{ Environment variables
 
-# Set VI keybindings - has to be below sourcing oh my zsh as bindkey -e is set in libs/key-bindings.zsh
-bindkey -v
+export PATH=~/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/sbin:./
+export MANPATH="/usr/local/man:$MANPATH"
+export LANG=en_US.UTF-8
+export EDITOR="vim"
+export PAGER="less"
+#export TZ=Singapore
+
+if [[ "$TERM" = screen ]]; then
+	export TERM=screen-256color
+elif [[ "$TERM" = xterm ]]; then
+    export TERM=xterm-256color
+fi
+
+# }}}
+# {{{ Aliases
+
+alias more="less"
+alias ave='ansible-vault edit'
+alias avv='ansible-vault view'
+alias avc='ansible-vault encrypt'
+#
+# }}}
