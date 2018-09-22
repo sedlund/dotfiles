@@ -53,6 +53,7 @@ POWERLEVEL9K_LEFT_PROMPT_ELEMENTS=( dir vcs ip disk_usage load newline context )
 POWERLEVEL9K_RIGHT_PROMPT_ELEMENTS=( status command_execution_time root_indicator background_jobs history time )
 POWERLEVEL9K_PROMPT_ADD_NEWLINE=true
 POWERLEVEL9K_SHORTEN_STRATEGY=truncate_to_unique
+POWERLEVEL9K_ALWAYS_SHOW_CONTEXT=true
 
 # Antigen config complete
 antigen apply
