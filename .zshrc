@@ -39,7 +39,6 @@ EOBUNDLES
 # Apply theme
 #antigen theme bureau
 #POWERLEVEL9K_MODE='nerdfont-complete'
-DEFAULT_UER=${USER}
 antigen theme bhilburn/powerlevel9k
 POWERLEVEL9K_LEFT_PROMPT_ELEMENTS=( dir vcs ip disk_usage load newline context )
 POWERLEVEL9K_PROMPT_ADD_NEWLINE=true
@@ -49,7 +48,7 @@ POWERLEVEL9K_SHORTEN_STRATEGY=truncate_to_unique
 antigen apply
 
 # }}}
-# {{{ Key bindings 
+# {{{ Key bindings
 
 # {{{ for history-substring-search plugin
 
@@ -70,16 +69,12 @@ bindkey -M emacs '^N' history-substring-search-down
 # bind k and j for VI mode
 bindkey -M vicmd 'k' history-substring-search-up
 bindkey -M vicmd 'j' history-substring-search-down
+
 # }}}
 
-# Enables pressing ESC-v to open current command line in vi
-bindkey -M vicmd v edit-command-line
-
-# Set VI keybindings - has to be below sourcing oh my zsh as bindkey -e is set in libs/key-bindings.zsh
-bindkey -v
-
-# zsh-autoauggestions
-bindkey '^ ' autosuggest-accept
+bindkey -M vicmd v edit-command-line    # Enables pressing ESC-v to open current command line in vi
+bindkey -v                              # Set VI key bindings
+bindkey '^ ' autosuggest-accept         # zsh-autosuggestion: Bind CTRL-<space> to accept suggestion
 
 # }}}
 # Solarized dir colors {{{
@@ -95,7 +90,7 @@ export WORKON_HOME=$HOME/.virtualenvs
 if [ -f "/etc/bash_completion.d/virtualenvwrapper" ]; then
     source /etc/bash_completion.d/virtualenvwrapper
 fi
- 
+
 # }}}
 # {{{ SSH agent function
 
@@ -112,7 +107,9 @@ function start_agent {
 
 # }}}
 # {{{ Host specific settings
+
 case `hostname -s` in
+
     'yul1')
         alias ls="ls -F --color"
         # Source SSH settings, if applicable
@@ -125,12 +122,14 @@ case `hostname -s` in
         else
             start_agent;
         fi
-        
-        # z
+
         . ~/bin/z.sh
+
         function precmd () {
             _z --add "$(pwd -P)"
-        } ;;
+        }
+    ;;
+
     'flip')
         alias ls="ls -F --color"
         # Source SSH settings, if applicable
@@ -143,49 +142,50 @@ case `hostname -s` in
         else
             start_agent;
         fi
-        
-        # z
+
         . ~/bin/z.sh
+
         function precmd () {
             _z --add "$(pwd -P)"
         }
-        # grep --files-without-match "git" ~/.oh-my-zsh/themes/*
-        #ZSH_THEME=mikeh
-        ;;
+    ;;
 esac
+
 # }}}
 # {{{ GRC: Generic colorizer
-GRC=`which grc` 2>/dev/null
-if [[ "$TERM" != dumb ]] && [[ -x ${GRC} ]]
-then
-	alias colourify="$GRC -es --colour=auto"
-	alias configure='colourify ./configure'
-	alias diff='colourify diff'
-	alias make='colourify make'
-	alias gcc='colourify gcc'
-	alias g++='colourify g++'
-	alias as='colourify as'
-	alias gas='colourify gas'
-	alias ld='colourify ld'
-	alias ps='colourify ps'
-	alias netstat='colourify netstat'
-	alias ping='colourify ping'
-	alias traceroute='colourify /usr/sbin/traceroute'
 
-	# Newer (1.11) version of grc package have these nice configs to use
-	if [[ -f /etc/grc.zsh ]]; then source /etc/grc.zsh; fi
+GRC=`which grc` 2>/dev/null
+if [[ "$TERM" != dumb ]] && [[ -x ${GRC} ]]; then
+    alias colourify="$GRC -es --colour=auto"
+    alias configure='colourify ./configure'
+    alias diff='colourify diff'
+    alias make='colourify make'
+    alias gcc='colourify gcc'
+    alias g++='colourify g++'
+    alias as='colourify as'
+    alias gas='colourify gas'
+    alias ld='colourify ld'
+    alias ps='colourify ps'
+    alias netstat='colourify netstat'
+    alias ping='colourify ping'
+    alias traceroute='colourify /usr/sbin/traceroute'
+
+    # Newer (1.11) version of grc package have these nice configs to use
+    if [[ -f /etc/grc.zsh ]]; then source /etc/grc.zsh; fi
 fi
+
 # }}}
 # {{{ shell git prompt
-# used with bureau theme
+
+# Used with bureau theme
 
 #function git_prompt_info() {
-#	ref=$(git symbolic-ref HEAD 2> /dev/null) || return
-#	echo "$ZSH_THEME_GIT_PROMPT_PREFIX${ref#refs/heads/}${ZSH_THEME_GIT_PROMPT_CLEAN}${ZSH_THEME_GIT_PROMPT_SUFFIX}"
+#    ref=$(git symbolic-ref HEAD 2> /dev/null) || return
+#    echo "$ZSH_THEME_GIT_PROMPT_PREFIX${ref#refs/heads/}${ZSH_THEME_GIT_PROMPT_CLEAN}${ZSH_THEME_GIT_PROMPT_SUFFIX}"
 #}
 
 # }}}
-# Umask{{{
+# Umask {{{
 
 # if you install packages with pip using sudo you should probably set the umask
 # options in sudoers to 022 to revert this
@@ -197,16 +197,14 @@ umask 007
 export PATH=~/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/sbin:./
 export MANPATH="/usr/local/man:$MANPATH"
 export LANG=en_US.UTF-8
-# Sort order dotfiles first
-export LC_COLLATE="C"
+export LC_COLLATE="C"                   # Makes ls sort dotfiles first
 export EDITOR="vim"
 export PAGER="less"
 #export TZ=Singapore
-# used for powerlevel context
-export DEFAULT_USER="sedlund"
+export DEFAULT_USER="${USER}"           # used for powerlevel9k zsh theme
 
 if [[ "$TERM" = screen ]]; then
-	export TERM=screen-256color
+    export TERM=screen-256color
 elif [[ "$TERM" = xterm ]]; then
     export TERM=xterm-256color
 fi
