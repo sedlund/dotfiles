@@ -38,6 +38,7 @@ EOBUNDLES
 
 # Apply theme
 #antigen theme bureau
+# https://github.com/bhilburn/powerlevel9k
 #POWERLEVEL9K_MODE='nerdfont-complete'
 antigen theme bhilburn/powerlevel9k
 POWERLEVEL9K_LEFT_PROMPT_ELEMENTS=( dir vcs ip disk_usage load newline context )
