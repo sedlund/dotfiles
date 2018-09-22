@@ -1,6 +1,7 @@
 # {{{ Antigen - ZSH plugin manager
+
 # Antigen: https://github.com/zsh-users/antigen
-#
+
 # ADOTDIR — This directory is used to store all the repo clones, your bundles,
 # themes, caches and everything else Antigen requires to run smoothly. Defaults
 # to $HOME/.antigen
@@ -10,6 +11,7 @@ ADOTDIR=~/.zsh/.antigen
 source ~/.zsh/antigen/antigen.zsh
 
 # Load oh-my-zsh - many plugins/themes require its core library
+ZSH=~/.zsh/.oh-my-zsh
 antigen use oh-my-zsh
 
 # Bundles to use
@@ -20,23 +22,123 @@ antigen bundles << EOBUNDLES
     docker-compose
     git
     github
+    kubectl
     pip
     postgres
     python
     rbenv
     ssh-agent
+    systemctl
+    tmux
     Tarrasch/zsh-autoenv
+    zsh-users/zsh-autosuggestions
     zsh-users/zsh-history-substring-search
     zsh-users/zsh-syntax-highlighting
 EOBUNDLES
 
 # Apply theme
-antigen theme bureau
+#antigen theme bureau
+#
+# https://github.com/bhilburn/powerlevel9k
+#POWERLEVEL9K_MODE='nerdfont-complete'
+
+if [[ "$TERM" = screen ]]; then
+    export TERM=screen-256color
+elif [[ "$TERM" = xterm ]]; then
+    export TERM=xterm-256color
+fi
+
+antigen theme bhilburn/powerlevel9k
+POWERLEVEL9K_LEFT_PROMPT_ELEMENTS=( dir dir_writable vcs ip disk_usage load newline context )
+POWERLEVEL9K_RIGHT_PROMPT_ELEMENTS=( status command_execution_time root_indicator background_jobs history time )
+POWERLEVEL9K_PROMPT_ADD_NEWLINE=true
+POWERLEVEL9K_SHORTEN_STRATEGY=truncate_to_unique
+POWERLEVEL9K_ALWAYS_SHOW_CONTEXT=true
+POWERLEVEL9K_CONTEXT_TEMPLATE=%n@%m%#
+POWERLEVEL9K_DISK_USAGE_ONLY_WARNING=true
+POWERLEVEL9K_DISK_USAGE_WARNING_LEVEL=79
+
+# Powerlevel9k colors {{{
+POWERLEVEL9K_FOREGROUND_OK=silver
+POWERLEVEL9K_BACKGROUND_OK=grey27
+POWERLEVEL9K_FOREGROUND_WARN=white
+POWERLEVEL9K_BACKGROUND_WARN=grey42
+POWERLEVEL9K_FOREGROUND_ERROR=yellow1
+POWERLEVEL9K_BACKGROUND_ERROR=darkred
+
+POWERLEVEL9K_CONTEXT_DEFAULT_FOREGROUND=${POWERLEVEL9K_FOREGROUND_OK}
+POWERLEVEL9K_CONTEXT_DEFAULT_BACKGROUND=${POWERLEVEL9K_BACKGROUND_OK}
+POWERLEVEL9K_CONTEXT_ROOT_FOREGROUND=${POWERLEVEL9K_FOREGROUND_ERROR}
+POWERLEVEL9K_CONTEXT_ROOT_BACKGROUND=${POWERLEVEL9K_BACKGROUND_ERROR}
+POWERLEVEL9K_CONTEXT_SUDO_FOREGROUND=${POWERLEVEL9K_FOREGROUND_ERROR}
+POWERLEVEL9K_CONTEXT_SUDO_BACKGROUND=${POWERLEVEL9K_BACKGROUND_ERROR}
+POWERLEVEL9K_CONTEXT_REMOTE_FOREGROUND=${POWERLEVEL9K_FOREGROUND_WARN}
+POWERLEVEL9K_CONTEXT_REMOTE_BACKGROUND=${POWERLEVEL9K_BACKGROUND_WARN}
+POWERLEVEL9K_CONTEXT_REMOTE_SUDO_FOREGROUND=${POWERLEVEL9K_FOREGROUND_ERROR}
+POWERLEVEL9K_CONTEXT_REMOTE_SUDO_BACKGROUND=${POWERLEVEL9K_BACKGROUND_ERROR}
+
+POWERLEVEL9K_DIR_HOME_FOREGROUND=${POWERLEVEL9K_FOREGROUND_OK}
+POWERLEVEL9K_DIR_HOME_BACKGROUND=${POWERLEVEL9K_BACKGROUND_OK}
+POWERLEVEL9K_DIR_HOME_SUBFOLDER_FOREGROUND=${POWERLEVEL9K_FOREGROUND_OK}
+POWERLEVEL9K_DIR_HOME_SUBFOLDER_BACKGROUND=${POWERLEVEL9K_BACKGROUND_OK}
+POWERLEVEL9K_DIR_DEFAULT_FOREGROUND=${POWERLEVEL9K_FOREGROUND_OK}
+POWERLEVEL9K_DIR_DEFAULT_BACKGROUND=${POWERLEVEL9K_BACKGROUND_OK}
+POWERLEVEL9K_DIR_ETC_FOREGROUND=${POWERLEVEL9K_FOREGROUND_ERROR}
+POWERLEVEL9K_DIR_ETC_BACKGROUND=${POWERLEVEL9K_BACKGROUND_ERROR}
+
+POWERLEVEL9K_LOAD_NORMAL_FOREGROUND=${POWERLEVEL9K_FOREGROUND_OK}
+POWERLEVEL9K_LOAD_NORMAL_BACKGROUND=${POWERLEVEL9K_BACKGROUND_OK}
+POWERLEVEL9K_LOAD_WARN_FOREGROUND=${POWERLEVEL9K_FOREGROUND_WARN}
+POWERLEVEL9K_LOAD_WARN_BACKGROUND=${POWERLEVEL9K_BACKGROUND_WARN}
+POWERLEVEL9K_LOAD_CRITICAL_FOREGROUND=${POWERLEVEL9K_FOREGROUND_ERROR}
+POWERLEVEL9K_LOAD_CRITICAL_BACKGROUND=${POWERLEVEL9K_BACKGROUND_ERROR}
+
+POWERLEVEL9K_IP_FOREGROUND=${POWERLEVEL9K_FOREGROUND_OK}
+POWERLEVEL9K_IP_BACKGROUND=${POWERLEVEL9K_BACKGROUND_OK}
+
+POWERLEVEL9K_STATUS_OK_FOREGROUND=${POWERLEVEL9K_FOREGROUND_OK}
+POWERLEVEL9K_STATUS_OK_BACKGROUND=${POWERLEVEL9K_BACKGROUND_OK}
+POWERLEVEL9K_STATUS_ERROR_FOREGROUND=${POWERLEVEL9K_FOREGROUND_ERROR}
+POWERLEVEL9K_STATUS_ERROR_BACKGROUND=${POWERLEVEL9K_BACKGROUND_ERROR}
+
+POWERLEVEL9K_VCS_CLEAN_FOREGROUND=${POWERLEVEL9K_FOREGROUND_OK}
+POWERLEVEL9K_VCS_CLEAN_BACKGROUND=${POWERLEVEL9K_BACKGROUND_OK}
+POWERLEVEL9K_VCS_MODIFIED_FOREGROUND=${POWERLEVEL9K_FOREGROUND_WARN}
+POWERLEVEL9K_VCS_MODIFIED_BACKGROUND=${POWERLEVEL9K_BACKGROUND_WARN}
+POWERLEVEL9K_VCS_UNTRACKED_FOREGROUND=${POWERLEVEL9K_FOREGROUND_ERROR}
+POWERLEVEL9K_VCS_UNTRACKED_BACKGROUND=${POWERLEVEL9K_BACKGROUND_ERROR}
+
+POWERLEVEL9K_HISTORY_FOREGROUND=${POWERLEVEL9K_FOREGROUND_OK}
+POWERLEVEL9K_HISTORY_BACKGROUND=${POWERLEVEL9K_BACKGROUND_OK}
+
+POWERLEVEL9K_TIME_FOREGROUND=${POWERLEVEL9K_FOREGROUND_OK}
+POWERLEVEL9K_TIME_BACKGROUND=${POWERLEVEL9K_BACKGROUND_OK}
+
+POWERLEVEL9K_ROOT_INDICATOR_FOREGROUND=${POWERLEVEL9K_FOREGROUND_ERROR}
+POWERLEVEL9K_ROOT_INDICATOR_BACKGROUND=${POWERLEVEL9K_BACKGROUND_ERROR}
+
+POWERLEVEL9K_DIR_WRITABLE_FORBIDDEN_FOREGROUND=${POWERLEVEL9K_FOREGROUND_ERROR}
+POWERLEVEL9K_DIR_WRITABLE_FORBIDDEN_BACKGROUND=${POWERLEVEL9K_BACKGROUND_ERROR}
+
+POWERLEVEL9K_COMMAND_EXECUTION_TIME_FOREGROUND=${POWERLEVEL9K_FOREGROUND_WARN}
+POWERLEVEL9K_COMMAND_EXECUTION_TIME_BACKGROUND=${POWERLEVEL9K_BACKGROUND_WARN}
+
+POWERLEVEL9K_DISK_USAGE_NORMAL_FOREGROUND=${POWERLEVEL9K_FOREGROUND_OK}
+POWERLEVEL9K_DISK_USAGE_NORMAL_BACKGROUND=${POWERLEVEL9K_BACKGROUND_OK}
+POWERLEVEL9K_DISK_USAGE_WARNING_FOREGROUND=${POWERLEVEL9K_FOREGROUND_WARN}
+POWERLEVEL9K_DISK_USAGE_WARNING_BACKGROUND=${POWERLEVEL9K_BACKGROUND_WARN}
+POWERLEVEL9K_DISK_USAGE_CRITICAL_FOREGROUND=${POWERLEVEL9K_FOREGROUND_ERROR}
+POWERLEVEL9K_DISK_USAGE_CRITICAL_BACKGROUND=${POWERLEVEL9K_BACKGROUND_ERROR}
+
+POWERLEVEL9K_DIR_PATH_HIGHLIGHT_FOREGROUND=${POWERLEVEL9K_FOREGROUND_ERROR}
+
+# }}}
 
 # Antigen config complete
 antigen apply
+
 # }}}
-# {{{ Key bindings 
+# {{{ Key bindings
 
 # {{{ for history-substring-search plugin
 
@@ -57,13 +159,12 @@ bindkey -M emacs '^N' history-substring-search-down
 # bind k and j for VI mode
 bindkey -M vicmd 'k' history-substring-search-up
 bindkey -M vicmd 'j' history-substring-search-down
+
 # }}}
 
-# Enables pressing ESC-v to open current command line in vi
-bindkey -M vicmd v edit-command-line
-
-# Set VI keybindings - has to be below sourcing oh my zsh as bindkey -e is set in libs/key-bindings.zsh
-bindkey -v
+bindkey -M vicmd v edit-command-line    # Enables pressing ESC-v to open current command line in vi
+bindkey -v                              # Set VI key bindings
+bindkey '^ ' autosuggest-accept         # zsh-autosuggestion: Bind CTRL-<space> to accept suggestion
 
 # }}}
 # Solarized dir colors {{{
@@ -79,7 +180,7 @@ export WORKON_HOME=$HOME/.virtualenvs
 if [ -f "/etc/bash_completion.d/virtualenvwrapper" ]; then
     source /etc/bash_completion.d/virtualenvwrapper
 fi
- 
+
 # }}}
 # {{{ SSH agent function
 
@@ -96,7 +197,9 @@ function start_agent {
 
 # }}}
 # {{{ Host specific settings
+
 case `hostname -s` in
+
     'yul1')
         alias ls="ls -F --color"
         # Source SSH settings, if applicable
@@ -109,12 +212,14 @@ case `hostname -s` in
         else
             start_agent;
         fi
-        
-        # z
+
         . ~/bin/z.sh
+
         function precmd () {
             _z --add "$(pwd -P)"
-        } ;;
+        }
+    ;;
+
     'flip')
         alias ls="ls -F --color"
         # Source SSH settings, if applicable
@@ -127,48 +232,50 @@ case `hostname -s` in
         else
             start_agent;
         fi
-        
-        # z
+
         . ~/bin/z.sh
+
         function precmd () {
             _z --add "$(pwd -P)"
         }
-        # grep --files-without-match "git" ~/.oh-my-zsh/themes/*
-        #ZSH_THEME=mikeh
-        ;;
+    ;;
 esac
+
 # }}}
 # {{{ GRC: Generic colorizer
-GRC=`which grc` 2>/dev/null
-if [[ "$TERM" != dumb ]] && [[ -x ${GRC} ]]
-then
-	alias colourify="$GRC -es --colour=auto"
-	alias configure='colourify ./configure'
-	alias diff='colourify diff'
-	alias make='colourify make'
-	alias gcc='colourify gcc'
-	alias g++='colourify g++'
-	alias as='colourify as'
-	alias gas='colourify gas'
-	alias ld='colourify ld'
-	alias ps='colourify ps'
-	alias netstat='colourify netstat'
-	alias ping='colourify ping'
-	alias traceroute='colourify /usr/sbin/traceroute'
 
-	# Newer (1.11) version of grc package have these nice configs to use
-	if [[ -f /etc/grc.zsh ]]; then source /etc/grc.zsh; fi
+GRC=`which grc` 2>/dev/null
+if [[ "$TERM" != dumb ]] && [[ -x ${GRC} ]]; then
+    alias colourify="$GRC -es --colour=auto"
+    alias configure='colourify ./configure'
+    alias diff='colourify diff'
+    alias make='colourify make'
+    alias gcc='colourify gcc'
+    alias g++='colourify g++'
+    alias as='colourify as'
+    alias gas='colourify gas'
+    alias ld='colourify ld'
+    alias ps='colourify ps'
+    alias netstat='colourify netstat'
+    alias ping='colourify ping'
+    alias traceroute='colourify /usr/sbin/traceroute'
+
+    # Newer (1.11) version of grc package have these nice configs to use
+    if [[ -f /etc/grc.zsh ]]; then source /etc/grc.zsh; fi
 fi
+
 # }}}
 # {{{ shell git prompt
 
-function git_prompt_info() {
-	ref=$(git symbolic-ref HEAD 2> /dev/null) || return
-	echo "$ZSH_THEME_GIT_PROMPT_PREFIX${ref#refs/heads/}${ZSH_THEME_GIT_PROMPT_CLEAN}${ZSH_THEME_GIT_PROMPT_SUFFIX}"
-}
-#
+# Used with bureau theme
+
+#function git_prompt_info() {
+#    ref=$(git symbolic-ref HEAD 2> /dev/null) || return
+#    echo "$ZSH_THEME_GIT_PROMPT_PREFIX${ref#refs/heads/}${ZSH_THEME_GIT_PROMPT_CLEAN}${ZSH_THEME_GIT_PROMPT_SUFFIX}"
+#}
+
 # }}}
-# Umask{{{
+# Umask {{{
 
 # if you install packages with pip using sudo you should probably set the umask
 # options in sudoers to 022 to revert this
@@ -180,22 +287,26 @@ umask 007
 export PATH=~/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/sbin:./
 export MANPATH="/usr/local/man:$MANPATH"
 export LANG=en_US.UTF-8
+export LC_COLLATE="C"                   # Makes ls sort dotfiles first
 export EDITOR="vim"
 export PAGER="less"
 #export TZ=Singapore
-
-if [[ "$TERM" = screen ]]; then
-	export TERM=screen-256color
-elif [[ "$TERM" = xterm ]]; then
-    export TERM=xterm-256color
-fi
+export DEFAULT_USER="${USER}"           # used for powerlevel9k zsh theme
 
 # }}}
 # {{{ Aliases
 
 alias more="less"
+
+alias ls='ls --color=auto --group-directories-first --classify'
+alias l='ls'
+alias ll='ls -l'
+alias la='ls -A'
+alias lla='ls -lA'
+
+# Ansible
 alias ave='ansible-vault edit'
 alias avv='ansible-vault view'
 alias avc='ansible-vault encrypt'
-#
+
 # }}}
