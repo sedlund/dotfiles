@@ -39,8 +39,11 @@ EOBUNDLES
 # Apply theme
 #antigen theme bureau
 #POWERLEVEL9K_MODE='nerdfont-complete'
+DEFAULT_UER=${USER}
 antigen theme bhilburn/powerlevel9k
-POWERLEVEL9K_LEFT_PROMPT_ELEMENTS=( dir vcs newline context )
+POWERLEVEL9K_LEFT_PROMPT_ELEMENTS=( dir vcs ip disk_usage load newline context )
+POWERLEVEL9K_PROMPT_ADD_NEWLINE=true
+POWERLEVEL9K_SHORTEN_STRATEGY=truncate_to_unique
 
 # Antigen config complete
 antigen apply
@@ -199,6 +202,8 @@ export LC_COLLATE="C"
 export EDITOR="vim"
 export PAGER="less"
 #export TZ=Singapore
+# used for powerlevel context
+export DEFAULT_USER="sedlund"
 
 if [[ "$TERM" = screen ]]; then
 	export TERM=screen-256color
