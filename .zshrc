@@ -1,6 +1,7 @@
 # {{{ Antigen - ZSH plugin manager
+
 # Antigen: https://github.com/zsh-users/antigen
-#
+
 # ADOTDIR — This directory is used to store all the repo clones, your bundles,
 # themes, caches and everything else Antigen requires to run smoothly. Defaults
 # to $HOME/.antigen
@@ -10,6 +11,7 @@ ADOTDIR=~/.zsh/.antigen
 source ~/.zsh/antigen/antigen.zsh
 
 # Load oh-my-zsh - many plugins/themes require its core library
+ZSH=~/.zsh/.oh-my-zsh
 antigen use oh-my-zsh
 
 # Bundles to use
@@ -20,21 +22,29 @@ antigen bundles << EOBUNDLES
     docker-compose
     git
     github
+    kubectl
     pip
     postgres
     python
     rbenv
     ssh-agent
+    systemctl
+    tmux
     Tarrasch/zsh-autoenv
+    zsh-users/zsh-autosuggestions
     zsh-users/zsh-history-substring-search
     zsh-users/zsh-syntax-highlighting
 EOBUNDLES
 
 # Apply theme
-antigen theme bureau
+#antigen theme bureau
+#POWERLEVEL9K_MODE='nerdfont-complete'
+antigen theme bhilburn/powerlevel9k
+POWERLEVEL9K_LEFT_PROMPT_ELEMENTS=( dir vcs newline context )
 
 # Antigen config complete
 antigen apply
+
 # }}}
 # {{{ Key bindings 
 
@@ -64,6 +74,9 @@ bindkey -M vicmd v edit-command-line
 
 # Set VI keybindings - has to be below sourcing oh my zsh as bindkey -e is set in libs/key-bindings.zsh
 bindkey -v
+
+# zsh-autoauggestions
+bindkey '^ ' autosuggest-accept
 
 # }}}
 # Solarized dir colors {{{
@@ -161,12 +174,13 @@ then
 fi
 # }}}
 # {{{ shell git prompt
+# used with bureau theme
 
-function git_prompt_info() {
-	ref=$(git symbolic-ref HEAD 2> /dev/null) || return
-	echo "$ZSH_THEME_GIT_PROMPT_PREFIX${ref#refs/heads/}${ZSH_THEME_GIT_PROMPT_CLEAN}${ZSH_THEME_GIT_PROMPT_SUFFIX}"
-}
-#
+#function git_prompt_info() {
+#	ref=$(git symbolic-ref HEAD 2> /dev/null) || return
+#	echo "$ZSH_THEME_GIT_PROMPT_PREFIX${ref#refs/heads/}${ZSH_THEME_GIT_PROMPT_CLEAN}${ZSH_THEME_GIT_PROMPT_SUFFIX}"
+#}
+
 # }}}
 # Umask{{{
 
@@ -180,6 +194,8 @@ umask 007
 export PATH=~/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/sbin:./
 export MANPATH="/usr/local/man:$MANPATH"
 export LANG=en_US.UTF-8
+# Sort order dotfiles first
+export LC_COLLATE="C"
 export EDITOR="vim"
 export PAGER="less"
 #export TZ=Singapore
@@ -194,8 +210,16 @@ fi
 # {{{ Aliases
 
 alias more="less"
+
+alias ls='ls --color=auto --group-directories-first --classify'
+alias l='ls'
+alias ll='ls -l'
+alias la='ls -A'
+alias lla='ls -lA'
+
+# Ansible
 alias ave='ansible-vault edit'
 alias avv='ansible-vault view'
 alias avc='ansible-vault encrypt'
-#
+
 # }}}
