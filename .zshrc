@@ -40,7 +40,8 @@ EOBUNDLES
 #antigen theme bureau
 #
 # https://github.com/bhilburn/powerlevel9k
-#POWERLEVEL9K_MODE='nerdfont-complete'
+POWERLEVEL9K_MODE='fontawesome-fontconfig'
+#POWERLEVEL9K_MODE='nerdfont-fontconfig'
 
 if [[ "$TERM" = screen ]]; then
     export TERM=screen-256color
