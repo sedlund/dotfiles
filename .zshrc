@@ -294,7 +294,7 @@ export LANG=en_US.UTF-8
 export LC_COLLATE="C"                   # Makes ls sort dotfiles first
 export EDITOR="vim"
 export PAGER="less"
-#export TZ=Singapore
+export TZ=GMT-3
 export DEFAULT_USER="${USER}"           # used for powerlevel9k zsh theme
 
 # }}}
