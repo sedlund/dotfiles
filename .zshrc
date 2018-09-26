@@ -305,7 +305,7 @@ alias more="less"
 alias ls='ls --color=auto --group-directories-first --classify'
 alias l='ls'
 alias ll='ls -l'
-alias la='ls -a'
+alias la='ls -A'
 alias lla='ls -la'
 
 # Ansible
