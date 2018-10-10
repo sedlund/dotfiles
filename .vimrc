@@ -1,3 +1,4 @@
+" https://coderoncode.com/tools/2017/04/16/vim-the-perfect-ide.html
 " This must be first, because it changes other options as a side effect.
 set nocompatible
 
