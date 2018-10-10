@@ -43,7 +43,7 @@ Plug 'benmills/vimux' " VimuxRunCommand, VimuxRunLastCommand
 "Plug 'Shougo/neocomplete.vim'
 "Plug 'tpope/vim-dispatch'
 
-" Generic Programming Support 
+" Generic Programming Support
 "Plug 'jakedouglas/exuberant-ctags'
 Plug 'honza/vim-snippets'
 Plug 'Townk/vim-autoclose'
@@ -148,6 +148,15 @@ if v:version < 703 || !has( 'patch584' )
     let g:loaded_youcompleteme = 1
 endif
 
+let g:ctrlp_user_command = {
+    \ 'types': {
+        \ 1: ['.git', 'cd %s && git ls-files . --cached --exclude-standard --others'],
+        \ 2: ['.hg', 'hg --cwd %s locate -I .'],
+    \ },
+    \ 'fallback': 'find %s -type f'
+\ }
+let g:ctrlp_lazy_update = 150
+
 " make backspace work
 set backspace=indent,eol,start
 set showmatch
@@ -202,7 +211,7 @@ if has('gui_running')
 endif
 
 " }}}
-" {{{ Filetypes
+" {{{ File types
 
 " HTML and HTMLDjango
 au BufNewFile,BufRead *.html setlocal filetype=htmldjango
@@ -285,7 +294,7 @@ vnoremap / /\v
 " highlight search
 set hlsearch
 " case inferred by default
-set infercase 
+set infercase
 " make searches case-insensitive
 set ignorecase
 "unless they contain upper-case letters:
@@ -339,6 +348,12 @@ au FileType markdown,tex,rst call No_Line_Breaks()
 
 
 " }}}
+" {{{ Key Mappings
+
+map <C-n> :NERDTreeToggle<CR>
+map <C-m> :TagbarToggle<CR>
+
+" }}}
 " {{{ Aliases
 
 " Professor VIM says '87% of users prefer jj over esc', jj abrams strongly disagrees
@@ -370,12 +385,3 @@ nnoremap ,. '.
 
 
 " }}}
-
-let g:ctrlp_user_command = {
-    \ 'types': {
-        \ 1: ['.git', 'cd %s && git ls-files . --cached --exclude-standard --others'],
-        \ 2: ['.hg', 'hg --cwd %s locate -I .'],
-    \ },
-    \ 'fallback': 'find %s -type f'
-\ }
-let g:ctrlp_lazy_update = 150
