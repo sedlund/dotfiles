@@ -43,11 +43,11 @@ EOBUNDLES
 POWERLEVEL9K_MODE='fontawesome-fontconfig'
 #POWERLEVEL9K_MODE='nerdfont-fontconfig'
 
-if [[ "$TERM" = screen ]]; then
-    export TERM=screen-256color
-elif [[ "$TERM" = xterm ]]; then
-    export TERM=xterm-256color
-fi
+#if [[ "$TERM" = screen ]]; then
+#    export TERM=screen-256color
+#elif [[ "$TERM" = xterm ]]; then
+#    export TERM=xterm-256color
+#fi
 
 antigen theme bhilburn/powerlevel9k
 POWERLEVEL9K_LEFT_PROMPT_ELEMENTS=( dir dir_writable vcs ip disk_usage load newline context )
@@ -312,5 +312,8 @@ alias lla='ls -la'
 alias ave='ansible-vault edit'
 alias avv='ansible-vault view'
 alias avc='ansible-vault encrypt'
+
+alias xz='xz -T0'
+alias zstd='zstd -T0'
 
 # }}}
