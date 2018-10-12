@@ -1,17 +1,18 @@
-" Inspiration:
-" http://github.com/askedrelic/homedir/blob/master/.vimrc
-" http://stevelosh.com/blog/2010/09/coming-home-to-vim/
-" https://github.com/skwp/dotfiles/blob/master/vimrc
-
+" https://coderoncode.com/tools/2017/04/16/vim-the-perfect-ide.html
 " This must be first, because it changes other options as a side effect.
 set nocompatible
 
-" Disable youcompleteme error
-if v:version < 703 || !has( 'patch584' )
-    let g:loaded_youcompleteme = 1
-endif
+" {{{ Plugin Manager: vim-plug
 
-" {{{ vim-plug
+" Command Description
+" PlugInstall [name ...] [#threads]   Install plugins
+" PlugUpdate [name ...] [#threads]    Install or update plugins
+" PlugClean[!]    Remove unused directories (bang version will clean without prompt)
+" PlugUpgrade Upgrade vim-plug itself
+" PlugStatus  Check the status of plugins
+" PlugDiff    Examine changes from the previous update and the pending changes
+" PlugSnapshot[!] [output path]   Generate script for restoring the current snapshot of the plugins
+
 if empty(glob('~/.vim/autoload/plug.vim'))
   silent !curl -fLo ~/.vim/autoload/plug.vim --create-dirs
     \ https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
@@ -22,37 +23,142 @@ endif
 " - For Neovim: ~/.local/share/nvim/plugged
 " - Avoid using standard Vim directory names like 'plugin'
 
-
 call plug#begin('~/.vim/plugged')
 
-" plugins
-Plug 'vim-syntastic/syntastic'
-Plug 'vim-scripts/taglist.vim'
-Plug 'tpope/vim-fugitive'
-Plug 'terryma/vim-multiple-cursors'
-"Plug 'pearofducks/ansible-vim', { 'do': 'cd ./UltiSnips; python2 generate.py' }
-Plug 'Valloric/YouCompleteMe', { 'do': 'python2 install.py' }
+" Utility
 Plug 'scrooloose/nerdtree', { 'on':  'NERDTreeToggle' }
-Plug 'altercation/vim-colors-solarized'
-Plug 'vim-airline/vim-airline'
-Plug 'vim-airline/vim-airline-themes'
-Plug 'airblade/vim-gitgutter'
-Plug 'edkolev/tmuxline.vim'
+Plug 'majutsushi/tagbar'
+Plug 'Valloric/YouCompleteMe', { 'do': 'nice python2 install.py' }
+"Plug 'ervandew/supertab'
+"Plug 'BufOnly.vim'
+Plug 'terryma/vim-multiple-cursors'
+"Plug 'wesQ3/vim-windowswap'
+Plug 'SirVer/ultisnips'
+"Plug 'junegunn/fzf.vim'
+"Plug 'junegunn/fzf'
+Plug 'godlygeek/tabular'
+Plug 'ctrlpvim/ctrlp.vim'
+Plug 'benmills/vimux' " VimuxRunCommand, VimuxRunLastCommand
+"Plug 'jeetsukumaran/vim-buffergator'
+"Plug 'gilsondev/searchtasks.vim'
+"Plug 'Shougo/neocomplete.vim'
+"Plug 'tpope/vim-dispatch'
+
+" Generic Programming Support
+"Plug 'jakedouglas/exuberant-ctags'
 Plug 'honza/vim-snippets'
+Plug 'Townk/vim-autoclose'
+"Plug 'tomtom/tcomment_vim'
+"Plug 'tobyS/vmustache'
+"Plug 'janko-m/vim-test'
+"Plug 'maksimr/vim-jsbeautify'
+Plug 'vim-syntastic/syntastic'
+"Plug 'neomake/neomake'
+"Plug 'pearofducks/ansible-vim', { 'do': 'cd ./UltiSnips; python2 generate.py' }
+Plug 'vim-scripts/taglist.vim'
 "Plug 'ekalinin/Dockerfile.vim'
 Plug 'sheerun/vim-polyglot'
 Plug 'prettier/vim-prettier', { 'do': 'npm install' }
 
+
+" Markdown / Writing
+Plug 'reedes/vim-pencil', { 'for': 'markdown' }
+Plug 'tpope/vim-markdown', { 'for': 'markdown' }
+Plug 'jtratner/vim-flavored-markdown', { 'for': 'markdown' }
+"Plug 'dpelle/vim-LanguageTool'
+
+" Git Support
+Plug 'kablamo/vim-git-log'
+Plug 'gregsexton/gitv'
+Plug 'tpope/vim-fugitive'
+Plug 'airblade/vim-gitgutter'
+
+" Theme / Interface
+Plug 'edkolev/tmuxline.vim'
+Plug 'altercation/vim-colors-solarized'
+"Plug 'AnsiEsc.vim'
+Plug 'ryanoasis/vim-devicons'
+Plug 'vim-airline/vim-airline'
+Plug 'vim-airline/vim-airline-themes'
+
 " Initialize plugin system
 call plug#end()
 
-"let g:airline_powerline_fonts=1
-let g:airline_solarized_bg='dark'
+" }}}
+" {{{ Syntastic Config
+" Syntastic
+" Disable if taking too long
+"let g:syntastic_disabled_filetypes = ['sass', 'python']
 
+"set statusline+=%#warningmsg#
+"set statusline+=%{SyntasticStatuslineFlag()}
+"set statusline+=%*
+
+let g:syntastic_always_populate_loc_list = 1
+let g:syntastic_auto_loc_list = 1
+let g:syntastic_check_on_open = 1
+let g:syntastic_check_on_wq = 0
+
+"}}}
+" {{{ FZF Config
+
+" This is the default extra key bindings
+let g:fzf_action = {
+  \ 'ctrl-t': 'tab split',
+  \ 'ctrl-x': 'split',
+  \ 'ctrl-v': 'vsplit' }
+
+" Default fzf layout
+" - down / up / left / right
+let g:fzf_layout = { 'down': '~40%' }
+
+" In Neovim, you can set up fzf window using a Vim command
+let g:fzf_layout = { 'window': 'enew' }
+let g:fzf_layout = { 'window': '-tabnew' }
+
+" Customize fzf colors to match your color scheme
+let g:fzf_colors =
+\ { 'fg':      ['fg', 'Normal'],
+  \ 'bg':      ['bg', 'Normal'],
+  \ 'hl':      ['fg', 'Comment'],
+  \ 'fg+':     ['fg', 'CursorLine', 'CursorColumn', 'Normal'],
+  \ 'bg+':     ['bg', 'CursorLine', 'CursorColumn'],
+  \ 'hl+':     ['fg', 'Statement'],
+  \ 'info':    ['fg', 'PreProc'],
+  \ 'prompt':  ['fg', 'Conditional'],
+  \ 'pointer': ['fg', 'Exception'],
+  \ 'marker':  ['fg', 'Keyword'],
+  \ 'spinner': ['fg', 'Label'],
+  \ 'header':  ['fg', 'Comment'] }
+
+" Enable per-command history.
+" CTRL-N and CTRL-P will be automatically bound to next-history and
+" previous-history instead of down and up. If you don't like the change,
+" explicitly bind the keys to down and up in your $FZF_DEFAULT_OPTS.
+let g:fzf_history_dir = '~/.local/share/fzf-history'
 " }}}
 " {{{ General
 
-"make backspace work
+" Source the vimrc file after saving it
+if has("autocmd")
+  autocmd bufwritepost .vimrc source $MYVIMRC
+endif
+
+" Disable youcompleteme error
+if v:version < 703 || !has( 'patch584' )
+    let g:loaded_youcompleteme = 1
+endif
+
+let g:ctrlp_user_command = {
+    \ 'types': {
+        \ 1: ['.git', 'cd %s && git ls-files . --cached --exclude-standard --others'],
+        \ 2: ['.hg', 'hg --cwd %s locate -I .'],
+    \ },
+    \ 'fallback': 'find %s -type f'
+\ }
+let g:ctrlp_lazy_update = 150
+
+" make backspace work
 set backspace=indent,eol,start
 set showmatch
 " have % bounce between angled brackets, as well as other kinds:
@@ -106,7 +212,7 @@ if has('gui_running')
 endif
 
 " }}}
-" {{{ Filetypes
+" {{{ File types
 
 " HTML and HTMLDjango
 au BufNewFile,BufRead *.html setlocal filetype=htmldjango
@@ -134,16 +240,15 @@ au FileType jinja,htmldjango inoremap <buffer> <c-t> {%<space><space>%}<left><le
 au FileType jinja,htmldjango inoremap <buffer> <c-f> {{<space><space>}}<left><left><left>
 
 " Spell checking for latex files
-au FileType tex set spl=en_gb spell
+au FileType tex set spl=en_us spell
 
-au BufNewFile,BufRead riemann.config set filetype=clojure
 au BufNewFile,BufRead *.md set filetype=markdown
 
 " }}}
 " {{{ Tabs
 
 " when at 3 spaces, and I hit > ... go to 4, not 5
-set shiftround 
+set shiftround
 
 function! Indent_tabs()
     setl softtabstop=4
@@ -190,7 +295,7 @@ vnoremap / /\v
 " highlight search
 set hlsearch
 " case inferred by default
-set infercase 
+set infercase
 " make searches case-insensitive
 set ignorecase
 "unless they contain upper-case letters:
@@ -207,7 +312,8 @@ nnoremap <tab> %
 vnoremap <tab> %
 
 " }}}
-" {{{ Colors
+" {{{ Themes and colors
+
 " set t_Co=256
 set background=dark
 colorscheme solarized
@@ -216,8 +322,15 @@ syntax on
 set guioptions-=T
 set guioptions-=m
 
+let g:airline_powerline_fonts=1
+let g:airline_solarized_bg='dark'
 
+" Fix colours in sign column
+highlight clear SignColumn
+
+" }}}
 " {{{ Line wrapping
+
 " normally don't automatically format `text' as it is typed, IE only do this
 " with comments, at 79 characters:
 set formatoptions=qrn1
@@ -236,6 +349,10 @@ au FileType markdown,tex,rst call No_Line_Breaks()
 
 
 " }}}
+" {{{ Key Mappings
+
+map <C-n> :NERDTreeToggle<CR>
+map <C-m> :TagbarToggle<CR>
 
 " }}}
 " {{{ Aliases
@@ -269,36 +386,3 @@ nnoremap ,. '.
 
 
 " }}}
-
-
-" Source the vimrc file after saving it
-if has("autocmd")
-  autocmd bufwritepost .vimrc source $MYVIMRC
-endif
-
-"###############################################################################
-" Syntastic
-" Disable if taking too long
-"let g:syntastic_disabled_filetypes = ['sass', 'python']
-
-set statusline+=%#warningmsg#
-set statusline+=%{SyntasticStatuslineFlag()}
-set statusline+=%*
-
-let g:syntastic_always_populate_loc_list = 1
-let g:syntastic_auto_loc_list = 1
-let g:syntastic_check_on_open = 1
-let g:syntastic_check_on_wq = 0
-"###############################################################################
-
-" Fix colours in sign column
-highlight clear SignColumn
-
-let g:ctrlp_user_command = {
-    \ 'types': {
-        \ 1: ['.git', 'cd %s && git ls-files . --cached --exclude-standard --others'],
-        \ 2: ['.hg', 'hg --cwd %s locate -I .'],
-    \ },
-    \ 'fallback': 'find %s -type f'
-\ }
-let g:ctrlp_lazy_update = 150
