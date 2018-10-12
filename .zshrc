@@ -42,10 +42,11 @@ EOBUNDLES
 # https://github.com/bhilburn/powerlevel9k
 POWERLEVEL9K_MODE='fontawesome-fontconfig'
 #POWERLEVEL9K_MODE='nerdfont-fontconfig'
+#POWERLEVEL9K_MODE='compatible'
 
 if [[ "$TERM" = screen ]]; then
     export TERM=screen-256color
-elif [[ "$TERM" = xterm ]]; then
+elif [[ "$TERM" = xterm || "$TERM" = linux ]]; then
     export TERM=xterm-256color
 fi
 
