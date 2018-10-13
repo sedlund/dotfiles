@@ -306,6 +306,7 @@ alias more="less"
 alias ls='ls --color=auto --group-directories-first --classify'
 alias l='ls'
 alias ll='ls -l'
+alias llh='ls -lh'
 alias la='ls -A'
 alias lla='ls -la'
 
@@ -314,7 +315,9 @@ alias ave='ansible-vault edit'
 alias avv='ansible-vault view'
 alias avc='ansible-vault encrypt'
 
-alias xz='xz -T0'
-alias zstd='zstd -T0'
+alias gzip='nice gzip'
+alias tar='nice tar'
+alias xz='nice xz -T0'
+alias zstd='nice zstd -T0'
 
 # }}}
