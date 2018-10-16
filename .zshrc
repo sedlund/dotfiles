@@ -37,11 +37,10 @@ antigen bundles << EOBUNDLES
 EOBUNDLES
 
 # Apply theme
-#antigen theme bureau
 #
 # https://github.com/bhilburn/powerlevel9k
-POWERLEVEL9K_MODE='fontawesome-fontconfig'
-#POWERLEVEL9K_MODE='nerdfont-fontconfig'
+#POWERLEVEL9K_MODE='fontawesome-fontconfig'
+POWERLEVEL9K_MODE='nerdfont-fontconfig'
 #POWERLEVEL9K_MODE='compatible'
 
 if [[ "$TERM" = screen ]]; then
@@ -50,6 +49,7 @@ elif [[ "$TERM" = xterm || "$TERM" = linux ]]; then
     export TERM=xterm-256color
 fi
 
+#antigen theme bureau
 antigen theme bhilburn/powerlevel9k
 POWERLEVEL9K_LEFT_PROMPT_ELEMENTS=( dir dir_writable vcs ip disk_usage load newline context )
 POWERLEVEL9K_RIGHT_PROMPT_ELEMENTS=( status command_execution_time root_indicator background_jobs history time )
@@ -295,7 +295,7 @@ export LANG=en_US.UTF-8
 export LC_COLLATE="C"                   # Makes ls sort dotfiles first
 export EDITOR="vim"
 export PAGER="less"
-export TZ=GMT-3
+#export TZ=GMT+8
 export DEFAULT_USER="${USER}"           # used for powerlevel9k zsh theme
 
 # }}}
