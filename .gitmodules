@@ -2,8 +2,8 @@
 # Don't Edit - Use git submodule add 'repo'
 #
 [submodule ".tmux/plugins/tpm"]
-        path = .tmux/plugins/tpm
-        url = https://github.com/tmux-plugins/tpm
+    path = .tmux/plugins/tpm
+    url = https://github.com/tmux-plugins/tpm
 [submodule ".zsh/antigen"]
-	path = .zsh/antigen
-	url = https://github.com/zsh-users/antigen.git
+    path = .zsh/antigen
+    url = https://github.com/zsh-users/antigen.git
