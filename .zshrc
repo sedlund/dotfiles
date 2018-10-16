@@ -295,7 +295,7 @@ export LANG=en_US.UTF-8
 export LC_COLLATE="C"                   # Makes ls sort dotfiles first
 export EDITOR="vim"
 export PAGER="less"
-export TZ=GMT-3
+#export TZ=GMT+8
 export DEFAULT_USER="${USER}"           # used for powerlevel9k zsh theme
 
 # }}}
@@ -319,5 +319,7 @@ alias gzip='nice gzip'
 alias tar='nice tar'
 alias xz='nice xz -T0'
 alias zstd='nice zstd -T0'
+
+alias make='nice make'
 
 # }}}
