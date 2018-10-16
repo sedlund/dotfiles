@@ -1,4 +1,4 @@
-" https://coderoncode.com/tools/2017/04/16/vim-the-perfect-ide.html
+" https://coderoncode.com/tools/2018/04/16/vim-the-perfect-ide.html
 " This must be first, because it changes other options as a side effect.
 set nocompatible
 
@@ -353,6 +353,11 @@ au FileType markdown,tex,rst call No_Line_Breaks()
 
 map <C-n> :NERDTreeToggle<CR>
 map <C-m> :TagbarToggle<CR>
+
+nnoremap <C-Left> :tabprevious<CR>
+nnoremap <C-Right> :tabnext<CR>
+nnoremap <silent> <A-Left> :execute 'silent! tabmove ' . (tabpagenr()-2)<CR>
+nnoremap <silent> <A-Right> :execute 'silent! tabmove ' . (tabpagenr()+1)<CR>
 
 " }}}
 " {{{ Aliases
