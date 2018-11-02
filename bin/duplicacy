@@ -47,7 +47,8 @@ download() {
   case "${UNAME_M}" in
     x86_64) ARCH=x64 ;;
     386)    ARCH=i386 ;;
-    arm*)   ARCH=arm ;;
+    armv8)  ARCH=arm64 ;;
+    armv7l) ARCH=arm ;;
   esac
   readonly ARCH
   
@@ -71,7 +72,7 @@ download() {
 
   local return_codes
   DUPLICACY_PATH="$(wget -qO- ${GITHUB_URL}/${LATEST_RELEASE} \
-    | awk -F '"' -v a=${OS}_${ARCH} '$0~a{print $2;exit}')"
+    | awk -F '"' -v a=${OS}_${ARCH}_ '$0~a{print $2;exit}')"
   return_codes=(${PIPESTATUS[*]})
   readonly DUPLICACY_PATH
   if [[ "${return_codes[0]}" -ne 0 ]]; then
