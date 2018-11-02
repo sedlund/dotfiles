@@ -320,4 +320,6 @@ alias tar='nice tar'
 alias xz='nice xz -T0'
 alias zstd='nice zstd -T0'
 
+alias make='nice make'
+
 # }}}
