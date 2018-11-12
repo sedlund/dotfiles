@@ -59,7 +59,7 @@ Plug 'vim-scripts/taglist.vim'
 "Plug 'ekalinin/Dockerfile.vim'
 Plug 'sheerun/vim-polyglot'
 Plug 'prettier/vim-prettier', { 'do': 'npm install' }
-
+Plug 'hashivim/vim-terraform'
 
 " Markdown / Writing
 Plug 'reedes/vim-pencil', { 'for': 'markdown' }
