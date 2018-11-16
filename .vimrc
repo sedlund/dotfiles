@@ -190,7 +190,6 @@ else
     set number
 endif
 
-let mapleader = ","
 
 if has("gui_running")
     " invisible characters
@@ -325,6 +324,10 @@ set guioptions-=m
 
 let g:airline_powerline_fonts=1
 let g:airline_solarized_bg='dark'
+" show buffers as a tabline
+let g:airline#extensions#tabline#enabled=1
+" only show the file name
+let g:airline#extensions#tabline#fnamemod = ':t'
 
 " Fix colours in sign column
 highlight clear SignColumn
@@ -352,7 +355,10 @@ au FileType markdown,tex,rst call No_Line_Breaks()
 " }}}
 " {{{ Key Mappings
 
+let mapleader = ","
+
 map <C-n> :NERDTreeToggle<CR>
+" does not work on mobaxterm
 map <C-m> :TagbarToggle<CR>
 
 nnoremap <C-Left> :tabprevious<CR>
@@ -360,11 +366,26 @@ nnoremap <C-Right> :tabnext<CR>
 nnoremap <silent> <A-Left> :execute 'silent! tabmove ' . (tabpagenr()-2)<CR>
 nnoremap <silent> <A-Right> :execute 'silent! tabmove ' . (tabpagenr()+1)<CR>
 
-" }}}
-" {{{ Aliases
-
 " Professor VIM says '87% of users prefer jj over esc', jj abrams strongly disagrees
 imap jj <Esc>
+
+" Buffers replicating non vim tabs
+" To open a new empty buffer
+" This replaces :tabnew which I used to bind to this mapping
+nmap <leader>T :enew<cr>
+
+" Move to the next buffer
+nmap <leader>l :bnext<CR>
+
+" Move to the previous buffer
+nmap <leader>h :bprevious<CR>
+
+" Close the current buffer and move to the previous one
+" This replicates the idea of closing a tab
+nmap <leader>bq :bp <BAR> bd #<CR>
+
+" Show all open buffers and their status
+nmap <leader>bl :ls<CR>
 
 " sudo save!
 cmap w!! %!sudo tee > /dev/null %
@@ -389,6 +410,5 @@ nnoremap ; :
 
 "Go to last edit location with ,.
 nnoremap ,. '.
-
 
 " }}}
