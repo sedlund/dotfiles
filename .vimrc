@@ -59,13 +59,13 @@ Plug 'vim-scripts/taglist.vim'
 "Plug 'ekalinin/Dockerfile.vim'
 Plug 'sheerun/vim-polyglot'
 Plug 'prettier/vim-prettier', { 'do': 'npm install' }
-Plug 'hashivim/vim-terraform'
 
 " Markdown / Writing
 Plug 'reedes/vim-pencil', { 'for': 'markdown' }
 Plug 'tpope/vim-markdown', { 'for': 'markdown' }
 Plug 'jtratner/vim-flavored-markdown', { 'for': 'markdown' }
 "Plug 'dpelle/vim-LanguageTool'
+Plug 'hashivim/vim-terraform', { 'branch': 'fixTfstate' }
 
 " Git Support
 Plug 'kablamo/vim-git-log'
@@ -315,6 +315,7 @@ vnoremap <tab> %
 " {{{ Themes and colors
 
 " set t_Co=256
+"set background=light
 set background=dark
 colorscheme solarized
 let g:solarized_termcolors=256
