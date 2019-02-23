@@ -46,6 +46,7 @@ Plug 'benmills/vimux' " VimuxRunCommand, VimuxRunLastCommand
 
 " Generic Programming Support
 "Plug 'jakedouglas/exuberant-ctags'
+Plug 'editorconfig/editorconfig-vim'
 Plug 'honza/vim-snippets'
 Plug 'Townk/vim-autoclose'
 "Plug 'tomtom/tcomment_vim'
@@ -332,7 +333,7 @@ set guioptions-=T
 set guioptions-=m
 
 let g:airline_powerline_fonts=1
-let g:airline_solarized_bg='dark'
+let g:airline_solarized_bg='light'
 " show buffers as a tabline
 let g:airline#extensions#tabline#enabled=1
 " only show the file name
