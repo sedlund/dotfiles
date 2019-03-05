@@ -28,6 +28,7 @@ err() {
 }
 
 update_check_file() {
+
   local next_check_time=$(( TIME + CHECK_INTERVAL ))
   if ! echo ${next_check_time} > "${UPDATE_CHECK_FILE}" ; then
     err "Could not update ${UPDATE_CHECK_FILE} with new check interval."
@@ -35,9 +36,11 @@ update_check_file() {
   else
     echo "Updated check file successfully."
   fi
+
 }
 
 download() {
+
   if ! UNAME_M="$(uname -m)" ; then
     err "Unable to exec uname -m"
     exit 1
@@ -74,6 +77,7 @@ download() {
     | awk -F '"' -v a=${OS}_${ARCH} '$0~a{print $2;exit}')"
   return_codes=( "${PIPESTATUS[*]}" )
   readonly DUPLICACY_PATH
+
   if [[ "${return_codes[0]}" -ne 0 ]]; then
     err "Error issuing wget on ${GITHUB_URL}/${LATEST_RELEASE}"
     exit 1
@@ -84,9 +88,11 @@ download() {
   fi
 
   echo "Downloading Duplicacy..."
+
   if [[ "${DEBUG}" ]]; then
     echo "wget -q --show-progress -O ${GOBIN} ${GITHUB_URL}/${DUPLICACY_PATH}"
   fi
+
   if ! wget -q --show-progress -O "${GOBIN}" \
     "${GITHUB_URL}/${DUPLICACY_PATH}" ; then
     err "Error downloading ${GITHUB_URL}/${DUPLICACY_PATH} to ${GOBIN}"
@@ -99,19 +105,33 @@ download() {
   fi
 
   update_check_file
+
 }
 
 check_for_update() {
+
   echo "Checking for updates..."
 
   local return_codes
+  local current_version
   current_version="v$( ${GOBIN} | grep -A1 VERSION | tail -1 \
     | awk '{print $1}' )"
-  local current_version
+  return_codes=( "${PIPESTATUS[*]}" )
+
+  if [[ "${return_codes[0]}" -ne 0 ]]; then
+    err "Error running ${GOBIN}"
+  fi
+  if [[ "${return_codes[1]}" -ne 0 ]]; then
+    err "Error running grep"
+  fi
+  if [[ "${return_codes[2]}" -ne 0 ]]; then
+    err "Error running awk"
+  fi
 
   latest_version=$(wget -qO- "${GITHUB_URL}/${LATEST_RELEASE}" \
     | awk -F "/" -v v=releases/download '$0~v{print $6;exit}')
-  return_codes=(${PIPESTATUS[*]})
+  return_codes=( "${PIPESTATUS[*]}" )
+
   if [[ "${return_codes[0]}" -ne 0 ]]; then
     err "Error running wget on ${GITHUB_URL}/${LATEST_RELEASE}"
   fi
@@ -126,10 +146,12 @@ check_for_update() {
     echo "Current version is latest..."
     update_check_file
   fi
+
 }
 
 # MAIN
 main() {
+
   if [[ ! -e "${GOBIN}" ]]; then
       download
   fi
@@ -150,6 +172,7 @@ changing the storage path."
   "${GOBIN}" "$@"
 
   exit 0
+
 }
 
 main "$@"
