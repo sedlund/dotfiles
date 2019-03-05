@@ -128,6 +128,7 @@ check_for_update() {
     err "Error running awk"
   fi
 
+  local latest_version
   latest_version=$(wget -qO- "${GITHUB_URL}/${LATEST_RELEASE}" \
     | awk -F "/" -v v=releases/download '$0~v{print $6;exit}')
   return_codes=( "${PIPESTATUS[*]}" )
