@@ -35,7 +35,7 @@ for x in *.ovpn; do
     echo 'pull-filter ignore "auth-token"' >> "${x}"
 done
 
-rmdir * 2>/dev/null
+rmdir ./* 2>/dev/null
 
 rm ../privateinternetaccess_ovpn.zip
 zip ../privateinternetaccess_ovpn.zip *
