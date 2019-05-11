@@ -77,7 +77,7 @@ get_sun_times () {
 }
 
 check_led_state () {
-    # turning off usb led, also turns off usb port
+    # turning off usb led also turns off usb port
     # the wlan led flashes with activity. not always on
     LED_STATE="$( find /sys/devices/platform/leds-gpio/leds ! -path '*usb*' ! -path '*wlan*' -name brightness -exec cat {} \; )"
     if echo "${LED_STATE}" grep 255 > /dev/null && ! echo "${LED_STATE}" | grep 0 > /dev/null; then
