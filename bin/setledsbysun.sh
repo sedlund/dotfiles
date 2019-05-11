@@ -2,11 +2,35 @@
 
 #set -x
 
-# This is meant to be run periodically.   Every 5 minutes for instance to check
+# setledsbysun v1
+
+# Copyright 2019 Scott Edlund
+#
+# Licensed under the Apache License, Version 2.0 (the "License");
+# you may not use this file except in compliance with the License.
+# You may obtain a copy of the License at
+#
+#     http://www.apache.org/licenses/LICENSE-2.0
+#
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
+
+# Usage:
+
+# This is meant to be run periodically.  Every 5 minutes for instance to check
 # the current state of the leds and set them according to the sun.  Checking
 # evey 5 minutes allows the device to be rebooted after sunset and the lights to
 # come on as a connection verification, before the script is ran to turn them
 # off again.
+
+# This will not refresh the cache file that stores the sunrise/set times.  I run
+# this on a router that gets rebooted often enough that it will refresh the cache
+# before the sun times change meaningfully for me.  If you need to refresh it,
+# make a cron entry that removes the cache file every week or so, this script
+# will then recache fresh data.
 
 readonly SUN_FILE="/tmp/suntimes.tmp"
 
@@ -128,7 +152,7 @@ set_led_state () {
     fi
 }
 
-###############################################################################
+###
 
 main () {
     check_requirements
@@ -137,6 +161,6 @@ main () {
     wlog
 }
 
-###############################################################################
+###
 
 main
