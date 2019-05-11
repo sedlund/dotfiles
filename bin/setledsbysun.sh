@@ -62,7 +62,7 @@ SUNSET_HOUR="${SUNSET_HOUR}"
 SUNSET_MIN="${SUNSET_MIN}"
 _EOF_
 
-echo "${SUN}" > /tmp/sun.tmp
+#    echo "${SUN}" > /tmp/sun.tmp
 }
 
 get_sun_times () {
