@@ -1,0 +1,26 @@
+#!/bin/sh
+
+# Use default interface incase we have a VPN running to get true location
+INTERFACE=$(ip route | grep default | awk '{print $5}')
+IP_INFO=$(curl --stderr /dev/null --interface ${INTERFACE} ipinfo.io)
+LOCATION=$(echo "${IP_INFO}" | grep loc | cut -d \" -f 4 | awk -F "," '{print "lat=" $1 "&lng=" $2}')
+
+# Returns are in UTC time
+SUN=$(curl --stderr /dev/null "https://api.sunrise-sunset.org/json?${LOCATION}&formatted=0") 
+
+SUNSET=$(echo "${SUN}" | cut -d \" -f 10)
+SUNSET_TIME=$(echo $SUNSET | cut -d T -f 2 | cut -d + -f 1 | cut -d : -f 1-2)
+SUNSET_HOUR=$(echo $SUNSET_TIME | cut -d : -f 1)
+SUNSET_MIN=$(echo $SUNSET_TIME | cut -d : -f 2)
+
+SUNRISE=$(echo "${SUN}" | cut -d \" -f 6)
+SUNRISE_TIME=$(echo $SUNRISE | cut -d T -f 2 | cut -d + -f 1 | cut -d : -f 1-2)
+SUNRISE_HOUR=$(echo $SUNRISE_TIME | cut -d : -f 1)
+SUNRISE_MIN=$(echo $SUNRISE_TIME | cut -d : -f 2)
+
+
+#echo ${SUN} | jq -r
+echo "Sunset: ${SUNSET}"
+echo "Sunrise: ${SUNRISE}"
+
+#curl "https://api.sunrise-sunset.org/json?$(curl ipinfo.io | jq -r .loc | awk -F "," '{print "lat=" $5 "&lng=" $2}')&formatted=0" | jq -r .results.sunset
