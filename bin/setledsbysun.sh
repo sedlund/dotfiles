@@ -4,6 +4,8 @@
 
 # setledsbysun v1
 
+###############################################################################
+
 # Copyright 2019 Scott Edlund
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
@@ -18,6 +20,8 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
+###############################################################################
+
 # Usage:
 
 # This is meant to be run periodically.  Every 5 minutes for instance to check
@@ -31,6 +35,17 @@
 # before the sun times change meaningfully for me.  If you need to refresh it,
 # make a cron entry that removes the cache file every week or so, this script
 # will then recache fresh data.
+
+# For every 5 minutes, put this file in /root/setledsbysun.sh and use
+# this cron line (without the beginning # symbol).
+
+# */5 * * * * /root/setledsbysun.sh
+
+# To remove the Sun data cache weekly add this entry
+
+# 34 4 * * 7 rm /tmp/suntimes.tmp
+
+###############################################################################
 
 readonly SUN_FILE="/tmp/suntimes.tmp"
 
@@ -59,11 +74,14 @@ get_sun_times_from_net () {
 
     # Use default interface incase we have a VPN running to get true location
     INTERFACE=$(ip route | grep default | awk '{print $5}')
-    IP_INFO=$(curl --stderr /dev/null --interface "${INTERFACE}" ipinfo.io) || elog "Could not check IP from network"
+    IP_INFO=$(curl --stderr /dev/null --interface "${INTERFACE}" ipinfo.io) \
+        || elog "Could not check IP from network"
     LOCATION=$(echo "${IP_INFO}" | grep loc | cut -d \" -f 4 | awk -F "," '{print "lat=" $1 "&lng=" $2}')
 
     # Returns are in UTC time
-    SUN=$(curl --stderr /dev/null --interface "${INTERFACE}"  "https://api.sunrise-sunset.org/json?${LOCATION}&formatted=0") || elog "Could not get Sun data from network"
+    SUN=$(curl --stderr /dev/null --interface "${INTERFACE}" \
+        "https://api.sunrise-sunset.org/json?${LOCATION}&formatted=0") \
+            || elog "Could not get Sun data from network"
 
     SUNRISE=$(echo "${SUN}" | cut -d \" -f 6)
     SUNRISE_TIME=$(echo "${SUNRISE}" | cut -d T -f 2 | cut -d + -f 1 | cut -d : -f 1-2)
@@ -144,7 +162,7 @@ set_led_state () {
     fi
 }
 
-###
+###############################################################################
 
 main () {
     check_requirements
@@ -153,6 +171,6 @@ main () {
     wlog
 }
 
-###
+###############################################################################
 
 main
