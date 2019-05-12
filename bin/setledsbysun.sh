@@ -61,7 +61,7 @@ wlog () {
 
 # log and exit on fatal errors
 elog () {
-    logger -s "$0: $1"
+    logger -s "$0: ERROR: $1"
     exit 1
 }
 
