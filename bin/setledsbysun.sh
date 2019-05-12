@@ -118,23 +118,6 @@ check_led_state () {
     readonly LEDS
 }
 
-leds_on () {
-    check_led_state
-    if [ "${LEDS}" != "on" ] || [ "${LEDS}" = "reset" ]; then
-        alog "Turning LEDs on"
-        find /sys/devices/platform/leds-gpio/leds ! -path '*usb*' -name brightness -exec sh -c 'i="$1"; echo 255 > "${i}"' _ {} \;
-        /etc/init.d/led start
-    fi
-}
-
-leds_off () {
-    check_led_state
-    if [ "${LEDS}" != "off" ] || [ "${LEDS}" = "reset" ]; then
-        alog "Turning LEDs off"
-        find /sys/devices/platform/leds-gpio/leds ! -path '*usb*' -name brightness -exec sh -c 'i="$1"; echo 0 > "${i}"' _ {} \;
-    fi
-}
-
 set_led_state () {
     CUR_HOUR="$(date -u +%H | sed s/^0//)" || elog "Cannot run date"
     CUR_MIN="$(date -u +%M | sed s/^0//)" || elog "Cannot run date "
@@ -143,12 +126,21 @@ set_led_state () {
     SUNRISE_MINS=$(( SUNRISE_HOUR * 60 + SUNRISE_MIN ))
     SUNSET_MINS=$(( SUNSET_HOUR * 60 + SUNSET_MIN ))
 
+    check_led_state
+
     if [ $CUR_MINS -ge $SUNRISE_MINS ] || [ $CUR_MINS -lt $SUNSET_MINS ]; then
         alog "Sun is up"
-        leds_on
+        if [ "${LEDS}" = "off" ] || [ "${LEDS}" = "reset" ]; then
+            alog "Turning LEDs on"
+            find /sys/devices/platform/leds-gpio/leds ! -path '*usb*' -name brightness -exec sh -c 'i="$1"; echo 255 > "${i}"' _ {} \;
+            /etc/init.d/led start
+        fi
     else
         alog "Sun has set"
-        leds_off
+        if [ "${LEDS}" = "on" ] || [ "${LEDS}" = "reset" ]; then
+            alog "Turning LEDs off"
+            find /sys/devices/platform/leds-gpio/leds ! -path '*usb*' -name brightness -exec sh -c 'i="$1"; echo 0 > "${i}"' _ {} \;
+        fi
     fi
 }
 
