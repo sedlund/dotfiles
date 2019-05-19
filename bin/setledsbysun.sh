@@ -150,14 +150,20 @@ set_led_state () {
         alog "Sun is up"
         if [ "${LEDS}" = "off" ] || [ "${LEDS}" = "reset" ]; then
             alog "Turning LEDs on"
-            find /sys/devices/platform/leds-gpio/leds ! -path '*usb*' -name brightness -exec sh -c 'i="$1"; echo 255 > "${i}"' _ {} \;
+            find /sys/devices/platform/leds-gpio/leds \
+                ! -path '*usb*' \
+                -name brightness \
+                -exec sh -c 'i="$1"; echo 255 > "${i}"' _ {} \;
             /etc/init.d/led start
         fi
     else
         alog "Sun has set"
         if [ "${LEDS}" = "on" ] || [ "${LEDS}" = "reset" ]; then
             alog "Turning LEDs off"
-            find /sys/devices/platform/leds-gpio/leds ! -path '*usb*' -name brightness -exec sh -c 'i="$1"; echo 0 > "${i}"' _ {} \;
+            find /sys/devices/platform/leds-gpio/leds \
+                ! -path '*usb*' \
+                -name brightness \
+                -exec sh -c 'i="$1"; echo 0 > "${i}"' _ {} \;
         fi
     fi
 }
@@ -173,4 +179,4 @@ main () {
 
 ###############################################################################
 
-ma
+main
