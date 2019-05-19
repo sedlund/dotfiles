@@ -107,13 +107,13 @@ _EOF_
 #    echo "${SUN}" > /tmp/sun.tmp
 }
 
-get_sun_times () {
+check_sun () {
     if [ -r "${SUN_FILE}" ]; then
-        alog "Using local sunset cache data"
+        alog "Using local Sun cache data"
         # shellcheck source=/dev/null
         . "${SUN_FILE}"
     else
-        alog "Local cache of sunset data NOT found"
+        alog "Local cache of Sun data NOT found"
         store_sun_times
     fi
 }
@@ -166,11 +166,11 @@ set_led_state () {
 
 main () {
     check_requirements
-    get_sun_times
+    check_sun
     set_led_state
     wlog
 }
 
 ###############################################################################
 
-main
+ma
