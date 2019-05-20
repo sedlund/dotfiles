@@ -6,7 +6,7 @@ IP_INFO=$(curl --stderr /dev/null --interface ${INTERFACE} ipinfo.io)
 LOCATION=$(echo "${IP_INFO}" | grep loc | cut -d \" -f 4 | awk -F "," '{print "lat=" $1 "&lng=" $2}')
 
 # Returns are in UTC time
-SUN=$(curl --stderr /dev/null "https://api.sunrise-sunset.org/json?${LOCATION}&formatted=0") 
+SUN=$(curl --stderr /dev/null "https://api.sunrise-sunset.org/json?${LOCATION}&formatted=0")
 
 SUNSET=$(echo "${SUN}" | cut -d \" -f 10)
 SUNSET_TIME=$(echo $SUNSET | cut -d T -f 2 | cut -d + -f 1 | cut -d : -f 1-2)
