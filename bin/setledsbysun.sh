@@ -146,7 +146,7 @@ set_led_state () {
 
     check_led_state
 
-    if [ $CUR_MINS -ge $SUNRISE_MINS ] || [ $CUR_MINS -lt $SUNSET_MINS ]; then
+    if [ $CUR_MINS -ge $SUNRISE_MINS ] && [ $CUR_MINS -lt $SUNSET_MINS ]; then
         alog "Sun is up"
         if [ "${LEDS}" = "off" ] || [ "${LEDS}" = "reset" ]; then
             alog "Turning LEDs on"
