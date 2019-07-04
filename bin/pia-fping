@@ -52,4 +52,8 @@ us-washingtondc.privateinternetaccess.com
 us-west.privateinternetaccess.com
 )
 
-fping -c 10 -q ${PIA_HOSTS[*]} 2>&1 | sort -k8n
+# Default
+fping -c 10 -q "${PIA_HOSTS[*]}" 2>&1 | sort -k8n
+
+# Retry = 0
+#fping -c 10 -r 1 -q "${PIA_HOSTS[*]}" 2>&1 | sort -k8n
