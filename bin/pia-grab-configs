@@ -1,0 +1,39 @@
+#!/bin/bash
+#vim: et
+
+# WORK IN PROGRESS... DOES NOT WORK
+
+PIA_URL[0]=https://www.privateinternetaccess.com/openvpn/openvpn.zip
+PIA_URL[1]=https://www.privateinternetaccess.com/openvpn/openvpn-ip.zip
+PIA_URL[2]=https://www.privateinternetaccess.com/openvpn/openvpn-tcp.zip
+
+TMPDIR=$(mktemp -d)
+
+cd "${TMPDIR}" || echo couldnt cd to "${TMPDIR}" && exit
+
+for url in ${PIA_URL[*]}; do
+    url="${PIA_ZIP_URL}${ext}"
+    zip=$(basename $url .zip)
+    rm "${zip}"
+    wget "{$url}"
+    unzip "${zip}" || echo unzip failed && exit
+    for x in *.ovpn; do
+        y=${x// /-}
+        y=${y,,}
+        mv "${x}" "$(basename udp-"${y}" .ovpn).conf"
+
+        # Fix problem with disconnection error: AUTH: Received control message: AUTH_FAILED
+        echo 'pull-filter ignore "auth-token"' >> "${x}"
+
+        # Find max mtu by adding mtu-tune to a config and use the lowest 'actual' number
+        echo 'mssfix 1445' >> "${x}"
+
+        mv "${x}" "$(basename udp-"${y}" .ovpn).conf"
+    done
+done
+
+perl -pi -e 's/auth-user-pass/auth-user-pass \/etc\/openvpn\/client\/pia-auth.txt/g' ./*.conf
+
+rm ../privateinternetaccess_ovpn.zip
+zip -9 ../privateinternetaccess_ovpn.zip ./*
+cd ..
