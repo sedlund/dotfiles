@@ -1,4 +1,14 @@
 #!/bin/bash
+#vim: et
+
+#PIAZIP=https://www.privateinternetaccess.com/openvpn/openvpn
+#
+#for x in \.zip \\-ip\.zip \\-tcp\.zip; do
+#    url="${PIAZIP}${x}"
+#    file=$(basename $url .zip)
+#    rm "${file}"
+#    wget $url
+#done
 
 rm openvpn.zip
 wget https://www.privateinternetaccess.com/openvpn/openvpn.zip
@@ -9,45 +19,52 @@ wget https://www.privateinternetaccess.com/openvpn/openvpn-tcp.zip
 
 mkdir udp ip tcp
 
-cd udp
+cd udp || exit
 unzip ../openvpn.zip
-for x in *.ovpn; do 
-	y=${x// /_}
-	y=${y,,}
-	mv "${x}" "udp_${y}"
+for x in *.ovpn; do
+    y=${x// /_}
+    y=${y,,}
+    mv "${x}" "udp_${y}"
 done
 cd ..
 
-cd ip
+cd ip || exit
 unzip ../openvpn-ip.zip
-for x in *.ovpn; do 
-	y=${x// /_}
-	y=${y,,}
-	mv "${x}" "ip_${y}"
+for x in *.ovpn; do
+    y=${x// /_}
+    y=${y,,}
+    mv "${x}" "ip_${y}"
 done
 cd ..
 
-cd tcp
+cd tcp || exit
 unzip ../openvpn-tcp.zip
-for x in *.ovpn; do 
-	y=${x// /_}
-	y=${y,,}
-	mv "${x}" "tcp_${y}"
+for x in *.ovpn; do
+    y=${x// /_}
+    y=${y,,}
+    mv "${x}" "tcp_${y}"
 done
 cd ..
 
 mkdir pia
-cd pia
-for x in udp ip tcp; do 
-	mv ../${x}/* .
-	rmdir ../${x}
+cd pia || exit
+for x in udp ip tcp; do
+    mv ../${x}/* .
+    rmdir ../${x}
 done
 
-# Fix problem with disconnection error: AUTH: Received control message: AUTH_FAILED
-#for x in *.ovpn; do
-#    echo 'pull-filter ignore "auth-token"' >> "${x}"
-#done
+for x in *.ovpn; do
+    # Fix problem with disconnection error: AUTH: Received control message: AUTH_FAILED
+    echo 'pull-filter ignore "auth-token"' >> "${x}"
+    # Find max mtu by adding mtu-tune to a config and use the lowest 'actual' number
+    echo 'mssfix 1445' >> "${x}"
+    echo 'ping-restart 10' >> "${x}"
+    mv "${x}" "$(basename "${x}" .ovpn)".conf
+done
+
+perl -pi -e 's/auth-user-pass/auth-user-pass \/etc\/openvpn\/client\/pia-auth.txt/g' ./*.conf
+
 
 rm ../privateinternetaccess_ovpn.zip
-zip -9 ../privateinternetaccess_ovpn.zip *
+zip -9 ../privateinternetaccess_ovpn.zip ./*
 cd ..
