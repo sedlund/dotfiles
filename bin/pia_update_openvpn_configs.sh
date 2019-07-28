@@ -58,7 +58,10 @@ for x in *.ovpn; do
     echo 'pull-filter ignore "auth-token"' >> "${x}"
     # Find max mtu by adding mtu-tune to a config and use the lowest 'actual' number
     echo 'mssfix 1445' >> "${x}"
-    echo 'ping-restart 10' >> "${x}"
+    # Make sure systemd unit file has Restart=always
+    echo 'ping-exit 10' >> "${x}"
+    # Common warning on wifi
+    echo 'mute-replay-warnings' >> "${x}"
     mv "${x}" "$(basename "${x}" .ovpn)".conf
 done
 
