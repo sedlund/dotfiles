@@ -59,6 +59,7 @@ for x in *.ovpn; do
     # Find max mtu by adding mtu-tune to a config and use the lowest 'actual' number
     echo 'mssfix 1445' >> "${x}"
     # Make sure systemd unit file has Restart=always
+    # ping-restart fails because tun0 isnt removed so the route for dns lookup of the vpn server will fail
     echo 'ping-exit 10' >> "${x}"
     # Common warning on wifi
     echo 'mute-replay-warnings' >> "${x}"
