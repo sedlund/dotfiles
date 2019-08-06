@@ -39,8 +39,8 @@ EOBUNDLES
 # Apply theme
 #
 # https://github.com/bhilburn/powerlevel9k
-#POWERLEVEL9K_MODE='fontawesome-fontconfig'
-POWERLEVEL9K_MODE='nerdfont-fontconfig'
+POWERLEVEL9K_MODE='fontawesome-fontconfig'
+#POWERLEVEL9K_MODE='nerdfont-fontconfig'
 #POWERLEVEL9K_MODE='compatible'
 
 if [[ "$TERM" = screen ]]; then
@@ -289,13 +289,14 @@ umask 007
 # }}}
 # {{{ Environment variables
 
-export PATH=~/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/sbin:./
+export PATH=~/bin:/usr/local/sbin:/usr/local/bin:/usr/local/dart-sdk/bin:/usr/sbin:/usr/bin:/sbin:/bin:/sbin:./
 export MANPATH="/usr/local/man:$MANPATH"
 export LANG=en_US.UTF-8
 export LC_COLLATE="C"                   # Makes ls sort dotfiles first
 export EDITOR="vim"
 export PAGER="less"
-#export TZ=GMT+8
+export TERMINAL="gnome-terminal"
+#export TZ=UTC+2
 export DEFAULT_USER="${USER}"           # used for powerlevel9k zsh theme
 
 # }}}
