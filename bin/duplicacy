@@ -158,7 +158,7 @@ main() {
   fi
 
   if [[ -e "${UPDATE_CHECK_FILE}" ]]; then
-    file_check_time="$(<$"{UPDATE_CHECK_FILE}")"
+    file_check_time="$(<${UPDATE_CHECK_FILE})"
     local file_check_time
 
     if [[ "${TIME}" -gt "${file_check_time}" ]]; then
