@@ -290,6 +290,7 @@ umask 007
 # {{{ Environment variables
 
 export PATH=~/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/sbin:./
+path+=/usr/local/go/bin
 path+=~/src/flutter/bin
 path+=~/.pub-cache/bin
 eval $(/home/linuxbrew/.linuxbrew/bin/brew shellenv)
