@@ -251,22 +251,24 @@ esac
 
 GRC=`which grc` 2>/dev/null
 if [[ "$TERM" != dumb ]] && [[ -x ${GRC} ]]; then
-    alias colourify="$GRC -es --colour=auto"
-    alias configure='colourify ./configure'
-    alias diff='colourify diff'
-    alias make='colourify make'
-    alias gcc='colourify gcc'
-    alias g++='colourify g++'
-    alias as='colourify as'
-    alias gas='colourify gas'
-    alias ld='colourify ld'
-    alias ps='colourify ps'
-    alias netstat='colourify netstat'
-    alias ping='colourify ping'
-    alias traceroute='colourify /usr/sbin/traceroute'
-
     # Newer (1.11) version of grc package have these nice configs to use
-    if [[ -f /etc/grc.zsh ]]; then source /etc/grc.zsh; fi
+    if [[ -f /etc/grc.zsh ]]; then
+        source /etc/grc.zsh
+    else
+        alias colourify="$GRC -es --colour=auto"
+        alias configure='colourify ./configure'
+        alias diff='colourify diff'
+        alias make='colourify make'
+        alias gcc='colourify gcc'
+        alias g++='colourify g++'
+        alias as='colourify as'
+        alias gas='colourify gas'
+        alias ld='colourify ld'
+        alias ps="colourify ps"
+        alias netstat='colourify netstat'
+        alias ping='colourify ping'
+        alias traceroute='colourify /usr/sbin/traceroute'
+    fi
 fi
 
 # }}}
