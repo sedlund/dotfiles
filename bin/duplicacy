@@ -3,7 +3,7 @@
 # Wraps duplicacy backup with auto downloading and updating functionality
 #
 # Scott Edlund <sedlund@protonmail.com>
-# v0.5
+# v0.6
 
 # Uncomment for debugging
 #DEBUG=1
@@ -158,8 +158,8 @@ main() {
   fi
 
   if [[ -e "${UPDATE_CHECK_FILE}" ]]; then
-    file_check_time="$(<${UPDATE_CHECK_FILE})"
-    local file_check_time
+    file_check_time=$(<"${UPDATE_CHECK_FILE}")
+    readonly file_check_time
 
     if [[ "${TIME}" -gt "${file_check_time}" ]]; then
       check_for_update

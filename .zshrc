@@ -290,9 +290,9 @@ umask 007
 # {{{ Environment variables
 
 export PATH=~/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/sbin:./
-path+=/usr/local/go/bin
 path+=~/src/flutter/bin
 path+=~/.pub-cache/bin
+path+=~/go/bin
 eval $(/home/linuxbrew/.linuxbrew/bin/brew shellenv)
 export MANPATH="/usr/local/man:$MANPATH"
 export LANG=en_US.UTF-8
@@ -304,6 +304,8 @@ export TERMINAL="gnome-terminal"
 export DEFAULT_USER="${USER}"           # used for powerlevel9k zsh theme
 # https://upload.wikimedia.org/wikipedia/commons/1/15/Xterm_256color_chart.svg
 export ZSH_AUTOSUGGEST_HIGHLIGHT_STYLE="fg=244"     # When using a solarized termcolors the default of 8 is mapped to a unreadable color, 244 is analgous to 8 in a 256 color term
+export GOROOT=/home/linuxbrew/.linuxbrew/Cellar/go/1.14/libexec/
+export GOPATH=~/go
 
 # }}}
 # {{{ Aliases
