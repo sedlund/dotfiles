@@ -324,8 +324,8 @@ vnoremap <tab> %
 " {{{ Themes and colors
 
 " set t_Co=256
-set background=light
-"set background=dark
+"set background=light
+set background=dark
 colorscheme solarized
 let g:solarized_termcolors=256
 syntax on

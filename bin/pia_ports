@@ -1,6 +1,7 @@
 # find ports that are routed directly
 
+target=51.15.68.140
 
-seq 0 65535 | xargs -n1 -P20 -I'{}' sudo hping3 -S -c 1 -w 10 -p '{}' sin1.teraton.com 2>/dev/null | grep rtt | tee -a pia_portscan
+seq 0 65535 | xargs -n1 -P20 -I'{}' sudo hping3 -S -c 1 -w 10 -p '{}' $target 2>/dev/null | grep rtt | tee -a pia_portscan
 
 egrep 'rtt=[0-9]{2}\.' pia_portscan | sort -t= -k6 -n

@@ -31,9 +31,10 @@ antigen bundles << EOBUNDLES
     systemctl
     tmux
     Tarrasch/zsh-autoenv
+    zdharma/fast-syntax-highlighting
     zsh-users/zsh-autosuggestions
     zsh-users/zsh-history-substring-search
-    zsh-users/zsh-syntax-highlighting
+    #zsh-users/zsh-syntax-highlighting
 EOBUNDLES
 
 # Apply theme
@@ -289,18 +290,19 @@ umask 007
 # }}}
 # {{{ Environment variables
 
-export PATH=~/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/sbin:./
+path+=:./
 path+=~/src/flutter/bin
 path+=~/.pub-cache/bin
+path+=/usr/lib/dart/bin
 path+=~/go/bin
-eval $(/home/linuxbrew/.linuxbrew/bin/brew shellenv)
-export MANPATH="/usr/local/man:$MANPATH"
+
+manpath+=/usr/local/man
+
 export LANG=en_US.UTF-8
 export LC_COLLATE="C"                   # Makes ls sort dotfiles first
 export EDITOR="vim"
 export PAGER="less"
 export TERMINAL="gnome-terminal"
-#export TZ=UTC+2
 export DEFAULT_USER="${USER}"           # used for powerlevel9k zsh theme
 # https://upload.wikimedia.org/wikipedia/commons/1/15/Xterm_256color_chart.svg
 export ZSH_AUTOSUGGEST_HIGHLIGHT_STYLE="fg=244"     # When using a solarized termcolors the default of 8 is mapped to a unreadable color, 244 is analgous to 8 in a 256 color term
