@@ -11,7 +11,6 @@ ADOTDIR=~/.zsh/.antigen
 source ~/.zsh/antigen/antigen.zsh
 
 # Load oh-my-zsh - many plugins/themes require its core library
-ZSH=~/.zsh/.oh-my-zsh
 antigen use oh-my-zsh
 
 # Bundles to use
@@ -34,8 +33,10 @@ antigen bundles << EOBUNDLES
     zdharma/fast-syntax-highlighting
     zsh-users/zsh-autosuggestions
     zsh-users/zsh-history-substring-search
-    #zsh-users/zsh-syntax-highlighting
+    zsh-users/zsh-syntax-highlighting
 EOBUNDLES
+
+zstyle :omz:plugins:ssh-agent agent-forwarding on
 
 # Apply theme
 #
@@ -188,37 +189,11 @@ if [ -f "/etc/bash_completion.d/virtualenvwrapper" ]; then
 fi
 
 # }}}
-# {{{ SSH agent function
-
-SSH_ENV="$HOME/.ssh/environment"
-
-function start_agent {
-    echo -n "Initializing new SSH agent... "
-    /usr/bin/ssh-agent | sed 's/^echo/#echo/' > "${SSH_ENV}"
-    echo succeeded
-    chmod 600 "${SSH_ENV}"
-    . "${SSH_ENV}" > /dev/null
-    /usr/bin/ssh-add;
-}
-
-# }}}
 # {{{ Host specific settings
 
 case `hostname -s` in
 
     'yul1')
-        alias ls="ls -F --color"
-        # Source SSH settings, if applicable
-        if [ -f "${SSH_ENV}" ]; then
-            . "${SSH_ENV}" > /dev/null
-            #ps ${SSH_AGENT_PID} doesn't work under cywgin
-            ps -ef | grep ${SSH_AGENT_PID} | grep ssh-agent$ > /dev/null || {
-            start_agent;
-        }
-        else
-            start_agent;
-        fi
-
         . ~/bin/z.sh
 
         function precmd () {
@@ -227,18 +202,6 @@ case `hostname -s` in
     ;;
 
     'flip')
-        alias ls="ls -F --color"
-        # Source SSH settings, if applicable
-        if [ -f "${SSH_ENV}" ]; then
-            . "${SSH_ENV}" > /dev/null
-            #ps ${SSH_AGENT_PID} doesn't work under cywgin
-            ps -ef | grep ${SSH_AGENT_PID} | grep ssh-agent$ > /dev/null || {
-            start_agent;
-        }
-        else
-            start_agent;
-        fi
-
         . ~/bin/z.sh
 
         function precmd () {
