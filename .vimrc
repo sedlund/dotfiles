@@ -28,7 +28,7 @@ call plug#begin('~/.vim/plugged')
 " Utility
 Plug 'scrooloose/nerdtree', { 'on':  'NERDTreeToggle' }
 Plug 'majutsushi/tagbar'
-Plug 'Valloric/YouCompleteMe', { 'do': 'nice python3 install.py' }
+"Plug 'Valloric/YouCompleteMe', { 'do': 'nice python3 install.py' }
 "Plug 'ervandew/supertab'
 "Plug 'BufOnly.vim'
 Plug 'terryma/vim-multiple-cursors'

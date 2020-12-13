@@ -45,9 +45,9 @@ POWERLEVEL9K_MODE='fontawesome-fontconfig'
 #POWERLEVEL9K_MODE='nerdfont-fontconfig'
 #POWERLEVEL9K_MODE='compatible'
 
-if [[ "$TERM" = screen ]]; then
+if [ "$TERM" = screen ]; then
     export TERM=screen-256color
-elif [[ "$TERM" = xterm || "$TERM" = linux ]]; then
+elif [ "$TERM" = xterm ] || [ "$TERM" = linux ]; then
     export TERM=xterm-256color
 fi
 
@@ -215,9 +215,9 @@ esac
 
 GRC=$(which grc) 2>/dev/null
 # Newer (1.11) version of grc package have these nice configs to use
-if [[ -f /etc/grc.zsh ]]; then
+if [ -f /etc/grc.zsh ]; then
     source /etc/grc.zsh
-elif [[ "$TERM" != dumb ]] && [[ -x ${GRC} ]]; then
+elif [ "$TERM" != dumb ] && [ -x ${GRC} ]; then
     alias colourify="$GRC -es --colour=auto"
     alias configure='colourify ./configure'
     alias diff='colourify diff'
@@ -277,7 +277,10 @@ export GOPATH=~/go
 
 alias more="less"
 
-alias ls='ls --color=auto --group-directories-first --classify'
+which lsd > /dev/null \
+    && alias ls='lsd --group-dirs first --classify' \
+    || alias ls='ls --color=auto --group-directories-first --classify'
+
 alias l='ls'
 alias ll='ls -l'
 alias llh='ls -lh'
