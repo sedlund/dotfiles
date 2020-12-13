@@ -2,15 +2,18 @@
 
 # Antigen: https://github.com/zsh-users/antigen
 
+test ! -d ~/.antigen \
+    && git clone --branch master https://github.com/zsh-users/antigen.git ~/.antigen
+
 # ADOTDIR — This directory is used to store all the repo clones, your bundles,
 # themes, caches and everything else Antigen requires to run smoothly. Defaults
 # to $HOME/.antigen
-ADOTDIR=~/.zsh/.antigen
+#ADOTDIR=~/.zsh/.antigen
 
 # Load
-source ~/.zsh/antigen/antigen.zsh
+source ~/.antigen/antigen.zsh
 
-# Load oh-my-zsh - many plugins/themes require its core library
+# Load ohmyzsh - many plugins/themes require its core library
 antigen use oh-my-zsh
 
 # Bundles to use
@@ -36,13 +39,14 @@ antigen bundles << EOBUNDLES
     zsh-users/zsh-syntax-highlighting
 EOBUNDLES
 
-zstyle :omz:plugins:ssh-agent agent-forwarding on
+# plugin specific options to load before antigen apply
+test ! -r ~/.ssh/id_rsa && zstyle :omz:plugins:ssh-agent agent-forwarding on
 
 # Apply theme
 #
 # https://github.com/bhilburn/powerlevel9k
-POWERLEVEL9K_MODE='fontawesome-fontconfig'
-#POWERLEVEL9K_MODE='nerdfont-fontconfig'
+#POWERLEVEL9K_MODE='fontawesome-fontconfig'
+POWERLEVEL9K_MODE='nerdfont-fontconfig'
 #POWERLEVEL9K_MODE='compatible'
 
 if [ "$TERM" = screen ]; then
@@ -269,8 +273,7 @@ export TERMINAL="gnome-terminal"
 export DEFAULT_USER="${USER}"           # used for powerlevel9k zsh theme
 # https://upload.wikimedia.org/wikipedia/commons/1/15/Xterm_256color_chart.svg
 export ZSH_AUTOSUGGEST_HIGHLIGHT_STYLE="fg=244"     # When using a solarized termcolors the default of 8 is mapped to a unreadable color, 244 is analgous to 8 in a 256 color term
-export GOROOT=/home/linuxbrew/.linuxbrew/Cellar/go/1.14/libexec/
-export GOPATH=~/go
+test -d ~/go && export GOPATH=~/go
 
 # }}}
 # {{{ Aliases
