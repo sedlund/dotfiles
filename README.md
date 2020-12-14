@@ -1,12 +1,20 @@
-dotfiles
-========
+# dotfiles
 
-    $ cd; git clone https://github.com/sedlund/dotfiles .
+## Step 1
 
-Or if you have a current homedir
+    $ cd; git clone <https://github.com/sedlund/dotfiles> .
 
-    $ cd; git clone https://github.com/sedlund/dotfiles.git tmp && mv tmp/.git . && rm -rf tmp && git reset --hard
+Or, if you have a current home directory:
 
-After the above pull submodules
+```shell
+$ cd; git clone <https://github.com/sedlund/dotfiles.git> tmp && \\
+  mv tmp/.git . && \\
+  rm -rf tmp && \\
+  git reset --hard
+```
+
+## Step 2
+
+This project uses git submodules, so pull them separately:
 
     $ git submodule update --recursive --init

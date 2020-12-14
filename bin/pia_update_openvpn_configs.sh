@@ -1,6 +1,15 @@
 #!/bin/bash
+#vim: et
 
-cd ~/Downloads
+#PIAZIP=https://www.privateinternetaccess.com/openvpn/openvpn
+#
+#for x in \.zip \\-ip\.zip \\-tcp\.zip; do
+#    url="${PIAZIP}${x}"
+#    file=$(basename $url .zip)
+#    rm "${file}"
+#    wget $url
+#done
+
 rm openvpn.zip
 wget https://www.privateinternetaccess.com/openvpn/openvpn.zip
 rm openvpn-ip.zip
@@ -8,36 +17,58 @@ wget https://www.privateinternetaccess.com/openvpn/openvpn-ip.zip
 rm openvpn-tcp.zip
 wget https://www.privateinternetaccess.com/openvpn/openvpn-tcp.zip
 
-mkdir pia
-cd ~/Downloads/pia
-
 mkdir udp ip tcp
 
-cd udp
-unzip ~/Downloads/openvpn.zip
-for x in *.ovpn; do mv "${x}" "UDP - ${x}"; done
-cd ~/Downloads/pia
-
-cd ip
-unzip ~/Downloads/openvpn-ip.zip
-for x in *.ovpn; do mv "${x}" "IP - ${x}"; done
-cd ~/Downloads/pia
-
-cd tcp
-unzip ~/Downloads/openvpn-tcp.zip
-for x in *.ovpn; do mv "${x}" "TCP - ${x}"; done
-cd ~/Downloads/pia
-
-for x in udp ip tcp; do mv ${x}/* .; done
-
-# Fix problem with disconnection error: AUTH: Received control message: AUTH_FAILED
+cd udp || exit
+unzip ../openvpn.zip
 for x in *.ovpn; do
-    echo 'pull-filter ignore "auth-token"' >> "${x}"
+    y=${x// /_}
+    y=${y,,}
+    mv "${x}" "udp_${y}"
+done
+cd ..
+
+cd ip || exit
+unzip ../openvpn-ip.zip
+for x in *.ovpn; do
+    y=${x// /_}
+    y=${y,,}
+    mv "${x}" "ip_${y}"
+done
+cd ..
+
+cd tcp || exit
+unzip ../openvpn-tcp.zip
+for x in *.ovpn; do
+    y=${x// /_}
+    y=${y,,}
+    mv "${x}" "tcp_${y}"
+done
+cd ..
+
+mkdir pia
+cd pia || exit
+for x in udp ip tcp; do
+    mv ../${x}/* .
+    rmdir ../${x}
 done
 
-rmdir * 2>/dev/null
+for x in *.ovpn; do
+    # Fix problem with disconnection error: AUTH: Received control message: AUTH_FAILED
+    echo 'pull-filter ignore "auth-token"' >> "${x}"
+    # Find max mtu by adding mtu-tune to a config and use the lowest 'actual' number
+    echo 'mssfix 1445' >> "${x}"
+    # Make sure systemd unit file has Restart=always
+    # ping-restart fails because tun0 isnt removed so the route for dns lookup of the vpn server will fail
+    echo 'ping-exit 10' >> "${x}"
+    # Common warning on wifi
+    echo 'mute-replay-warnings' >> "${x}"
+    mv "${x}" "$(basename "${x}" .ovpn)".conf
+done
+
+perl -pi -e 's/auth-user-pass/auth-user-pass \/etc\/openvpn\/client\/pia-auth.txt/g' ./*.conf
+
 
 rm ../privateinternetaccess_ovpn.zip
-zip ../privateinternetaccess_ovpn.zip *
-cd ~/Downloads
-rm -rf pia
+zip -9 ../privateinternetaccess_ovpn.zip ./*
+cd ..

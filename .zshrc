@@ -2,16 +2,18 @@
 
 # Antigen: https://github.com/zsh-users/antigen
 
+test ! -d ~/.antigen \
+    && git clone --branch master https://github.com/zsh-users/antigen.git ~/.antigen
+
 # ADOTDIR — This directory is used to store all the repo clones, your bundles,
 # themes, caches and everything else Antigen requires to run smoothly. Defaults
 # to $HOME/.antigen
-ADOTDIR=~/.zsh/.antigen
+#ADOTDIR=~/.zsh/.antigen
 
 # Load
-source ~/.zsh/antigen/antigen.zsh
+source ~/.antigen/antigen.zsh
 
-# Load oh-my-zsh - many plugins/themes require its core library
-ZSH=~/.zsh/.oh-my-zsh
+# Load ohmyzsh - many plugins/themes require its core library
 antigen use oh-my-zsh
 
 # Bundles to use
@@ -31,23 +33,29 @@ antigen bundles << EOBUNDLES
     systemctl
     tmux
     Tarrasch/zsh-autoenv
+    zdharma/fast-syntax-highlighting
     zsh-users/zsh-autosuggestions
     zsh-users/zsh-history-substring-search
     zsh-users/zsh-syntax-highlighting
 EOBUNDLES
 
+# plugin specific options to load before antigen apply
+test ! -r ~/.ssh/id_rsa && zstyle :omz:plugins:ssh-agent agent-forwarding on
+
 # Apply theme
-#antigen theme bureau
 #
 # https://github.com/bhilburn/powerlevel9k
-#POWERLEVEL9K_MODE='nerdfont-complete'
+#POWERLEVEL9K_MODE='fontawesome-fontconfig'
+POWERLEVEL9K_MODE='nerdfont-fontconfig'
+#POWERLEVEL9K_MODE='compatible'
 
-if [[ "$TERM" = screen ]]; then
+if [ "$TERM" = screen ]; then
     export TERM=screen-256color
-elif [[ "$TERM" = xterm ]]; then
+elif [ "$TERM" = xterm ] || [ "$TERM" = linux ]; then
     export TERM=xterm-256color
 fi
 
+#antigen theme bureau
 antigen theme bhilburn/powerlevel9k
 POWERLEVEL9K_LEFT_PROMPT_ELEMENTS=( dir dir_writable vcs ip disk_usage load newline context )
 POWERLEVEL9K_RIGHT_PROMPT_ELEMENTS=( status command_execution_time root_indicator background_jobs history time )
@@ -103,10 +111,10 @@ POWERLEVEL9K_STATUS_ERROR_BACKGROUND=${POWERLEVEL9K_BACKGROUND_ERROR}
 
 POWERLEVEL9K_VCS_CLEAN_FOREGROUND=${POWERLEVEL9K_FOREGROUND_OK}
 POWERLEVEL9K_VCS_CLEAN_BACKGROUND=${POWERLEVEL9K_BACKGROUND_OK}
-POWERLEVEL9K_VCS_MODIFIED_FOREGROUND=${POWERLEVEL9K_FOREGROUND_WARN}
-POWERLEVEL9K_VCS_MODIFIED_BACKGROUND=${POWERLEVEL9K_BACKGROUND_WARN}
-POWERLEVEL9K_VCS_UNTRACKED_FOREGROUND=${POWERLEVEL9K_FOREGROUND_ERROR}
-POWERLEVEL9K_VCS_UNTRACKED_BACKGROUND=${POWERLEVEL9K_BACKGROUND_ERROR}
+POWERLEVEL9K_VCS_UNTRACKED_FOREGROUND=${POWERLEVEL9K_FOREGROUND_WARN}
+POWERLEVEL9K_VCS_UNTRACKED_BACKGROUND=${POWERLEVEL9K_BACKGROUND_WARN}
+POWERLEVEL9K_VCS_MODIFIED_FOREGROUND=${POWERLEVEL9K_FOREGROUND_ERROR}
+POWERLEVEL9K_VCS_MODIFIED_BACKGROUND=${POWERLEVEL9K_BACKGROUND_ERROR}
 
 POWERLEVEL9K_HISTORY_FOREGROUND=${POWERLEVEL9K_FOREGROUND_OK}
 POWERLEVEL9K_HISTORY_BACKGROUND=${POWERLEVEL9K_BACKGROUND_OK}
@@ -130,6 +138,9 @@ POWERLEVEL9K_DISK_USAGE_WARNING_BACKGROUND=${POWERLEVEL9K_BACKGROUND_WARN}
 POWERLEVEL9K_DISK_USAGE_CRITICAL_FOREGROUND=${POWERLEVEL9K_FOREGROUND_ERROR}
 POWERLEVEL9K_DISK_USAGE_CRITICAL_BACKGROUND=${POWERLEVEL9K_BACKGROUND_ERROR}
 
+POWERLEVEL9K_BACKGROUND_JOBS_FOREGROUND=${POWERLEVEL9K_FOREGROUND_OK}
+POWERLEVEL9K_BACKGROUND_JOBS_BACKGROUND=${POWERLEVEL9K_BACKGROUND_OK}
+
 POWERLEVEL9K_DIR_PATH_HIGHLIGHT_FOREGROUND=${POWERLEVEL9K_FOREGROUND_ERROR}
 
 # }}}
@@ -140,7 +151,7 @@ antigen apply
 # }}}
 # {{{ Key bindings
 
-# {{{ for history-substring-search plugin
+# {{{ ZSH history-substring-search plugin
 
 # bind UP and DOWN arrow keys
 zmodload zsh/terminfo
@@ -182,37 +193,11 @@ if [ -f "/etc/bash_completion.d/virtualenvwrapper" ]; then
 fi
 
 # }}}
-# {{{ SSH agent function
-
-SSH_ENV="$HOME/.ssh/environment"
-
-function start_agent {
-    echo -n "Initializing new SSH agent... "
-    /usr/bin/ssh-agent | sed 's/^echo/#echo/' > "${SSH_ENV}"
-    echo succeeded
-    chmod 600 "${SSH_ENV}"
-    . "${SSH_ENV}" > /dev/null
-    /usr/bin/ssh-add;
-}
-
-# }}}
 # {{{ Host specific settings
 
 case `hostname -s` in
 
     'yul1')
-        alias ls="ls -F --color"
-        # Source SSH settings, if applicable
-        if [ -f "${SSH_ENV}" ]; then
-            . "${SSH_ENV}" > /dev/null
-            #ps ${SSH_AGENT_PID} doesn't work under cywgin
-            ps -ef | grep ${SSH_AGENT_PID} | grep ssh-agent$ > /dev/null || {
-            start_agent;
-        }
-        else
-            start_agent;
-        fi
-
         . ~/bin/z.sh
 
         function precmd () {
@@ -221,18 +206,6 @@ case `hostname -s` in
     ;;
 
     'flip')
-        alias ls="ls -F --color"
-        # Source SSH settings, if applicable
-        if [ -f "${SSH_ENV}" ]; then
-            . "${SSH_ENV}" > /dev/null
-            #ps ${SSH_AGENT_PID} doesn't work under cywgin
-            ps -ef | grep ${SSH_AGENT_PID} | grep ssh-agent$ > /dev/null || {
-            start_agent;
-        }
-        else
-            start_agent;
-        fi
-
         . ~/bin/z.sh
 
         function precmd () {
@@ -244,8 +217,11 @@ esac
 # }}}
 # {{{ GRC: Generic colorizer
 
-GRC=`which grc` 2>/dev/null
-if [[ "$TERM" != dumb ]] && [[ -x ${GRC} ]]; then
+GRC=$(which grc) 2>/dev/null
+# Newer (1.11) version of grc package have these nice configs to use
+if [ -f /etc/grc.zsh ]; then
+    source /etc/grc.zsh
+elif [ "$TERM" != dumb ] && [ -x ${GRC} ]; then
     alias colourify="$GRC -es --colour=auto"
     alias configure='colourify ./configure'
     alias diff='colourify diff'
@@ -255,13 +231,10 @@ if [[ "$TERM" != dumb ]] && [[ -x ${GRC} ]]; then
     alias as='colourify as'
     alias gas='colourify gas'
     alias ld='colourify ld'
-    alias ps='colourify ps'
+    alias ps="colourify ps"
     alias netstat='colourify netstat'
     alias ping='colourify ping'
     alias traceroute='colourify /usr/sbin/traceroute'
-
-    # Newer (1.11) version of grc package have these nice configs to use
-    if [[ -f /etc/grc.zsh ]]; then source /etc/grc.zsh; fi
 fi
 
 # }}}
@@ -284,29 +257,49 @@ umask 007
 # }}}
 # {{{ Environment variables
 
-export PATH=~/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/sbin:./
-export MANPATH="/usr/local/man:$MANPATH"
+path+=:./
+path+=~/src/flutter/bin
+path+=~/.pub-cache/bin
+path+=/usr/lib/dart/bin
+path+=~/go/bin
+
+manpath+=/usr/local/man
+
 export LANG=en_US.UTF-8
 export LC_COLLATE="C"                   # Makes ls sort dotfiles first
 export EDITOR="vim"
 export PAGER="less"
-#export TZ=Singapore
+export TERMINAL="gnome-terminal"
 export DEFAULT_USER="${USER}"           # used for powerlevel9k zsh theme
+# https://upload.wikimedia.org/wikipedia/commons/1/15/Xterm_256color_chart.svg
+export ZSH_AUTOSUGGEST_HIGHLIGHT_STYLE="fg=244"     # When using a solarized termcolors the default of 8 is mapped to a unreadable color, 244 is analgous to 8 in a 256 color term
+test -d ~/go && export GOPATH=~/go
 
 # }}}
 # {{{ Aliases
 
 alias more="less"
 
-alias ls='ls --color=auto --group-directories-first --classify'
+which lsd > /dev/null \
+    && alias ls='lsd --group-dirs first --classify' \
+    || alias ls='ls --color=auto --group-directories-first --classify'
+
 alias l='ls'
 alias ll='ls -l'
+alias llh='ls -lh'
 alias la='ls -A'
-alias lla='ls -lA'
+alias lla='ls -la'
 
 # Ansible
 alias ave='ansible-vault edit'
 alias avv='ansible-vault view'
 alias avc='ansible-vault encrypt'
 
+alias gzip='nice gzip'
+alias tar='nice tar'
+alias xz='nice xz -T0'
+alias zstd='nice zstd -T0'
+
+alias make='nice make'
+which batcat > /dev/null && alias bat='batcat'
 # }}}

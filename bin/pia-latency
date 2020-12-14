@@ -1,0 +1,2 @@
+#!/bin/sh
+grep "remote " /etc/openvpn/client/*.conf | awk '{print $2}' | sort | uniq | xargs fping -q -c10
