@@ -265,7 +265,8 @@ path+=:./
 path+=~/src/flutter/bin
 path+=~/.pub-cache/bin
 path+=/usr/lib/dart/bin
-path+=~/go/bin
+test -d ~/go && export GOPATH=~/go && path+=~/go/bin
+test -d /usr/local/go/bin && path+=/usr/local/go/bin
 
 manpath+=/usr/local/man
 
@@ -277,7 +278,6 @@ export TERMINAL="gnome-terminal"
 export DEFAULT_USER="${USER}"           # used for powerlevel9k zsh theme
 # https://upload.wikimedia.org/wikipedia/commons/1/15/Xterm_256color_chart.svg
 export ZSH_AUTOSUGGEST_HIGHLIGHT_STYLE="fg=244"     # When using a solarized termcolors the default of 8 is mapped to a unreadable color, 244 is analgous to 8 in a 256 color term
-test -d ~/go && export GOPATH=~/go
 
 # }}}
 # {{{ Aliases
@@ -322,3 +322,7 @@ cosa() {
 }
 
 # }}}
+
+#THIS MUST BE AT THE END OF THE FILE FOR SDKMAN TO WORK!!!
+test -d ~/.sdkman && export SDKMAN_DIR="/home/pi/.sdkman"
+[[ -s "/home/pi/.sdkman/bin/sdkman-init.sh" ]] && source "/home/pi/.sdkman/bin/sdkman-init.sh"
