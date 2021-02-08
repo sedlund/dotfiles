@@ -287,7 +287,7 @@ export ZSH_AUTOSUGGEST_HIGHLIGHT_STYLE="fg=244"     # When using a solarized ter
 # }}}
 # {{{ Aliases
 
-alias more="less"
+which less > /dev/null && alias more="less"
 
 which lsd > /dev/null \
     && alias ls='lsd --group-dirs first --classify' \
@@ -300,16 +300,21 @@ alias la='ls -A'
 alias lla='ls -la'
 
 # Ansible
-alias ave='ansible-vault edit'
-alias avv='ansible-vault view'
-alias avc='ansible-vault encrypt'
+which ansible-vault > /dev/null \
+    && alias ave='ansible-vault edit' \
+    && alias avv='ansible-vault view' \
+    && alias avc='ansible-vault encrypt'
 
 alias gzip='nice gzip'
 alias tar='nice tar'
-alias xz='nice xz -T0'
-alias zstd='nice zstd -T0'
+which xz > /dev/null && alias xz='nice xz -T0'
+which zstd > /dev/null && alias zstd='nice zstd -T0'
 
-alias make='nice make'
+which make > /dev/null && alias make='nice make'
+
+which systemctl > /dev/null && alias s='systemctl'
+which journalctl > /dev/null && alias j='journalctl'
+
 which batcat > /dev/null && alias bat='batcat'
 
 cosa() {
@@ -326,8 +331,8 @@ cosa() {
    rc=$?; set +x; return $rc
 }
 
-# }}}
+# THIS MUST BE AT THE END OF THE FILE FOR SDKMAN TO WORK!!!
+test -d ~/.sdkman && export SDKMAN_DIR="~/.sdkman"
+[[ -s "~/.sdkman/bin/sdkman-init.sh" ]] && source "~/.sdkman/bin/sdkman-init.sh"
 
-#THIS MUST BE AT THE END OF THE FILE FOR SDKMAN TO WORK!!!
-test -d ~/.sdkman && export SDKMAN_DIR="/home/pi/.sdkman"
-[[ -s "/home/pi/.sdkman/bin/sdkman-init.sh" ]] && source "/home/pi/.sdkman/bin/sdkman-init.sh"
+# }}}
