@@ -261,12 +261,12 @@ umask 007
 # }}}
 # {{{ Environment variables
 
-path+=:./
-path+=~/src/flutter/bin
-path+=~/.pub-cache/bin
-path+=/usr/lib/dart/bin
+path+=:./:~/bin
+p=~/src/flutter/bin; test -d "${p}" && path+="${p}"
+p=~/.pub-cache/bin; test -d "${p}" && path+="${p}"
+p=~/usr/lib/dart/bin; test -d "${p}" && path+="${p}"
 test -d ~/go && export GOPATH=~/go && path+=~/go/bin
-test -d /usr/local/go/bin && path+=/usr/local/go/bin
+p=~/usr/local/go/bin; test -d "${p}" && path+="${p}"
 
 manpath+=/usr/local/man
 
