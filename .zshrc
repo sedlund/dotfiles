@@ -1,161 +1,156 @@
-# {{{ Antigen - ZSH plugin manager
+# vim: et
+# {{{ 😮 Oh-My-ZSH Plugin manager
 
-# Antigen: https://github.com/zsh-users/antigen
+# http://github.com/ohmyzsh/ohmyzsh Oh-My-Zsh
 
-test -d ~/.antigen \
-    || git clone --branch master https://github.com/zsh-users/antigen.git ~/.antigen
+# We are using ohmyzsh first as both Antigen and Znap are failing with
+# completion commands from kubectl and others.
 
-# ADOTDIR — This directory is used to store all the repo clones, your bundles,
-# themes, caches and everything else Antigen requires to run smoothly. Defaults
-# to $HOME/.antigen
-#ADOTDIR=~/.zsh/.antigen
+test -d ~/.zsh/ohmyzsh || git clone https://github.com/ohmyzsh/ohmyzsh ~/.zsh/ohmyzsh
 
-# Load
-source ~/.antigen/antigen.zsh
-
-# Load ohmyzsh - many plugins/themes require its core library
-antigen use oh-my-zsh
-
-# Bundles to use
-antigen bundles << EOBUNDLES
+plugins=(
     aws
-    bundler
     docker
     docker-compose
     git
     github
     kubectl
     pip
-    postgres
     python
-    rbenv
     ssh-agent
-    systemctl
+    systemd
     tmux
+)
+
+test ! -r ~/.ssh/id_rsa && zstyle :omz:plugins:ssh-agent agent-forwarding on
+
+source ~/.zsh/ohmyzsh/oh-my-zsh.sh
+
+# }}}
+# {{{ ⛔ DISABLED:⚡️Znap! - ZSH plugin manager
+
+# Znap: https://github.com/marlonrichert/zsh-snap
+
+# FIXME Waiting on: https://github.com/marlonrichert/zsh-snap/issues/43
+# Since both Antigen and Znap both have this issue, sticking with
+# Antigen as it is more mature.  Bundles supports a DRY interface to list
+# off each module and it will pull them in parallel and load them by default,
+# has better cleanup as well.
+
+#ZNAPDIR=~/.zsh/znap
+#zstyle ':znap:*' git-dir ${ZNAPDIR}
+#test -d ${ZNAPDIR} || git clone https://github.com/marlonrichert/zsh-snap.git ${ZNAPDIR}
+#source ${ZNAPDIR}/znap.zsh
+
+#znap prompt agnoster/agnoster-zsh-theme
+
+# List repos here to paralell pull
+#znap clone \
+#    https://github.com/romkatv/powerlevel10k
+#
+#znap source powerlevel10k
+# To customize prompt, run `p10k configure` or edit ~/.p10k.zsh.
+#[ ! -f ~/.p10k.zsh ] || source ~/.p10k.zsh
+
+#if [[ -r "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh" ]]; then
+#  source "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh"
+#fi
+
+# Do not use znap for ohmyzsh stuff it causes problems - use omz first for
+# it's plugins, then use znap for external repos.
+#znap source ohmyzsh/ohmyzsh
+
+#znap source ohmyzsh/ohmyzsh lib/{directories,git,kubectl}
+#znap source ohmyzsh/ohmyzsh plugins/git
+#set -xv
+#znap source ohmyzsh/ohmyzsh plugins/kubectl
+#set +xv
+#znap source Tarrasch/zsh-autoenv
+#znap source zdharma/fast-syntax-highlighting
+#znap source zdharma/history-search-multi-word
+#znap source zsh-users/zsh-autosuggestions
+#znap source zsh-users/zsh-completions
+#znap source zsh-users/zsh-history-substring-search
+#znap source zsh-users/zsh-syntax-highlighting
+#
+#znap eval trapd00r/LS_COLORS 'dircolors -b LS_COLORS'
+#zstyle ':completion:*' list-colors "${(s.:.)LS_COLORS}"
+
+# plugin specific options to load before antigen apply
+#test ! -r ~/.ssh/id_rsa && zstyle :omz:plugins:ssh-agent agent-forwarding on
+
+# Apply theme
+#
+# Enable Powerlevel10k instant prompt. Should stay close to the top of ~/.zshrc.
+# Initialization code that may require console input (password prompts, [y/n]
+# confirmations, etc.) must go above this block; everything else may go below.
+#if [[ -r "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh" ]]; then
+#  source "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh"
+#fi
+#
+# }}}
+# {{{ 💉 Antigen - ZSH Plugin Manager
+
+test -d ~/.zsh/antigen \
+        || git clone --branch master https://github.com/zsh-users/antigen.git ~/.zsh/antigen
+
+# ADOTDIR — This directory is used to store all the repo clones, your bundles,
+# themes, caches and everything else Antigen requires to run smoothly. Defaults
+# to $HOME/.antigen
+ADOTDIR=~/.zsh
+
+# Load
+source ~/.zsh/antigen/antigen.zsh
+
+case ${TERM} in
+    *256color*|xterm*|rxvt*|Eterm|aterm|kterm|gnome*)
+
+        # Apply theme early
+        antigen theme romkatv/powerlevel10k
+
+        # Enable Powerlevel10k instant prompt. Should stay close to the top of ~/.zshrc.
+        # Initialization code that may require console input (password prompts, [y/n]
+        # confirmations, etc.) must go above this block; everything else may go below.
+        if [[ -r "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh" ]]; then
+          source "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh"
+        fi
+
+        # To customize prompt, run `p10k configure` or edit ~/.p10k.zsh.
+        [[ ! -f ~/.p10k.zsh ]] || source ~/.p10k.zsh
+    ;;
+
+    *)
+    ;;
+        # This is a OMZ ssh theme - loading OMZ twice seems to hang
+        #antigen theme pure
+esac
+
+
+# Load ohmyzsh - many plugins/themes require its core library
+## We are already loaded above
+#antigen use oh-my-zsh
+
+# Bundles to use
+antigen bundles << EOBUNDLES
     Tarrasch/zsh-autoenv
     zdharma/fast-syntax-highlighting
+    zdharma/history-search-multi-word
     zsh-users/zsh-autosuggestions
+    zsh-users/zsh-completions
     zsh-users/zsh-history-substring-search
     zsh-users/zsh-syntax-highlighting
 EOBUNDLES
 
 # plugin specific options to load before antigen apply
-test ! -r ~/.ssh/id_rsa && zstyle :omz:plugins:ssh-agent agent-forwarding on
-
-# Apply theme
-if [ "$TERM" = screen ]; then
-    export TERM=screen-256color
-elif [ "$TERM" = xterm ] || [ "$TERM" = linux ]; then
-    export TERM=xterm-256color
-fi
-
-# Enable Powerlevel10k instant prompt. Should stay close to the top of ~/.zshrc.
-# Initialization code that may require console input (password prompts, [y/n]
-# confirmations, etc.) must go above this block; everything else may go below.
-if [[ -r "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh" ]]; then
-  source "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh"
-fi
-
-antigen theme romkatv/powerlevel10k
-#antigen theme bureau
-#POWERLEVEL9K_LEFT_PROMPT_ELEMENTS=( dir dir_writable vcs ip disk_usage load newline context )
-#POWERLEVEL9K_RIGHT_PROMPT_ELEMENTS=( status command_execution_time root_indicator background_jobs history time )
-#POWERLEVEL9K_PROMPT_ADD_NEWLINE=true
-#POWERLEVEL9K_SHORTEN_STRATEGY=truncate_to_unique
-#POWERLEVEL9K_ALWAYS_SHOW_CONTEXT=true
-#POWERLEVEL9K_CONTEXT_TEMPLATE=%n@%m%#
-#POWERLEVEL9K_DISK_USAGE_ONLY_WARNING=true
-#POWERLEVEL9K_DISK_USAGE_WARNING_LEVEL=79
-
-# To customize prompt, run `p10k configure` or edit ~/.p10k.zsh.
-[[ ! -f ~/.p10k.zsh ]] || source ~/.p10k.zsh
-
-# Powerlevel9k colors {{{
-#POWERLEVEL9K_FOREGROUND_OK=silver
-#POWERLEVEL9K_BACKGROUND_OK=grey27
-#POWERLEVEL9K_FOREGROUND_WARN=white
-#POWERLEVEL9K_BACKGROUND_WARN=grey42
-#POWERLEVEL9K_FOREGROUND_ERROR=yellow1
-#POWERLEVEL9K_BACKGROUND_ERROR=darkred
-#
-#POWERLEVEL9K_CONTEXT_DEFAULT_FOREGROUND=${POWERLEVEL9K_FOREGROUND_OK}
-#POWERLEVEL9K_CONTEXT_DEFAULT_BACKGROUND=${POWERLEVEL9K_BACKGROUND_OK}
-#POWERLEVEL9K_CONTEXT_ROOT_FOREGROUND=${POWERLEVEL9K_FOREGROUND_ERROR}
-#POWERLEVEL9K_CONTEXT_ROOT_BACKGROUND=${POWERLEVEL9K_BACKGROUND_ERROR}
-#POWERLEVEL9K_CONTEXT_SUDO_FOREGROUND=${POWERLEVEL9K_FOREGROUND_ERROR}
-#POWERLEVEL9K_CONTEXT_SUDO_BACKGROUND=${POWERLEVEL9K_BACKGROUND_ERROR}
-#POWERLEVEL9K_CONTEXT_REMOTE_FOREGROUND=${POWERLEVEL9K_FOREGROUND_WARN}
-#POWERLEVEL9K_CONTEXT_REMOTE_BACKGROUND=${POWERLEVEL9K_BACKGROUND_WARN}
-#POWERLEVEL9K_CONTEXT_REMOTE_SUDO_FOREGROUND=${POWERLEVEL9K_FOREGROUND_ERROR}
-#POWERLEVEL9K_CONTEXT_REMOTE_SUDO_BACKGROUND=${POWERLEVEL9K_BACKGROUND_ERROR}
-#
-#POWERLEVEL9K_DIR_HOME_FOREGROUND=${POWERLEVEL9K_FOREGROUND_OK}
-#POWERLEVEL9K_DIR_HOME_BACKGROUND=${POWERLEVEL9K_BACKGROUND_OK}
-#POWERLEVEL9K_DIR_HOME_SUBFOLDER_FOREGROUND=${POWERLEVEL9K_FOREGROUND_OK}
-#POWERLEVEL9K_DIR_HOME_SUBFOLDER_BACKGROUND=${POWERLEVEL9K_BACKGROUND_OK}
-#POWERLEVEL9K_DIR_DEFAULT_FOREGROUND=${POWERLEVEL9K_FOREGROUND_OK}
-#POWERLEVEL9K_DIR_DEFAULT_BACKGROUND=${POWERLEVEL9K_BACKGROUND_OK}
-#POWERLEVEL9K_DIR_ETC_FOREGROUND=${POWERLEVEL9K_FOREGROUND_ERROR}
-#POWERLEVEL9K_DIR_ETC_BACKGROUND=${POWERLEVEL9K_BACKGROUND_ERROR}
-#
-#POWERLEVEL9K_LOAD_NORMAL_FOREGROUND=${POWERLEVEL9K_FOREGROUND_OK}
-#POWERLEVEL9K_LOAD_NORMAL_BACKGROUND=${POWERLEVEL9K_BACKGROUND_OK}
-#POWERLEVEL9K_LOAD_WARN_FOREGROUND=${POWERLEVEL9K_FOREGROUND_WARN}
-#POWERLEVEL9K_LOAD_WARN_BACKGROUND=${POWERLEVEL9K_BACKGROUND_WARN}
-#POWERLEVEL9K_LOAD_CRITICAL_FOREGROUND=${POWERLEVEL9K_FOREGROUND_ERROR}
-#POWERLEVEL9K_LOAD_CRITICAL_BACKGROUND=${POWERLEVEL9K_BACKGROUND_ERROR}
-#
-#POWERLEVEL9K_IP_FOREGROUND=${POWERLEVEL9K_FOREGROUND_OK}
-#POWERLEVEL9K_IP_BACKGROUND=${POWERLEVEL9K_BACKGROUND_OK}
-#
-#POWERLEVEL9K_STATUS_OK_FOREGROUND=${POWERLEVEL9K_FOREGROUND_OK}
-#POWERLEVEL9K_STATUS_OK_BACKGROUND=${POWERLEVEL9K_BACKGROUND_OK}
-#POWERLEVEL9K_STATUS_ERROR_FOREGROUND=${POWERLEVEL9K_FOREGROUND_ERROR}
-#POWERLEVEL9K_STATUS_ERROR_BACKGROUND=${POWERLEVEL9K_BACKGROUND_ERROR}
-#
-#POWERLEVEL9K_VCS_CLEAN_FOREGROUND=${POWERLEVEL9K_FOREGROUND_OK}
-#POWERLEVEL9K_VCS_CLEAN_BACKGROUND=${POWERLEVEL9K_BACKGROUND_OK}
-#POWERLEVEL9K_VCS_UNTRACKED_FOREGROUND=${POWERLEVEL9K_FOREGROUND_WARN}
-#POWERLEVEL9K_VCS_UNTRACKED_BACKGROUND=${POWERLEVEL9K_BACKGROUND_WARN}
-#POWERLEVEL9K_VCS_MODIFIED_FOREGROUND=${POWERLEVEL9K_FOREGROUND_ERROR}
-#POWERLEVEL9K_VCS_MODIFIED_BACKGROUND=${POWERLEVEL9K_BACKGROUND_ERROR}
-#
-#POWERLEVEL9K_HISTORY_FOREGROUND=${POWERLEVEL9K_FOREGROUND_OK}
-#POWERLEVEL9K_HISTORY_BACKGROUND=${POWERLEVEL9K_BACKGROUND_OK}
-#
-#POWERLEVEL9K_TIME_FOREGROUND=${POWERLEVEL9K_FOREGROUND_OK}
-#POWERLEVEL9K_TIME_BACKGROUND=${POWERLEVEL9K_BACKGROUND_OK}
-#
-#POWERLEVEL9K_ROOT_INDICATOR_FOREGROUND=${POWERLEVEL9K_FOREGROUND_ERROR}
-#POWERLEVEL9K_ROOT_INDICATOR_BACKGROUND=${POWERLEVEL9K_BACKGROUND_ERROR}
-#
-#POWERLEVEL9K_DIR_WRITABLE_FORBIDDEN_FOREGROUND=${POWERLEVEL9K_FOREGROUND_ERROR}
-#POWERLEVEL9K_DIR_WRITABLE_FORBIDDEN_BACKGROUND=${POWERLEVEL9K_BACKGROUND_ERROR}
-#
-#POWERLEVEL9K_COMMAND_EXECUTION_TIME_FOREGROUND=${POWERLEVEL9K_FOREGROUND_WARN}
-#POWERLEVEL9K_COMMAND_EXECUTION_TIME_BACKGROUND=${POWERLEVEL9K_BACKGROUND_WARN}
-#
-#POWERLEVEL9K_DISK_USAGE_NORMAL_FOREGROUND=${POWERLEVEL9K_FOREGROUND_OK}
-#POWERLEVEL9K_DISK_USAGE_NORMAL_BACKGROUND=${POWERLEVEL9K_BACKGROUND_OK}
-#POWERLEVEL9K_DISK_USAGE_WARNING_FOREGROUND=${POWERLEVEL9K_FOREGROUND_WARN}
-#POWERLEVEL9K_DISK_USAGE_WARNING_BACKGROUND=${POWERLEVEL9K_BACKGROUND_WARN}
-#POWERLEVEL9K_DISK_USAGE_CRITICAL_FOREGROUND=${POWERLEVEL9K_FOREGROUND_ERROR}
-#POWERLEVEL9K_DISK_USAGE_CRITICAL_BACKGROUND=${POWERLEVEL9K_BACKGROUND_ERROR}
-#
-#POWERLEVEL9K_BACKGROUND_JOBS_FOREGROUND=${POWERLEVEL9K_FOREGROUND_OK}
-#POWERLEVEL9K_BACKGROUND_JOBS_BACKGROUND=${POWERLEVEL9K_BACKGROUND_OK}
-#
-#POWERLEVEL9K_DIR_PATH_HIGHLIGHT_FOREGROUND=${POWERLEVEL9K_FOREGROUND_ERROR}
-
-# }}}
+#test ! -r ~/.ssh/id_rsa && zstyle :omz:plugins:ssh-agent agent-forwarding on
 
 # Antigen config complete
 antigen apply
 
 # }}}
-# {{{ Key bindings
+# {{{ 🎹 Key bindings
 
-# {{{ ZSH history-substring-search plugin
+# {{{ ZSH history-substring-earch plugin
 
 # bind UP and DOWN arrow keys
 zmodload zsh/terminfo
@@ -182,50 +177,22 @@ bindkey -v                              # Set VI key bindings
 bindkey '^ ' autosuggest-accept         # zsh-autosuggestion: Bind CTRL-<space> to accept suggestion
 
 # }}}
-# Solarized dir colors {{{
+# 🌞 Solarized dir colors {{{
 
-if [ -f /usr/bin/dircolors ]; then
-    eval `dircolors ~/.dir_colors`
-fi
-
-# }}}
-# {{{ virtualenvwrapper: https://pypi.org/project/virtualenvwrapper/
-
-export WORKON_HOME=$HOME/.virtualenvs
-if [ -f "/etc/bash_completion.d/virtualenvwrapper" ]; then
-    source /etc/bash_completion.d/virtualenvwrapper
-fi
+# FIXME: Doesnt work with lsd
+#[[ -x /usr/bin/dircolors ]] && eval $(dircolors ~/.dir_colors)
 
 # }}}
-# {{{ Host specific settings
+# {{{ 🌈 GRC: Generic colorizer
 
-case `hostname -s` in
-
-    'yul1')
-        . ~/bin/z.sh
-
-        function precmd () {
-            _z --add "$(pwd -P)"
-        }
-    ;;
-
-    'flip')
-        . ~/bin/z.sh
-
-        function precmd () {
-            _z --add "$(pwd -P)"
-        }
-    ;;
-esac
-
-# }}}
-# {{{ GRC: Generic colorizer
+# FIXME - this seems outdated - maybe there is something newer.
+# /etc/grc.zsh does not list all the configs in /usr/share/grc
 
 GRC=$(which grc) 2>/dev/null
 # Newer (1.11) version of grc package have these nice configs to use
-if [ -f /etc/grc.zsh ]; then
+if [[ -f /etc/grc.zsh ]]; then
     source /etc/grc.zsh
-elif [ "$TERM" != dumb ] && [ -x ${GRC} ]; then
+elif [[ "$TERM" != dumb ]] && [[ -x ${GRC} ]]; then
     alias colourify="$GRC -es --colour=auto"
     alias configure='colourify ./configure'
     alias diff='colourify diff'
@@ -242,7 +209,7 @@ elif [ "$TERM" != dumb ] && [ -x ${GRC} ]; then
 fi
 
 # }}}
-# {{{ shell git prompt
+# {{{ 🍴shell git prompt
 
 # Used with bureau theme
 
@@ -252,15 +219,20 @@ fi
 #}
 
 # }}}
-# Umask {{{
+# 😷 Umask {{{
 
-# if you install packages with pip using sudo you should probably set the umask
-# options in sudoers to 022 to revert this
+# If you install packages with pip using sudo you should probably set the umask
+# options in sudoers to 022 to revert this:
+# cat << EOF | /etc/sudoers.d/umask
+# Defaults umask = 0022
+# Defaults umask_override
+# EOF
 umask 007
 
 # }}}
-# {{{ Environment variables
+# {{{ 🌎 Environment variables
 
+# Test for some common paths and add them to PATH if they exist
 for p in \
     ~/bin \
     ~/src/flutter/bin \
@@ -276,16 +248,17 @@ test -d ~/go && export GOPATH=~/go && path+=~/go/bin
 manpath+=/usr/local/man
 
 export LANG=en_US.UTF-8
-export LC_COLLATE="C"                   # Makes ls sort dotfiles first
+export LC_COLLATE="C"                               # Makes ls sort dotfiles first
 export EDITOR="vim"
 export PAGER="less"
-export TERMINAL="gnome-terminal"
-export DEFAULT_USER="${USER}"           # used for powerlevel9k zsh theme
+# FIXME
+export KUBECONFIG=~/kubeconfig
+
 # https://upload.wikimedia.org/wikipedia/commons/1/15/Xterm_256color_chart.svg
 export ZSH_AUTOSUGGEST_HIGHLIGHT_STYLE="fg=244"     # When using a solarized termcolors the default of 8 is mapped to a unreadable color, 244 is analgous to 8 in a 256 color term
 
 # }}}
-# {{{ Aliases
+# {{{ 🎭 Aliases
 
 which less > /dev/null && alias more="less"
 
@@ -294,9 +267,6 @@ which lsd > /dev/null \
     || alias ls='ls --color=auto --group-directories-first --classify'
 
 alias l='ls'
-alias ll='ls -l'
-alias llh='ls -lh'
-alias la='ls -A'
 alias lla='ls -la'
 
 # Ansible
@@ -316,6 +286,10 @@ which systemctl > /dev/null && alias s='sudo systemctl'
 which journalctl > /dev/null && alias j='sudo journalctl'
 
 which batcat > /dev/null && alias bat='batcat'
+
+# https://github.com/zero88/gh-release-downloader - github release downloader
+#amd64 builds only :P
+#alias ghrd="docker run --rm -v /tmp:/tmp zero88/ghrd:latest"
 
 cosa() {
    env | grep COREOS_ASSEMBLER
