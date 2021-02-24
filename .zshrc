@@ -29,6 +29,8 @@
 # {{{ 🧪 Zinit: ZSH Plugin Manager
 # https://github.com/zdharma/zinit
 
+# Look at the amount of garbage you have to deal with to use Zinit?
+
 # https://github.com/zdharma/zinit#customizing-paths
 declare -A ZINIT # initial Zinits hash definition, if configuring before loading Zinit, and then:
 ZINIT[HOME_DIR]=~/.config/zinit
@@ -36,39 +38,56 @@ ZINIT[HOME_DIR]=~/.config/zinit
 [[ -d ${ZINIT[HOME_DIR]} ]] || git clone --depth 1 https://github.com/zdharma/zinit ${ZINIT[HOME_DIR]}
 source ${ZINIT[HOME_DIR]}/zinit.zsh
 
-zinit ice atload'source ~/.p10k.zsh'
-zinit load romkatv/powerlevel10k
+#zinit ice atload'source ~/.p10k.zsh; _p9k_precmd'
+#zinit load romkatv/powerlevel10k
 
-#zinit snippet OMZ::plugins/git/git.plugin.zsh
-autoload -Uz compinit && compinit
+# Instant prompt
+zinit wait'!' lucid for \
+    nocd atload'source ~/.p10k.zsh; _p9k_precmd' romkatv/powerlevel10k
+
 zinit wait lucid for \
-	OMZL::directories.zsh \
+    OMZL::directories.zsh \
     OMZP::aws \
     OMZP::docker-compose \
     OMZP::git \
     OMZP::github \
     OMZP::pip \
-    OMZP::kubectl \
     OMZP::python \
     OMZP::ssh-agent \
     OMZP::systemd \
-    OMZP::tmux \
-	zdharma/history-search-multi-word \
-    zsh-users/zsh-completions \
+    zdharma/history-search-multi-word \
     zsh-users/zsh-history-substring-search
-zinit cdreplay -q
 
-zinit load zdharma/fast-syntax-highlighting
-# zsh-autosuggestions
-zinit ice wait lucid atload"!_zsh_autosuggest_start"
-zinit load zsh-users/zsh-autosuggestions
+zinit ice svn
+zinit as"null" wait lucid for \
+    OMZ::plugins/tmux
+
+zinit wait lucid silent for \
+    zdharma/fast-syntax-highlighting \
+    atload"!_zsh_autosuggest_start" zsh-users/zsh-autosuggestions
+
+# Last commands that give completions
+# This 15 second wait lets me run commands and get something done without
+# havnig to wait for these to finish.
+#zinit wait'15' lucid atload"autoload -Uz compinit && compinit; zinit cdreplay -q" blockf for \
+zinit wait'15' lucid atload"zicompinit; zicdreplay" blockf for \
+    OMZP::kubectl \
+    zsh-users/zsh-completions
+
+#zinit ice wait lucid atload"!_zsh_autosuggest_start"
+#zinit load zsh-users/zsh-autosuggestions
+
+# At the bottom of modules
+#autoload -Uz compinit && compinit
+#zinit cdreplay -q
+
+#  Programs - This is the neatest part of Zinit - but is it worth it?
 
 # 🦌 tealdeer
 zinit wait'1' lucid \
   from"gh-r" as"program" pick"tldr" mv"tldr-* -> tldr" \
   light-mode for @dbrgn/tealdeer
 zinit ice wait'1' lucid as"completion" mv'zsh_tealdeer -> _tldr'
-zinit snippet https://github.com/dbrgn/tealdeer/blob/master/zsh_tealdeer
 
 # }}}
 # {{{ ⛔ DISABLED:⚡️Znap! - ZSH plugin manager
