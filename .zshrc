@@ -5,7 +5,8 @@
 # We are using ohmyzsh first as both Antigen and Znap are failing with
 # completion commands from kubectl and others.
 
-test -d ~/.zsh/ohmyzsh || git clone --depth 1 https://github.com/ohmyzsh/ohmyzsh ~/.zsh/ohmyzsh
+[[ -d ~/.zsh/ohmyzsh ]] \
+    || git clone --depth 1 https://github.com/ohmyzsh/ohmyzsh ~/.zsh/ohmyzsh
 
 plugins=(
     aws
@@ -21,7 +22,7 @@ plugins=(
     tmux
 )
 
-test ! -r ~/.ssh/id_rsa && zstyle :omz:plugins:ssh-agent agent-forwarding on
+[[ -r ~/.ssh/id_rsa ]] && zstyle :omz:plugins:ssh-agent agent-forwarding on
 
 source ~/.zsh/ohmyzsh/oh-my-zsh.sh
 
@@ -107,7 +108,7 @@ source ~/.zsh/ohmyzsh/oh-my-zsh.sh
 
 #ZNAPDIR=~/.zsh/znap
 #zstyle ':znap:*' git-dir ${ZNAPDIR}
-#test -d ${ZNAPDIR} || git clone https://github.com/marlonrichert/zsh-snap.git ${ZNAPDIR}
+#[[ -d ${ZNAPDIR} ]] || git clone https://github.com/marlonrichert/zsh-snap.git ${ZNAPDIR}
 #source ${ZNAPDIR}/znap.zsh
 
 #znap prompt agnoster/agnoster-zsh-theme
@@ -145,7 +146,7 @@ source ~/.zsh/ohmyzsh/oh-my-zsh.sh
 #zstyle ':completion:*' list-colors "${(s.:.)LS_COLORS}"
 
 # plugin specific options to load before antigen apply
-#test ! -r ~/.ssh/id_rsa && zstyle :omz:plugins:ssh-agent agent-forwarding on
+#[[ -r ~/.ssh/id_rsa ]] && zstyle :omz:plugins:ssh-agent agent-forwarding on
 
 # Apply theme
 #
@@ -159,7 +160,7 @@ source ~/.zsh/ohmyzsh/oh-my-zsh.sh
 # }}}
 # {{{ Antigen - ZSH Plugin Manager
 
-test -d ~/.zsh/antigen \
+[[ -d ~/.zsh/antigen ]] \
         || git clone --depth 1 https://github.com/zsh-users/antigen.git ~/.zsh/antigen
 
 # ADOTDIR — This directory is used to store all the repo clones, your bundles,
@@ -210,7 +211,8 @@ antigen bundles << EOBUNDLES
 EOBUNDLES
 
 # plugin specific options to load before antigen apply
-test ! -r ~/.ssh/id_rsa && zstyle :omz:plugins:ssh-agent agent-forwarding on
+# enabed above in OMZ setup
+#[[ -r ~/.ssh/id_rsa ]] && zstyle :omz:plugins:ssh-agent agent-forwarding on
 
 # Antigen config complete
 antigen apply
@@ -308,10 +310,10 @@ for p in \
     /usr/lib/dart/bin \
     /usr/local/go/bin
 do
-    test -d "${p}" && path+="${p}"
+    [[ -d "${p}" ]] && path+="${p}"
 done
 
-test -d ~/go && export GOPATH=~/go && path+=~/go/bin
+[[ -d ~/go ]] && export GOPATH=~/go && path+=~/go/bin
 
 manpath+=/usr/local/man
 
@@ -374,7 +376,7 @@ cosa() {
 }
 
 # THIS MUST BE AT THE END OF THE FILE FOR SDKMAN TO WORK!!!
-test -d ~/.sdkman && export SDKMAN_DIR="~/.sdkman"
+[[ -d ~/.sdkman ]] && export SDKMAN_DIR="~/.sdkman"
 [[ -s "~/.sdkman/bin/sdkman-init.sh" ]] && source "~/.sdkman/bin/sdkman-init.sh"
 
 # }}}
