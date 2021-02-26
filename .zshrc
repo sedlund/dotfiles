@@ -21,7 +21,9 @@ plugins=(
     tmux
 )
 
-[[ -r ~/.ssh/id_rsa ]] && plugins+=ssh-agent
+[[ -r ~/.ssh/id_rsa ]] \
+    && plugins+=ssh-agent \
+    && zstyle :omz:plugins:ssh-agent lifetime 4h
 
 source ~/.zsh/ohmyzsh/oh-my-zsh.sh
 
