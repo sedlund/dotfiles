@@ -17,12 +17,11 @@ plugins=(
     kubectl
     pip
     python
-    ssh-agent
     systemd
     tmux
 )
 
-[[ -r ~/.ssh/id_rsa ]] && zstyle :omz:plugins:ssh-agent agent-forwarding on
+[[ -r ~/.ssh/id_rsa ]] && plugins+=ssh-agent
 
 source ~/.zsh/ohmyzsh/oh-my-zsh.sh
 
