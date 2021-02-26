@@ -1,96 +1,102 @@
 # vim: et
-# {{{ ⛔ DISABLED: 😮 Oh-My-ZSH Plugin manager
+# {{{ 😮 Oh-My-ZSH Plugin manager
 # http://github.com/ohmyzsh/ohmyzsh Oh-My-Zsh
 
 # We are using ohmyzsh first as both Antigen and Znap are failing with
 # completion commands from kubectl and others.
 
-#test -d ~/.zsh/ohmyzsh || git clone https://github.com/ohmyzsh/ohmyzsh ~/.zsh/ohmyzsh
-#
-#plugins=(
-#    aws
-#    docker
-#    docker-compose
-#    git
-#    github
-#    kubectl
-#    pip
-#    python
-#    ssh-agent
-#    systemd
-#    tmux
-#)
-#
-#test ! -r ~/.ssh/id_rsa && zstyle :omz:plugins:ssh-agent agent-forwarding on
-#
-#source ~/.zsh/ohmyzsh/oh-my-zsh.sh
+test -d ~/.zsh/ohmyzsh || git clone --depth 1 https://github.com/ohmyzsh/ohmyzsh ~/.zsh/ohmyzsh
+
+plugins=(
+    aws
+    docker
+    docker-compose
+    git
+    github
+    kubectl
+    pip
+    python
+    ssh-agent
+    systemd
+    tmux
+)
+
+test ! -r ~/.ssh/id_rsa && zstyle :omz:plugins:ssh-agent agent-forwarding on
+
+source ~/.zsh/ohmyzsh/oh-my-zsh.sh
 
 # }}}
-# {{{ 🧪 Zinit: ZSH Plugin Manager
+# {{{ ⛔ DISABLED: Zinit: ZSH Plugin Maner
 # https://github.com/zdharma/zinit
 
-# Look at the amount of garbage you have to deal with to use Zinit?
-
-# https://github.com/zdharma/zinit#customizing-paths
-declare -A ZINIT # initial Zinits hash definition, if configuring before loading Zinit, and then:
-ZINIT[HOME_DIR]=~/.config/zinit
-
-[[ -d ${ZINIT[HOME_DIR]} ]] || git clone --depth 1 https://github.com/zdharma/zinit ${ZINIT[HOME_DIR]}
-source ${ZINIT[HOME_DIR]}/zinit.zsh
-
-#zinit ice atload'source ~/.p10k.zsh; _p9k_precmd'
-#zinit load romkatv/powerlevel10k
-
-# Instant prompt
-zinit wait'!' lucid for \
-    nocd atload'source ~/.p10k.zsh; _p9k_precmd' romkatv/powerlevel10k
-
-zinit wait lucid for \
-    OMZL::directories.zsh \
-    OMZP::aws \
-    OMZP::docker-compose \
-    OMZP::git \
-    OMZP::github \
-    OMZP::pip \
-    OMZP::python \
-    OMZP::ssh-agent \
-    OMZP::systemd \
-    zdharma/history-search-multi-word \
-    zsh-users/zsh-history-substring-search
-
-zinit ice svn
-zinit as"null" wait lucid for \
-    OMZ::plugins/tmux
-
-zinit wait lucid silent for \
-    zdharma/fast-syntax-highlighting \
-    atload"!_zsh_autosuggest_start" zsh-users/zsh-autosuggestions
-
-# Last commands that give completions
-# This 15 second wait lets me run commands and get something done without
-# havnig to wait for these to finish.
-#zinit wait'15' lucid atload"autoload -Uz compinit && compinit; zinit cdreplay -q" blockf for \
-zinit wait'15' lucid atload"zicompinit; zicdreplay" blockf for \
-    OMZP::kubectl \
-    zsh-users/zsh-completions
-
-#zinit ice wait lucid atload"!_zsh_autosuggest_start"
-#zinit load zsh-users/zsh-autosuggestions
-
-# At the bottom of modules
-#autoload -Uz compinit && compinit
-#zinit cdreplay -q
-
-#  Programs - This is the neatest part of Zinit - but is it worth it?
-
-# 🦌 tealdeer
-zinit wait'1' lucid \
-  from"gh-r" as"program" pick"tldr" mv"tldr-* -> tldr" \
-  light-mode for @dbrgn/tealdeer
-zinit ice wait'1' lucid as"completion" mv'zsh_tealdeer -> _tldr'
+## https://github.com/zdharma/zinit#customizing-paths
+#declare -A ZINIT # initial Zinits hash definition, if configuring before loading Zinit, and then:
+#ZINIT[HOME_DIR]=~/.config/zinit
+#
+#[[ -d ${ZINIT[HOME_DIR]} ]] || git clone --depth 1 https://github.com/zdharma/zinit ${ZINIT[HOME_DIR]}
+#source ${ZINIT[HOME_DIR]}/zinit.zsh
+#
+##zinit ice atload'source ~/.p10k.zsh; _p9k_precmd'
+##zinit load romkatv/powerlevel10k
+#
+## Instant prompt
+#zinit wait'!' lucid for \
+#    nocd atload'source ~/.p10k.zsh; _p9k_precmd' romkatv/powerlevel10k
+#
+#zinit ice svn multisrc"*.zsh"
+#zinit snippet OMZ::lib
+#
+#zinit ice svn
+#zinit snippet OMZ::plugins/tmux
+#
+#zinit wait lucid for \
+#    OMZP::aws \
+#    OMZP::docker-compose \
+#    OMZP::git \
+#    OMZP::github \
+#    OMZP::pip \
+#    OMZP::python \
+#    OMZP::ssh-agent \
+#    OMZP::systemd \
+#    zdharma/history-search-multi-word \
+#    zinit-zsh/z-a-bin-gem-node \
+#    zsh-users/zsh-history-substring-search
+#
+#zinit load zinit-zsh/z-a-bin-gem-node
+#
+#zinit wait lucid silent for \
+#    zdharma/fast-syntax-highlighting \
+#    atload"!_zsh_autosuggest_start" zsh-users/zsh-autosuggestions
+#
+## Last commands that give completions
+## This 15 second wait lets me run commands and get something done without
+## havnig to wait for these to finish.
+##zinit wait'15' lucid atload"autoload -Uz compinit && compinit; zinit cdreplay -q" blockf for \
+#zinit wait'15' lucid atload"zicompinit; zicdreplay" blockf for \
+#    OMZP::kubectl \
+#    zsh-users/zsh-completions
+#
+## At the bottom of modules
+##autoload -Uz compinit && compinit
+##zinit cdreplay -q
+#
+##  Programs - This is the neatest part of Zinit - but is it worth it?
+#zinit wait"2" lucid as"null" from"gh-r" for \
+#    sbin"fzf"                           junegunn/fzf-bin \
+#    sbin"**/fd"                         @sharkdp/fd \
+#    sbin"**/bat"                        @sharkdp/bat
+##    sbin"duplicacy* -> duplicacy"       gilbertchen/duplicacy # zinit
+##    incorrectly chooses arm64 bin to download on arm7l
+#
+## 🦌 tealdeer
+#zinit wait'1' lucid \
+#  from"gh-r" as"program" pick"tldr" mv"tldr-* -> tldr" \
+#  light-mode for @dbrgn/tealdeer
+#zinit ice wait'1' lucid as"completion" mv'zsh_tealdeer -> _tldr'
 
 # }}}
 # {{{ ⛔ DISABLED:⚡️Znap! - ZSH plugin manager
+
 # Znap: https://github.com/marlonrichert/zsh-snap
 
 # FIXME Waiting on: https://github.com/marlonrichert/zsh-snap/issues/43
@@ -149,65 +155,65 @@ zinit ice wait'1' lucid as"completion" mv'zsh_tealdeer -> _tldr'
 #if [[ -r "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh" ]]; then
 #  source "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh"
 #fi
-#
-# }}}
-# {{{ ⛔ DISABLED: 💉 Antigen - ZSH Plugin Manager
 
-#test -d ~/.zsh/antigen \
-#        || git clone --branch master https://github.com/zsh-users/antigen.git ~/.zsh/antigen
-#
-## ADOTDIR — This directory is used to store all the repo clones, your bundles,
-## themes, caches and everything else Antigen requires to run smoothly. Defaults
-## to $HOME/.antigen
-#ADOTDIR=~/.zsh
-#
-## Load
-#source ~/.zsh/antigen/antigen.zsh
-#
-#case ${TERM} in
-#    *256color*|xterm*|rxvt*|Eterm|aterm|kterm|gnome*)
-#
-#        # Apply theme early
-#        antigen theme romkatv/powerlevel10k
-#
-#        # Enable Powerlevel10k instant prompt. Should stay close to the top of ~/.zshrc.
-#        # Initialization code that may require console input (password prompts, [y/n]
-#        # confirmations, etc.) must go above this block; everything else may go below.
-#        if [[ -r "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh" ]]; then
-#          source "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh"
-#        fi
-#
-#        # To customize prompt, run `p10k configure` or edit ~/.p10k.zsh.
-#        [[ ! -f ~/.p10k.zsh ]] || source ~/.p10k.zsh
-#    ;;
-#
-#    *)
-#    ;;
-#        # This is a OMZ ssh theme - loading OMZ twice seems to hang
-#        #antigen theme pure
-#esac
-#
-#
-## Load ohmyzsh - many plugins/themes require its core library
-### We are already loaded above
-##antigen use oh-my-zsh
-#
-## Bundles to use
-#antigen bundles << EOBUNDLES
-#    Tarrasch/zsh-autoenv
-#    zdharma/fast-syntax-highlighting
-#    zdharma/history-search-multi-word
-#    zsh-users/zsh-autosuggestions
-#    zsh-users/zsh-completions
-#    zsh-users/zsh-history-substring-search
-#    zsh-users/zsh-syntax-highlighting
-#EOBUNDLES
-#
-## plugin specific options to load before antigen apply
-##test ! -r ~/.ssh/id_rsa && zstyle :omz:plugins:ssh-agent agent-forwarding on
-#
-## Antigen config complete
-#antigen apply
+# }}}
+# {{{ Antigen - ZSH Plugin Manager
+
+test -d ~/.zsh/antigen \
+        || git clone --depth 1 https://github.com/zsh-users/antigen.git ~/.zsh/antigen
+
+# ADOTDIR — This directory is used to store all the repo clones, your bundles,
+# themes, caches and everything else Antigen requires to run smoothly. Defaults
+# to $HOME/.antigen
+ADOTDIR=~/.zsh
+
+# Load
+source ~/.zsh/antigen/antigen.zsh
+
+case ${TERM} in
+    *256color*|xterm*|rxvt*|Eterm|aterm|kterm|gnome*)
+
+        # Apply theme early
+        antigen theme romkatv/powerlevel10k
+
+        # Enable Powerlevel10k instant prompt. Should stay close to the top of ~/.zshrc.
+        # Initialization code that may require console input (password prompts, [y/n]
+        # confirmations, etc.) must go above this block; everything else may go below.
+        if [[ -r "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh" ]]; then
+          source "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh"
+        fi
+
+        # To customize prompt, run `p10k configure` or edit ~/.p10k.zsh.
+        [[ ! -f ~/.p10k.zsh ]] || source ~/.p10k.zsh
+    ;;
+
+    *)
+    ;;
+        # This is a OMZ ssh theme - loading OMZ twice seems to hang
+        #antigen theme pure
+esac
+
+
+# Load ohmyzsh - many plugins/themes require its core library
+## We are already loaded above
+#antigen use oh-my-zsh
+
+# Bundles to use
+antigen bundles << EOBUNDLES
+    Tarrasch/zsh-autoenv
+    zdharma/fast-syntax-highlighting
+    zdharma/history-search-multi-word
+    zsh-users/zsh-autosuggestions
+    zsh-users/zsh-completions
+    zsh-users/zsh-history-substring-search
+    zsh-users/zsh-syntax-highlighting
+EOBUNDLES
+
+# plugin specific options to load before antigen apply
+test ! -r ~/.ssh/id_rsa && zstyle :omz:plugins:ssh-agent agent-forwarding on
+
+# Antigen config complete
+antigen apply
 
 # }}}
 # {{{ 🎹 Key bindings
