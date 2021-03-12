@@ -375,7 +375,7 @@ cosa() {
 }
 
 # THIS MUST BE AT THE END OF THE FILE FOR SDKMAN TO WORK!!!
-[[ -d ~/.sdkman ]] && export SDKMAN_DIR="~/.sdkman"
-[[ -s "~/.sdkman/bin/sdkman-init.sh" ]] && source "~/.sdkman/bin/sdkman-init.sh"
+[[ -d ~/.sdkman ]] && export SDKMAN_DIR=~/.sdkman
+[[ -r ~/.sdkman/bin/sdkman-init.sh ]] && source ~/.sdkman/bin/sdkman-init.sh
 
 # }}}
