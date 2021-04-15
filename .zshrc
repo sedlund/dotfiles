@@ -351,8 +351,8 @@ which zstd > /dev/null && alias zstd='nice zstd -T0'
 
 which make > /dev/null && alias make='nice make'
 
-which systemctl > /dev/null && alias s='sudo systemctl'
-which journalctl > /dev/null && alias j='sudo journalctl'
+which systemctl > /dev/null && alias s='sudo -E systemctl'
+which journalctl > /dev/null && alias j='sudo -E journalctl'
 
 which batcat > /dev/null && alias bat='batcat'
 
