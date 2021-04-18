@@ -356,6 +356,10 @@ which journalctl > /dev/null && alias j='sudo -E journalctl'
 
 which batcat > /dev/null && alias bat='batcat'
 
+test -x butane \
+    || alias butane='docker run -it --rm -v ${PWD}:/pwd -w /pwd \
+        quay.io/coreos/butane:release'
+
 # https://github.com/zero88/gh-release-downloader - github release downloader
 #amd64 builds only :P
 #alias ghrd="docker run --rm -v /tmp:/tmp zero88/ghrd:latest"
