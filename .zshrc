@@ -364,8 +364,7 @@ which podman > /dev/null 2> /dev/null \
     && CRI=podman \
 
 which butane > /dev/null 2> /dev/null \
-    || alias butane='${CRI} run -it --rm -v ${PWD}:/pwd -w /pwd \
-        quay.io/coreos/butane:release'
+    || alias butane='${CRI} run -it --rm -v ${PWD}:/pwd -w /pwd quay.io/coreos/butane:release'
 
 # https://github.com/zero88/gh-release-downloader - github release downloader
 #amd64 builds only :P
