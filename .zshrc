@@ -8,7 +8,11 @@
 [[ -d ~/.zsh/ohmyzsh ]] \
     || git clone --depth 1 https://github.com/ohmyzsh/ohmyzsh ~/.zsh/ohmyzsh
 
+[[ -d ~/.asdf ]] \
+    || git clone --depth 1 https://github.com/asdf-vm/asdf.git ~/.asdf
+
 plugins=(
+    asdf
     aws
     docker
     docker-compose
