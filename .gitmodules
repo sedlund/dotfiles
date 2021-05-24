@@ -6,6 +6,3 @@
 [submodule ".tmux/plugins/tpm"]
     path = .tmux/plugins/tpm
     url = https://github.com/tmux-plugins/tpm
-[submodule "/home/pi/.asdf"]
-	path = /home/pi/.asdf
-	url = https://github.com/asdf-vm/asdf.git
