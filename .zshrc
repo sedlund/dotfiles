@@ -331,7 +331,7 @@ export ZSH_AUTOSUGGEST_HIGHLIGHT_STYLE="fg=244"     # When using a solarized ter
 
 which less > /dev/null && alias more="less"
 
-which lsd > /dev/null \
+which lsd 2>&1 > /dev/null \
     && alias ls='lsd --group-dirs first --classify' \
     || alias ls='ls --color=auto --group-directories-first --classify'
 
@@ -339,7 +339,7 @@ alias l='ls'
 alias lla='ls -la'
 
 # Ansible
-which ansible-vault > /dev/null \
+which ansible-vault 2>&1 > /dev/null \
     && alias ave='ansible-vault edit' \
     && alias avv='ansible-vault view' \
     && alias avc='ansible-vault encrypt'
@@ -349,16 +349,20 @@ alias tar='nice tar'
 which xz > /dev/null && alias xz='nice xz -T0'
 which zstd > /dev/null && alias zstd='nice zstd -T0'
 
-which make > /dev/null && alias make='nice make'
+which make 2>&1 > /dev/null && alias make='nice make'
 
 which systemctl > /dev/null && alias s='sudo -E systemctl'
 which journalctl > /dev/null && alias j='sudo -E journalctl'
 
-which batcat > /dev/null && alias bat='batcat'
+which batcat 2>&1 > /dev/null && alias bat='batcat'
+which podman 2>&1 > /dev/null \
+    && CRI=podman \
+    || which docker 2>&1 > /dev/null \
+        && CRI=docker
 
-test -x butane \
-    || alias butane='docker run -it --rm -v ${PWD}:/pwd -w /pwd \
-        quay.io/coreos/butane:release'
+which butane 2>&1 > /dev/null \
+    || alias butane="${CRI} run -it --rm -v '${PWD}':/pwd -w /pwd \
+        quay.io/coreos/butane:release"
 
 # https://github.com/zero88/gh-release-downloader - github release downloader
 #amd64 builds only :P
