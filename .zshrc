@@ -339,28 +339,28 @@ alias l='ls'
 alias lla='ls -la'
 
 # Ansible
-which ansible-vault 2>&1 > /dev/null \
+which ansible-vault > /dev/null 2> /dev/null \
     && alias ave='ansible-vault edit' \
     && alias avv='ansible-vault view' \
     && alias avc='ansible-vault encrypt'
 
 alias gzip='nice gzip'
 alias tar='nice tar'
-which xz > /dev/null && alias xz='nice xz -T0'
-which zstd > /dev/null && alias zstd='nice zstd -T0'
+which xz > /dev/null 2> /dev/null && alias xz='nice xz -T0'
+which zstd > /dev/null 2> /dev/null && alias zstd='nice zstd -T0'
 
-which make 2>&1 > /dev/null && alias make='nice make'
+which make > /dev/null 2> /dev/null && alias make='nice make'
 
-which systemctl > /dev/null && alias s='sudo -E systemctl'
-which journalctl > /dev/null && alias j='sudo -E journalctl'
+which systemctl > /dev/null 2> /dev/null && alias s='sudo -E systemctl'
+which journalctl > /dev/null 2> /dev/null && alias j='sudo -E journalctl'
 
-which batcat 2>&1 > /dev/null && alias bat='batcat'
-which podman 2>&1 > /dev/null \
+which batcat > /dev/null 2> /dev/null && alias bat='batcat'
+which podman > /dev/null 2> /dev/null \
     && CRI=podman \
-    || which docker 2>&1 > /dev/null \
+    || which docker > /dev/null 2> /dev/null \
         && CRI=docker
 
-which butane 2>&1 > /dev/null \
+which butane > /dev/null 2> /dev/null \
     || alias butane="${CRI} run -it --rm -v '${PWD}':/pwd -w /pwd \
         quay.io/coreos/butane:release"
 
