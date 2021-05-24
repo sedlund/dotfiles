@@ -1,6 +1,11 @@
 #vim:noet:ts=1
-# Don't Edit - Use git submodule add 'repo'
-#
+# Don't Edit - Use:
+# git submodule add --depth 1 <repo> <path>
+# git submodule deinit -f <path>
+
 [submodule ".tmux/plugins/tpm"]
     path = .tmux/plugins/tpm
     url = https://github.com/tmux-plugins/tpm
+[submodule "/home/pi/.asdf"]
+	path = /home/pi/.asdf
+	url = https://github.com/asdf-vm/asdf.git
