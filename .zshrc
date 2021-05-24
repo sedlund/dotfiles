@@ -329,9 +329,9 @@ export ZSH_AUTOSUGGEST_HIGHLIGHT_STYLE="fg=244"     # When using a solarized ter
 # }}}
 # {{{ 🎭 Aliases
 
-which less > /dev/null && alias more="less"
+which less > /dev/null 2> /dev/null && alias more="less"
 
-which lsd 2>&1 > /dev/null \
+which lsd > /dev/null 2> /dev/null \
     && alias ls='lsd --group-dirs first --classify' \
     || alias ls='ls --color=auto --group-directories-first --classify'
 
@@ -351,17 +351,20 @@ which zstd > /dev/null 2> /dev/null && alias zstd='nice zstd -T0'
 
 which make > /dev/null 2> /dev/null && alias make='nice make'
 
+# Systemd
 which systemctl > /dev/null 2> /dev/null && alias s='sudo -E systemctl'
 which journalctl > /dev/null 2> /dev/null && alias j='sudo -E journalctl'
 
 which batcat > /dev/null 2> /dev/null && alias bat='batcat'
+
+which docker > /dev/null 2> /dev/null \
+    && CRI=docker
+# Prefer podman
 which podman > /dev/null 2> /dev/null \
     && CRI=podman \
-    || which docker > /dev/null 2> /dev/null \
-        && CRI=docker
 
 which butane > /dev/null 2> /dev/null \
-    || alias butane="${CRI} run -it --rm -v '${PWD}':/pwd -w /pwd \
+    || alias butane="${CRI} run -it --rm -v \'${PWD}\':/pwd -w /pwd \
         quay.io/coreos/butane:release"
 
 # https://github.com/zero88/gh-release-downloader - github release downloader
