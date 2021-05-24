@@ -185,6 +185,7 @@ set wildignore+=*.o,*~,*.pyc,.git,.git-heroku,.hg,.svn,.sass-cache,node_modules
 
 if version >= 703
     set relativenumber
+    set number
     set undofile
     set undodir=~/.vim/backups
 else
@@ -325,8 +326,8 @@ vnoremap <tab> %
 
 " set t_Co=256
 "set background=light
-set background=dark
-colorscheme solarized
+"set background=dark
+"colorscheme solarized
 let g:solarized_termcolors=256
 syntax on
 set guioptions-=T
