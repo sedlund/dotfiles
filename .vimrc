@@ -28,10 +28,14 @@ call plug#begin('~/.vim/plugged')
 " Utility
 Plug 'scrooloose/nerdtree', { 'on':  'NERDTreeToggle' }
 Plug 'majutsushi/tagbar'
+" Vim plugin that shows keybindings in popup
+Plug 'liuchengxu/vim-which-key', { 'on': ['WhichKey', 'WhichKey!'] }
 "Plug 'Valloric/YouCompleteMe', { 'do': 'nice python3 install.py' }
 "Plug 'ervandew/supertab'
 "Plug 'BufOnly.vim'
-Plug 'terryma/vim-multiple-cursors'
+" FIXME: This maps C-n to it overwriting NERDTree
+" also depcrecated use https://github.com/mg979/vim-visual-multi
+"Plug 'terryma/vim-multiple-cursors'
 "Plug 'wesQ3/vim-windowswap'
 "Plug 'SirVer/ultisnips'
 "Plug 'junegunn/fzf.vim'
@@ -75,9 +79,11 @@ Plug 'tpope/vim-fugitive'
 Plug 'airblade/vim-gitgutter'
 
 " Theme / Interface
+Plug 'mhinz/vim-startify'
 Plug 'edkolev/tmuxline.vim'
 Plug 'altercation/vim-colors-solarized'
 "Plug 'AnsiEsc.vim'
+" Adds file type icons to Vim plugins such as: NERDTree, vim-airline, CtrlP, unite, Denite, lightline, vim-startify and many more
 Plug 'ryanoasis/vim-devicons'
 Plug 'vim-airline/vim-airline'
 Plug 'vim-airline/vim-airline-themes'
@@ -315,8 +321,6 @@ set incsearch
 " assume the /g flag on :s substitutions to replace all matches in a line:
 set gdefault
 
-" ,<space> to get rid of search highlighting
-nnoremap <leader><space> :noh<cr>
 " tab to match bracket pairs
 nnoremap <tab> %
 vnoremap <tab> %
@@ -367,10 +371,14 @@ au FileType markdown,tex,rst call No_Line_Breaks()
 " {{{ Key Mappings
 
 let mapleader = ","
+nnoremap <silent> <leader> :WhichKey '<leader>'<CR>
 
 map <C-n> :NERDTreeToggle<CR>
 " does not work on mobaxterm
 map <C-m> :TagbarToggle<CR>
+
+" ,<space> to get rid of search highlighting
+nnoremap <leader><space> :noh<cr>
 
 nnoremap <C-Left> :tabprevious<CR>
 nnoremap <C-Right> :tabnext<CR>

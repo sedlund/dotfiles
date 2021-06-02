@@ -341,6 +341,7 @@ which lsd > /dev/null 2> /dev/null \
 
 alias l='ls'
 alias lla='ls -la'
+alias lld='ls -ld'
 
 # Ansible
 which ansible-vault > /dev/null 2> /dev/null \
