@@ -349,6 +349,7 @@ which ansible-vault > /dev/null 2> /dev/null \
     && alias avv='ansible-vault view' \
     && alias avc='ansible-vault encrypt'
 
+alias apt='nice apt'
 alias gzip='nice gzip'
 alias tar='nice tar'
 which xz > /dev/null 2> /dev/null && alias xz='nice xz -T0'
@@ -394,3 +395,4 @@ cosa() {
 [[ -r ~/.sdkman/bin/sdkman-init.sh ]] && source ~/.sdkman/bin/sdkman-init.sh
 
 # }}}
+if [ -e /home/sedlund/.nix-profile/etc/profile.d/nix.sh ]; then . /home/sedlund/.nix-profile/etc/profile.d/nix.sh; fi # added by Nix installer
