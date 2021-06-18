@@ -324,7 +324,7 @@ manpath+=/usr/local/man
 
 export LANG=en_US.UTF-8
 export LC_COLLATE="C"                               # Makes ls sort dotfiles first
-export EDITOR="vim"
+export EDITOR="vi"
 export PAGER="less"
 
 # https://upload.wikimedia.org/wikipedia/commons/1/15/Xterm_256color_chart.svg
