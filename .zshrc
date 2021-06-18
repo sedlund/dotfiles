@@ -359,6 +359,9 @@ which zstd > /dev/null 2> /dev/null && alias zstd='nice zstd -T0'
 
 which make > /dev/null 2> /dev/null && alias make='nice make'
 
+which nvim > /dev/null 2> /dev/null \
+    && alias vi nvim
+
 # Systemd
 which systemctl > /dev/null 2> /dev/null && alias s='sudo -E systemctl'
 which journalctl > /dev/null 2> /dev/null && alias j='sudo -E journalctl'
