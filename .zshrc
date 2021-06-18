@@ -349,7 +349,9 @@ which ansible-vault > /dev/null 2> /dev/null \
     && alias avv='ansible-vault view' \
     && alias avc='ansible-vault encrypt'
 
-alias apt='sudo nice apt'
+which apt > /dev/null 2> /dev/null \
+    && alias apt='sudo nice apt'
+
 alias gzip='nice gzip'
 alias tar='nice tar'
 which xz > /dev/null 2> /dev/null && alias xz='nice xz -T0'
