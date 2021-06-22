@@ -368,11 +368,8 @@ which journalctl > /dev/null 2> /dev/null && alias j='sudo -E journalctl'
 
 which batcat > /dev/null 2> /dev/null && alias bat='batcat'
 
-which docker > /dev/null 2> /dev/null \
-    && CRI=docker
-# Prefer podman
-which podman > /dev/null 2> /dev/null \
-    && CRI=podman \
+# Prefer podman container runtime interface
+export CRI=$(which podman || which docker)
 
 which butane > /dev/null 2> /dev/null \
     || alias butane='${CRI} run -it --rm -v ${PWD}:/pwd -w /pwd quay.io/coreos/butane:release'
@@ -400,4 +397,4 @@ cosa() {
 [[ -r ~/.sdkman/bin/sdkman-init.sh ]] && source ~/.sdkman/bin/sdkman-init.sh
 
 # }}}
-if [ -e /home/sedlund/.nix-profile/etc/profile.d/nix.sh ]; then . /home/sedlund/.nix-profile/etc/profile.d/nix.sh; fi # added by Nix installer
+#if [ -e /home/sedlund/.nix-profile/etc/profile.d/nix.sh ]; then . /home/sedlund/.nix-profile/etc/profile.d/nix.sh; fi # added by Nix installer
