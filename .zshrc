@@ -324,7 +324,7 @@ manpath+=/usr/local/man
 
 export LANG=en_US.UTF-8
 export LC_COLLATE="C"                               # Makes ls sort dotfiles first
-export EDITOR="vi"
+export EDITOR="nvim"
 export PAGER="less"
 
 # https://upload.wikimedia.org/wikipedia/commons/1/15/Xterm_256color_chart.svg
@@ -397,4 +397,5 @@ cosa() {
 [[ -r ~/.sdkman/bin/sdkman-init.sh ]] && source ~/.sdkman/bin/sdkman-init.sh
 
 # }}}
-#if [ -e /home/sedlund/.nix-profile/etc/profile.d/nix.sh ]; then . /home/sedlund/.nix-profile/etc/profile.d/nix.sh; fi # added by Nix installer
+export MANPATH=/usr/share/man:/usr/local/man
+if [ -e /home/sedlund/.nix-profile/etc/profile.d/nix.sh ]; then . /home/sedlund/.nix-profile/etc/profile.d/nix.sh; fi # added by Nix installer
