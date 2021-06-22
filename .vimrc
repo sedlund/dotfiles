@@ -85,9 +85,9 @@ Plug 'altercation/vim-colors-solarized'
 "Plug 'AnsiEsc.vim'
 " Adds file type icons to Vim plugins such as: NERDTree, vim-airline, CtrlP, unite, Denite, lightline, vim-startify and many more
 Plug 'ryanoasis/vim-devicons'
-Plug 'vim-airline/vim-airline'
-Plug 'vim-airline/vim-airline-themes'
-
+" Plug 'vim-airline/vim-airline'
+" Plug 'vim-airline/vim-airline-themes'
+ 
 " Initialize plugin system
 call plug#end()
 
