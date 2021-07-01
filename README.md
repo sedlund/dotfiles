@@ -7,9 +7,9 @@
 Or, if you have a current home directory:
 
 ```shell
-$ cd; git clone <https://github.com/sedlund/dotfiles.git> tmp && \\
-  cp -a tmp/. . && \\
-  rm -rf tmp && \\
+$ cd; git clone https://github.com/sedlund/dotfiles.git && \\
+  cp -a dotfiles/. . && \\
+  rm -rf dotfiles && \\
   git reset --hard
 ```
 
