@@ -31,6 +31,11 @@ plugins=(
 
 source ~/.zsh/ohmyzsh/oh-my-zsh.sh
 
+# LunarVim
+
+[[ -d ~/.config/nvim ]] || \
+    bash <(curl -s https://raw.githubusercontent.com/ChristianChiarulli/lunarvim/master/utils/installer/install.sh)
+
 # }}}
 # {{{ ⛔ DISABLED: Zinit: ZSH Plugin Maner
 # https://github.com/zdharma/zinit
