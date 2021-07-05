@@ -33,7 +33,7 @@ source ~/.zsh/ohmyzsh/oh-my-zsh.sh
 
 # LunarVim
 
-[[ -d ~/.config/nvim ]] || \
+[[ -x $(which nvim) ]] && [[ -d ~/.config/nvim ]] || \
     bash <(curl -s https://raw.githubusercontent.com/ChristianChiarulli/lunarvim/master/utils/installer/install.sh)
 
 # }}}
