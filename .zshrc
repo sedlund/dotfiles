@@ -31,8 +31,7 @@ plugins=(
 
 source ~/.zsh/ohmyzsh/oh-my-zsh.sh
 
-# LunarVim
-
+# Install LunarVim if nvim is installed
 if [[ -x $(which nvim >/dev/null 2>/dev/null) ]]; then
     [[ -d ~/.config/nvim ]] \
       || bash <(curl -s https://raw.githubusercontent.com/ChristianChiarulli/lunarvim/master/utils/installer/install.sh)
