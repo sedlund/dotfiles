@@ -11,6 +11,17 @@
 [[ -d ~/.asdf ]] \
     || git clone --depth 1 https://github.com/asdf-vm/asdf.git ~/.asdf
 
+export EDITOR=$(basename $(whence nvim vim vi | head -1))
+case ${EDITOR} in
+    nvim)
+        alias vi=nvim
+        [[ -d ~/.config/nvim ]] || bash <(curl -s https://raw.githubusercontent.com/ChristianChiarulli/lunarvim/master/utils/installer/install.sh)
+    ;;
+    vim)
+        alias vi=vim
+    ;;
+esac
+
 plugins=(
     asdf
     aws
@@ -31,14 +42,8 @@ plugins=(
 
 source ~/.zsh/ohmyzsh/oh-my-zsh.sh
 
-# Install LunarVim if nvim is installed
-if [[ -x $(which nvim >/dev/null 2>/dev/null) ]]; then
-    [[ -d ~/.config/nvim ]] \
-      || bash <(curl -s https://raw.githubusercontent.com/ChristianChiarulli/lunarvim/master/utils/installer/install.sh)
-fi
-
 # }}}
-# {{{ ⛔ DISABLED: Zinit: ZSH Plugin Maner
+# {{{ ⛔ DISABLED: Zinit: ZSH Plugin Manager
 # https://github.com/zdharma/zinit
 
 ## https://github.com/zdharma/zinit#customizing-paths
@@ -337,8 +342,6 @@ manpath+=/usr/local/man
 
 export LANG=en_US.UTF-8
 export LC_COLLATE="C"                               # Makes ls sort dotfiles first
-export EDITOR="nvim"
-export PAGER="less"
 
 # https://upload.wikimedia.org/wikipedia/commons/1/15/Xterm_256color_chart.svg
 export ZSH_AUTOSUGGEST_HIGHLIGHT_STYLE="fg=244"     # When using a solarized termcolors the default of 8 is mapped to a unreadable color, 244 is analgous to 8 in a 256 color term
@@ -346,9 +349,9 @@ export ZSH_AUTOSUGGEST_HIGHLIGHT_STYLE="fg=244"     # When using a solarized ter
 # }}}
 # {{{ 🎭 Aliases
 
-which less > /dev/null 2> /dev/null && alias more="less"
+which less &>/dev/null && alias more=less; export PAGER=less
 
-which lsd > /dev/null 2> /dev/null \
+which lsd &> /dev/null \
     && alias ls='lsd --group-dirs first --classify' \
     || alias ls='ls --color=auto --group-directories-first --classify'
 
@@ -357,34 +360,31 @@ alias lla='ls -la'
 alias lld='ls -ld'
 
 # Ansible
-which ansible-vault > /dev/null 2> /dev/null \
+which ansible-vault &>/dev/null \
     && alias ave='ansible-vault edit' \
     && alias avv='ansible-vault view' \
     && alias avc='ansible-vault encrypt'
 
-which apt > /dev/null 2> /dev/null \
+which apt &>/dev/null \
     && alias apt='sudo nice apt'
 
 alias gzip='nice gzip'
 alias tar='nice tar'
-which xz > /dev/null 2> /dev/null && alias xz='nice xz -T0'
-which zstd > /dev/null 2> /dev/null && alias zstd='nice zstd -T0'
+which xz &>/dev/null && alias xz='nice xz -T0'
+which zstd &>/dev/null && alias zstd='nice zstd -T0'
 
-which make > /dev/null 2> /dev/null && alias make='nice make'
-
-which nvim > /dev/null 2> /dev/null \
-    && alias vi=nvim
+which make &>/dev/null && alias make='nice make'
 
 # Systemd
-which systemctl > /dev/null 2> /dev/null && alias s='sudo -E systemctl'
-which journalctl > /dev/null 2> /dev/null && alias j='sudo -E journalctl'
+which systemctl &>/dev/null && alias s='sudo -E systemctl'
+which journalctl &>/dev/null && alias j='sudo -E journalctl'
 
-which batcat > /dev/null 2> /dev/null && alias bat='batcat'
+which batcat &>/dev/null && alias bat='batcat'
 
 # Prefer podman container runtime interface
 export CRI=$(which podman || which docker)
 
-which butane > /dev/null 2> /dev/null \
+which butane &>/dev/null \
     || alias butane='${CRI} run -it --rm -v ${PWD}:/pwd -w /pwd quay.io/coreos/butane:release'
 
 # https://github.com/zero88/gh-release-downloader - github release downloader
