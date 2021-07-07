@@ -53,7 +53,7 @@ us-west.privateinternetaccess.com
 )
 
 # Default
-fping -c 10 -q ${PIA_HOSTS[*]} | sort -k8n
+fping -c 10 -q "${PIA_HOSTS[*]}" | sort -k8n
 
 # Retry = 0
 #fping -c 10 -r 1 -q ${PIA_HOSTS[*]} 2>&1 | sort -k8n

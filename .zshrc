@@ -1,4 +1,4 @@
-# vim: et
+# vim: et foldmethod=marker
 # {{{ 😮 Oh-My-ZSH Plugin manager
 # http://github.com/ohmyzsh/ohmyzsh Oh-My-Zsh
 
@@ -338,7 +338,7 @@ done
 
 [[ -d ~/go ]] && export GOPATH=~/go && path+=~/go/bin
 
-manpath+=/usr/local/man
+#manpath+=/usr/local/man
 
 export LANG=en_US.UTF-8
 export LC_COLLATE="C"                               # Makes ls sort dotfiles first
@@ -408,6 +408,7 @@ cosa() {
 [[ -d ~/.sdkman ]] && export SDKMAN_DIR=~/.sdkman
 [[ -r ~/.sdkman/bin/sdkman-init.sh ]] && source ~/.sdkman/bin/sdkman-init.sh
 
-# }}}
-export MANPATH=/usr/share/man:/usr/local/man
+#export MANPATH=/usr/share/man:/usr/local/man
 if [ -e /home/sedlund/.nix-profile/etc/profile.d/nix.sh ]; then . /home/sedlund/.nix-profile/etc/profile.d/nix.sh; fi # added by Nix installer
+
+# }}}
