@@ -381,11 +381,10 @@ which journalctl &>/dev/null && alias j='sudo -E journalctl'
 
 which batcat &>/dev/null && alias bat='batcat'
 
-# Prefer podman container runtime interface
-export CRI=$(which podman || which docker)
-
-which butane &>/dev/null \
-    || alias butane='${CRI} run -it --rm -v ${PWD}:/pwd -w /pwd quay.io/coreos/butane:release'
+# Prefer podman container runtime interface`
+export CRI=$(basename $(whence podman docker)) &&
+    which butane &>/dev/null \
+        || alias butane='${CRI} run -it --rm -v ${PWD}:/pwd -w /pwd quay.io/coreos/butane:release'
 
 # https://github.com/zero88/gh-release-downloader - github release downloader
 #amd64 builds only :P

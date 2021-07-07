@@ -34,7 +34,7 @@ Plug 'liuchengxu/vim-which-key', { 'on': ['WhichKey', 'WhichKey!'] }
 "Plug 'ervandew/supertab'
 "Plug 'BufOnly.vim'
 " FIXME: This maps C-n to it overwriting NERDTree
-" also depcrecated use https://github.com/mg979/vim-visual-multi
+" also deprecated use https://github.com/mg979/vim-visual-multi
 "Plug 'terryma/vim-multiple-cursors'
 "Plug 'wesQ3/vim-windowswap'
 "Plug 'SirVer/ultisnips'
