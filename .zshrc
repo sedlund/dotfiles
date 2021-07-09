@@ -1,6 +1,11 @@
 # vim: et foldmethod=marker
+
 # {{{ 😮 Oh-My-ZSH Plugin manager
 # http://github.com/ohmyzsh/ohmyzsh Oh-My-Zsh
+
+# export MANPATH=/usr/share/man:/usr/local/man
+#if [ -e /home/sedlund/.nix-profile/etc/profile.d/nix.sh ]; then . /home/sedlund/.nix-profile/etc/profile.d/nix.sh; fi # added by Nix installer
+[[ -e /home/sedlund/.nix-profile/etc/profile.d/nix.sh ]] && . /home/sedlund/.nix-profile/etc/profile.d/nix.sh
 
 # We are using ohmyzsh first as both Antigen and Znap are failing with
 # completion commands from kubectl and others.
@@ -112,7 +117,7 @@ source ~/.zsh/ohmyzsh/oh-my-zsh.sh
 #zinit ice wait'1' lucid as"completion" mv'zsh_tealdeer -> _tldr'
 
 # }}}
-# {{{ ⛔ DISABLED:⚡️Znap! - ZSH plugin manager
+# {{{ ⛔ DISABLED: ⚡️Znap! - ZSH plugin manager
 
 # Znap: https://github.com/marlonrichert/zsh-snap
 
@@ -270,12 +275,6 @@ bindkey -v                              # Set VI key bindings
 bindkey '^ ' autosuggest-accept         # zsh-autosuggestion: Bind CTRL-<space> to accept suggestion
 
 # }}}
-# 🌞 Solarized dir colors {{{
-
-# FIXME: Doesnt work with lsd
-#[[ -x /usr/bin/dircolors ]] && eval $(dircolors ~/.dir_colors)
-
-# }}}
 # {{{ 🌈 GRC: Generic colorizer
 
 # FIXME - this seems outdated - maybe there is something newer.
@@ -299,17 +298,9 @@ elif [[ "$TERM" != dumb ]] && [[ -x ${GRC} ]]; then
     alias netstat='colourify netstat'
     alias ping='colourify ping'
     alias traceroute='colourify /usr/sbin/traceroute'
+else
+    echo 'warn: grc not installed'
 fi
-
-# }}}
-# {{{ 🍴shell git prompt
-
-# Used with bureau theme
-
-#function git_prompt_info() {
-#    ref=$(git symbolic-ref HEAD 2> /dev/null) || return
-#    echo "$ZSH_THEME_GIT_PROMPT_PREFIX${ref#refs/heads/}${ZSH_THEME_GIT_PROMPT_CLEAN}${ZSH_THEME_GIT_PROMPT_SUFFIX}"
-#}
 
 # }}}
 # 😷 Umask {{{
@@ -338,8 +329,6 @@ done
 
 [[ -d ~/go ]] && export GOPATH=~/go && path+=~/go/bin
 
-#manpath+=/usr/local/man
-
 export LANG=en_US.UTF-8
 export LC_COLLATE="C"                               # Makes ls sort dotfiles first
 
@@ -351,9 +340,13 @@ export ZSH_AUTOSUGGEST_HIGHLIGHT_STYLE="fg=244"     # When using a solarized ter
 
 which less &>/dev/null && alias more=less; export PAGER=less
 
-which lsd &> /dev/null \
-    && alias ls='lsd --group-dirs first --classify' \
-    || alias ls='ls --color=auto --group-directories-first --classify'
+if [[ -x $(which lsd 2>/dev/null) ]]; then
+    alias ls='lsd --group-dirs first --classify'
+else
+    echo warn: no lsd
+    alias ls='ls --color=auto --group-directories-first --classify'
+    [[ -x /usr/bin/dircolors ]] && eval $(dircolors ~/.dir_colors)
+fi
 
 alias l='ls'
 alias lla='ls -la'
@@ -407,8 +400,5 @@ cosa() {
 # THIS MUST BE AT THE END OF THE FILE FOR SDKMAN TO WORK!!!
 [[ -d ~/.sdkman ]] && export SDKMAN_DIR=~/.sdkman
 [[ -r ~/.sdkman/bin/sdkman-init.sh ]] && source ~/.sdkman/bin/sdkman-init.sh
-
-#export MANPATH=/usr/share/man:/usr/local/man
-if [ -e /home/sedlund/.nix-profile/etc/profile.d/nix.sh ]; then . /home/sedlund/.nix-profile/etc/profile.d/nix.sh; fi # added by Nix installer
 
 # }}}
