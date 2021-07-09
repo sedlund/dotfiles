@@ -31,89 +31,6 @@ umask 007
     || git clone --depth 1 https://github.com/asdf-vm/asdf.git ~/.asdf
 
 # }}}
-# {{{ 🎭 Aliases
-
-# {{{ 🖊 EDITOR Config
-
-export EDITOR=$(basename $(whence nvim vim vi | head -1))
-case ${EDITOR} in
-    nvim)
-        alias vi=nvim
-        [[ -d ~/.config/nvim ]] || bash <(curl -s https://raw.githubusercontent.com/ChristianChiarulli/lunarvim/master/utils/installer/install.sh)
-    ;;
-    vim)
-        alias vi=vim
-    ;;
-esac
-
-# }}}
-# {{{ 🌈 GRC: Generic colorizer
-
-if [[ -f /etc/grc.zsh ]]; then
-    source <(ls /usr/share/grc | cut -d. -f2 \
-        | xargs -I{} -P6 sh -c "which {} >/dev/null && echo alias {}=\\\"grc {}\\\" ")
-else
-    not_installed+="grc"
-fi
-
-# }}}
-
-which less &>/dev/null && alias more=less; export PAGER=less
-
-if [[ -x $(which lsd 2>/dev/null) ]]; then
-    alias ls='lsd --group-dirs first --classify'
-else
-    not_installed+=lsd
-    alias ls='ls --color=auto --group-directories-first --classify'
-    [[ -x /usr/bin/dircolors ]] && eval $(dircolors ~/.dir_colors)
-fi
-
-alias l='ls'
-alias lla='ls -la'
-alias lld='ls -ld'
-
-# Ansible
-which ansible-vault &>/dev/null \
-    && alias ave='ansible-vault edit' \
-    && alias avv='ansible-vault view' \
-    && alias avc='ansible-vault encrypt'
-
-which apt &>/dev/null \
-    && alias apt='sudo nice apt'
-
-alias gzip='nice gzip'
-alias tar='nice tar'
-which xz &>/dev/null && alias xz='nice xz -T0' || not_installed+=xz
-which zstd &>/dev/null && alias zstd='nice zstd -T0' || not_installed+=zstd
-
-which make &>/dev/null && alias make='nice make'
-
-# Systemd
-which systemctl &>/dev/null && alias s='sudo -E systemctl'
-which journalctl &>/dev/null && alias j='sudo -E journalctl'
-
-which batcat &>/dev/null && alias bat='batcat'
-which bat &>/dev/null || not_installed+=bat
-
-# Prefer podman container runtime interface
-export CRI=$(basename $(whence podman docker))
-if [[ -x ${CRI} ]]; then
-    which butane &>/dev/null \
-        || alias butane='${CRI} run -it --rm -v ${PWD}:/pwd -w /pwd quay.io/coreos/butane:release'
-fi
-
-# https://github.com/zero88/gh-release-downloader - github release downloader
-#amd64 builds only :P
-#alias ghrd="docker run --rm -v /tmp:/tmp zero88/ghrd:latest"
-
-# THIS MUST BE AT THE END OF THE FILE FOR SDKMAN TO WORK!!!
-# SE - Really?
-[[ -d ~/.sdkman ]] && export SDKMAN_DIR=~/.sdkman
-[[ -r ~/.sdkman/bin/sdkman-init.sh ]] && source ~/.sdkman/bin/sdkman-init.sh
-
-warn_not_installed
-
-# }}}
 # {{{ 🌎 Environment variables
 
 # Test for some common paths and add them to PATH if they exist
@@ -293,6 +210,91 @@ esac
 
 # Antigen config complete
 antigen apply
+
+# }}}
+# {{{ 🎭 Aliases
+
+# Some paths do not get set until ZSH plugins are loaded. Load after ZSH
+
+# {{{ 🖊 EDITOR Config
+
+export EDITOR=$(basename $(whence nvim vim vi | head -1))
+case ${EDITOR} in
+    nvim)
+        alias vi=nvim
+        [[ -d ~/.config/nvim ]] || bash <(curl -s https://raw.githubusercontent.com/ChristianChiarulli/lunarvim/master/utils/installer/install.sh)
+    ;;
+    vim)
+        alias vi=vim
+    ;;
+esac
+
+# }}}
+# {{{ 🌈 GRC: Generic colorizer
+
+if [[ -f /etc/grc.zsh ]]; then
+    source <(ls /usr/share/grc | cut -d. -f2 \
+        | xargs -I{} -P6 sh -c "which {} >/dev/null && echo alias {}=\\\"grc {}\\\" ")
+else
+    not_installed+="grc"
+fi
+
+# }}}
+
+which less &>/dev/null && alias more=less; export PAGER=less
+
+if [[ -x $(which lsd 2>/dev/null) ]]; then
+    alias ls='lsd --group-dirs first --classify'
+else
+    not_installed+=lsd
+    alias ls='ls --color=auto --group-directories-first --classify'
+    [[ -x /usr/bin/dircolors ]] && eval $(dircolors ~/.dir_colors)
+fi
+
+alias l='ls'
+alias lla='ls -la'
+alias lld='ls -ld'
+
+# Ansible
+which ansible-vault &>/dev/null \
+    && alias ave='ansible-vault edit' \
+    && alias avv='ansible-vault view' \
+    && alias avc='ansible-vault encrypt'
+
+which apt &>/dev/null \
+    && alias apt='sudo nice apt'
+
+alias gzip='nice gzip'
+alias tar='nice tar'
+which xz &>/dev/null && alias xz='nice xz -T0' || not_installed+=xz
+which zstd &>/dev/null && alias zstd='nice zstd -T0' || not_installed+=zstd
+
+which make &>/dev/null && alias make='nice make'
+
+# Systemd
+which systemctl &>/dev/null && alias s='sudo -E systemctl'
+which journalctl &>/dev/null && alias j='sudo -E journalctl'
+
+which batcat &>/dev/null && alias bat='batcat'
+which bat &>/dev/null || not_installed+=bat
+
+# Prefer podman container runtime interface
+export CRI=$(basename $(whence podman docker))
+if [[ -x ${CRI} ]]; then
+    which butane &>/dev/null \
+        || alias butane='${CRI} run -it --rm -v ${PWD}:/pwd -w /pwd quay.io/coreos/butane:release'
+fi
+
+# https://github.com/zero88/gh-release-downloader - github release downloader
+#amd64 builds only :P
+#alias ghrd="docker run --rm -v /tmp:/tmp zero88/ghrd:latest"
+
+# THIS MUST BE AT THE END OF THE FILE FOR SDKMAN TO WORK!!!
+# SE - Really?
+[[ -d ~/.sdkman ]] && export SDKMAN_DIR=~/.sdkman
+[[ -r ~/.sdkman/bin/sdkman-init.sh ]] && source ~/.sdkman/bin/sdkman-init.sh
+
+warn_not_installed
 
 # }}}
 # {{{ 🎹 Key bindings - Load after ZSH Plugin Manager(s)
