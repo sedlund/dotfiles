@@ -139,7 +139,7 @@ fi
 warn_not_installed
 
 # }}}
-# {{{ 😮 Oh-My-ZSH Plugin manager
+# {{{ ⛔ DISABLED: 😮 Oh-My-ZSH Plugin manager
 # http://github.com/ohmyzsh/ohmyzsh Oh-My-Zsh
 
 # We are using ohmyzsh first as both Antigen and Znap are failing with
@@ -167,7 +167,7 @@ warn_not_installed
 # source ~/.zsh/ohmyzsh/oh-my-zsh.sh
 
 # }}}
-# {{{ ⛔ DISABLED: ⚡️Znap! - ZSH plugin manager
+# {{{ ⚡Znap! - ZSH plugin manager
 
 # Znap: https://github.com/marlonrichert/zsh-snap
 
@@ -198,9 +198,7 @@ znap source ohmyzsh/ohmyzsh
 znap source ohmyzsh/ohmyzsh lib/{directories,git,kubectl}
 znap source ohmyzsh/ohmyzsh plugins/asdf
 znap source ohmyzsh/ohmyzsh plugins/git
-# set -xv
 znap source ohmyzsh/ohmyzsh plugins/kubectl
-# set +xv
 znap source Tarrasch/zsh-autoenv
 znap source zdharma/fast-syntax-highlighting
 znap source zdharma/history-search-multi-word
@@ -249,7 +247,8 @@ case ${TERM} in
 esac
 
 # }}}
-# {{{ 💉 Antigen - ZSH Plugin Manager
+# }}}
+# {{{ ⛔ DISABLED: 💉 Antigen - ZSH Plugin Manager
 
 # [[ -d ~/.zsh/antigen ]] \
 #         || git clone --depth 1 https://github.com/zsh-users/antigen.git ~/.zsh/antigen
