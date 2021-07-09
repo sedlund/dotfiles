@@ -62,7 +62,9 @@ export EDITOR=$(basename $(whence nvim vim vi | head -1))
 case ${EDITOR} in
     nvim)
         alias vi=nvim
-        [[ -d ~/.config/nvim ]] || bash <(curl -s https://raw.githubusercontent.com/ChristianChiarulli/lunarvim/master/utils/installer/install.sh)
+        if [[ -x $(which pip3 2>/dev/null) ]]; then
+            [[ -d ~/.config/nvim ]] || bash <(curl -s https://raw.githubusercontent.com/ChristianChiarulli/lunarvim/master/utils/installer/install.sh)
+        fi
     ;;
     vim)
         alias vi=vim
@@ -151,12 +153,12 @@ plugins=(
     git
     github
     kubectl
-    pip
     python
     systemd
 )
 
 [[ -x $(which tmux 2>/dev/null) ]] && plugins+=tmux
+[[ -x $(which pip 2>/dev/null) ]] && plugins+=pip
 
 [[ -r ~/.ssh/id_rsa ]] \
     && plugins+=ssh-agent \
