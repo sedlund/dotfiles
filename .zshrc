@@ -177,9 +177,11 @@ warn_not_installed
 # off each module and it will pull them in parallel and load them by default,
 # has better cleanup as well.
 
-ZNAPDIR=~/.zsh/znap
 # This is normally set by oh-my-zsh.  We don't load all of it so set it here.
+ZSH=~/.zsh/ohmyzsh
 ZSH_CACHE_DIR=$ZSH/cache
+
+ZNAPDIR=~/.zsh/znap
 zstyle ':znap:*' git-dir ${ZNAPDIR}
 
 [[ -d ${ZNAPDIR} ]] \
