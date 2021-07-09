@@ -164,8 +164,9 @@ plugins=(
     pip
     python
     systemd
-    tmux
 )
+
+[[ -x $(which tmux 2>/dev/null) ]] && plugins+=tmux
 
 [[ -r ~/.ssh/id_rsa ]] \
     && plugins+=ssh-agent \
