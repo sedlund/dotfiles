@@ -1,20 +1,24 @@
 # vim: et foldmethod=marker
 
-# {{{ 😮 Oh-My-ZSH Plugin manager
-# http://github.com/ohmyzsh/ohmyzsh Oh-My-Zsh
+# {{{ Functions
 
-# export MANPATH=/usr/share/man:/usr/local/man
-#if [ -e /home/sedlund/.nix-profile/etc/profile.d/nix.sh ]; then . /home/sedlund/.nix-profile/etc/profile.d/nix.sh; fi # added by Nix installer
-[[ -e /home/sedlund/.nix-profile/etc/profile.d/nix.sh ]] && . /home/sedlund/.nix-profile/etc/profile.d/nix.sh
+typeset -TU NOT_INSTALLED not_installed ", "
+warn_not_installed() {
+    [[ "${NOT_INSTALLED}" != "" ]] \
+        && echo warn: ${NOT_INSTALLED} not installed
+}
 
-# We are using ohmyzsh first as both Antigen and Znap are failing with
-# completion commands from kubectl and others.
+# }}}
+# {{{ ⌚ Early config
+# Set NIX paths early so zsh plugins will load for these tools
+[[ -e ~/.nix-profile/etc/profile.d/nix.sh ]] && . ~/.nix-profile/etc/profile.d/nix.sh
 
-[[ -d ~/.zsh/ohmyzsh ]] \
-    || git clone --depth 1 https://github.com/ohmyzsh/ohmyzsh ~/.zsh/ohmyzsh
-
+# Do we like asdf really?
 [[ -d ~/.asdf ]] \
     || git clone --depth 1 https://github.com/asdf-vm/asdf.git ~/.asdf
+
+# }}}
+# {{{ 🖊️EDITOR Config
 
 export EDITOR=$(basename $(whence nvim vim vi | head -1))
 case ${EDITOR} in
@@ -26,6 +30,13 @@ case ${EDITOR} in
         alias vi=vim
     ;;
 esac
+
+# }}}
+# {{{ 😮 Oh-My-ZSH Plugin manager
+# http://github.com/ohmyzsh/ohmyzsh Oh-My-Zsh
+
+# We are using ohmyzsh first as both Antigen and Znap are failing with
+# completion commands from kubectl and others.
 
 plugins=(
     asdf
@@ -46,75 +57,6 @@ plugins=(
     && zstyle :omz:plugins:ssh-agent lifetime 4h
 
 source ~/.zsh/ohmyzsh/oh-my-zsh.sh
-
-# }}}
-# {{{ ⛔ DISABLED: Zinit: ZSH Plugin Manager
-# https://github.com/zdharma/zinit
-
-## https://github.com/zdharma/zinit#customizing-paths
-#declare -A ZINIT # initial Zinits hash definition, if configuring before loading Zinit, and then:
-#ZINIT[HOME_DIR]=~/.config/zinit
-#
-#[[ -d ${ZINIT[HOME_DIR]} ]] || git clone --depth 1 https://github.com/zdharma/zinit ${ZINIT[HOME_DIR]}
-#source ${ZINIT[HOME_DIR]}/zinit.zsh
-#
-##zinit ice atload'source ~/.p10k.zsh; _p9k_precmd'
-##zinit load romkatv/powerlevel10k
-#
-## Instant prompt
-#zinit wait'!' lucid for \
-#    nocd atload'source ~/.p10k.zsh; _p9k_precmd' romkatv/powerlevel10k
-#
-#zinit ice svn multisrc"*.zsh"
-#zinit snippet OMZ::lib
-#
-#zinit ice svn
-#zinit snippet OMZ::plugins/tmux
-#
-#zinit wait lucid for \
-#    OMZP::aws \
-#    OMZP::docker-compose \
-#    OMZP::git \
-#    OMZP::github \
-#    OMZP::pip \
-#    OMZP::python \
-#    OMZP::ssh-agent \
-#    OMZP::systemd \
-#    zdharma/history-search-multi-word \
-#    zinit-zsh/z-a-bin-gem-node \
-#    zsh-users/zsh-history-substring-search
-#
-#zinit load zinit-zsh/z-a-bin-gem-node
-#
-#zinit wait lucid silent for \
-#    zdharma/fast-syntax-highlighting \
-#    atload"!_zsh_autosuggest_start" zsh-users/zsh-autosuggestions
-#
-## Last commands that give completions
-## This 15 second wait lets me run commands and get something done without
-## havnig to wait for these to finish.
-##zinit wait'15' lucid atload"autoload -Uz compinit && compinit; zinit cdreplay -q" blockf for \
-#zinit wait'15' lucid atload"zicompinit; zicdreplay" blockf for \
-#    OMZP::kubectl \
-#    zsh-users/zsh-completions
-#
-## At the bottom of modules
-##autoload -Uz compinit && compinit
-##zinit cdreplay -q
-#
-##  Programs - This is the neatest part of Zinit - but is it worth it?
-#zinit wait"2" lucid as"null" from"gh-r" for \
-#    sbin"fzf"                           junegunn/fzf-bin \
-#    sbin"**/fd"                         @sharkdp/fd \
-#    sbin"**/bat"                        @sharkdp/bat
-##    sbin"duplicacy* -> duplicacy"       gilbertchen/duplicacy # zinit
-##    incorrectly chooses arm64 bin to download on arm7l
-#
-## 🦌 tealdeer
-#zinit wait'1' lucid \
-#  from"gh-r" as"program" pick"tldr" mv"tldr-* -> tldr" \
-#  light-mode for @dbrgn/tealdeer
-#zinit ice wait'1' lucid as"completion" mv'zsh_tealdeer -> _tldr'
 
 # }}}
 # {{{ ⛔ DISABLED: ⚡️Znap! - ZSH plugin manager
@@ -179,7 +121,7 @@ source ~/.zsh/ohmyzsh/oh-my-zsh.sh
 #fi
 
 # }}}
-# {{{ Antigen - ZSH Plugin Manager
+# {{{ 💉 Antigen - ZSH Plugin Manager
 
 [[ -d ~/.zsh/antigen ]] \
         || git clone --depth 1 https://github.com/zsh-users/antigen.git ~/.zsh/antigen
@@ -299,7 +241,7 @@ elif [[ "$TERM" != dumb ]] && [[ -x ${GRC} ]]; then
     alias ping='colourify ping'
     alias traceroute='colourify /usr/sbin/traceroute'
 else
-    echo 'warn: grc not installed'
+    not_installed+="grc"
 fi
 
 # }}}
@@ -343,7 +285,7 @@ which less &>/dev/null && alias more=less; export PAGER=less
 if [[ -x $(which lsd 2>/dev/null) ]]; then
     alias ls='lsd --group-dirs first --classify'
 else
-    echo warn: no lsd
+    not_installed+=lsd
     alias ls='ls --color=auto --group-directories-first --classify'
     [[ -x /usr/bin/dircolors ]] && eval $(dircolors ~/.dir_colors)
 fi
@@ -400,5 +342,7 @@ cosa() {
 # THIS MUST BE AT THE END OF THE FILE FOR SDKMAN TO WORK!!!
 [[ -d ~/.sdkman ]] && export SDKMAN_DIR=~/.sdkman
 [[ -r ~/.sdkman/bin/sdkman-init.sh ]] && source ~/.sdkman/bin/sdkman-init.sh
+
+warn_not_installed
 
 # }}}
