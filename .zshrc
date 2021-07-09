@@ -83,8 +83,8 @@ which apt &>/dev/null \
 
 alias gzip='nice gzip'
 alias tar='nice tar'
-which xz &>/dev/null && alias xz='nice xz -T0'
-which zstd &>/dev/null && alias zstd='nice zstd -T0'
+which xz &>/dev/null && alias xz='nice xz -T0' || not_installed+=xz
+which zstd &>/dev/null && alias zstd='nice zstd -T0' || not_installed+=zstd
 
 which make &>/dev/null && alias make='nice make'
 
@@ -93,29 +93,18 @@ which systemctl &>/dev/null && alias s='sudo -E systemctl'
 which journalctl &>/dev/null && alias j='sudo -E journalctl'
 
 which batcat &>/dev/null && alias bat='batcat'
+which bat &>/dev/null || not_installed+=bat
 
 # Prefer podman container runtime interface
-export CRI=$(basename $(whence podman docker)) &&
+export CRI=$(basename $(whence podman docker))
+if [[ -x ${CRI} ]]; then
     which butane &>/dev/null \
         || alias butane='${CRI} run -it --rm -v ${PWD}:/pwd -w /pwd quay.io/coreos/butane:release'
+fi
 
 # https://github.com/zero88/gh-release-downloader - github release downloader
 #amd64 builds only :P
 #alias ghrd="docker run --rm -v /tmp:/tmp zero88/ghrd:latest"
-
-cosa() {
-   env | grep COREOS_ASSEMBLER
-   set -x
-   podman run --rm -ti --security-opt label=disable --privileged                                    \
-              --uidmap=1000:0:1 --uidmap=0:1:1000 --uidmap 1001:1001:64536                          \
-              -v ${PWD}:/srv/ --device /dev/kvm --device /dev/fuse                                  \
-              --tmpfs /tmp -v /var/tmp:/var/tmp --name cosa                                         \
-              ${COREOS_ASSEMBLER_CONFIG_GIT:+-v $COREOS_ASSEMBLER_CONFIG_GIT:/srv/src/config/:ro}   \
-              ${COREOS_ASSEMBLER_GIT:+-v $COREOS_ASSEMBLER_GIT/src/:/usr/lib/coreos-assembler/:ro}  \
-              ${COREOS_ASSEMBLER_CONTAINER_RUNTIME_ARGS}                                            \
-              ${COREOS_ASSEMBLER_CONTAINER:-quay.io/coreos-assembler/coreos-assembler:latest} "$@"
-   rc=$?; set +x; return $rc
-}
 
 # THIS MUST BE AT THE END OF THE FILE FOR SDKMAN TO WORK!!!
 # SE - Really?
