@@ -145,26 +145,26 @@ warn_not_installed
 # We are using ohmyzsh first as both Antigen and Znap are failing with
 # completion commands from kubectl and others.
 
-plugins=(
-    asdf
-    aws
-    docker
-    docker-compose
-    git
-    github
-    kubectl
-    python
-    systemd
-)
-
-[[ -x $(which tmux 2>/dev/null) ]] && plugins+=tmux
-[[ -x $(which pip 2>/dev/null) ]] && plugins+=pip
-
-[[ -r ~/.ssh/id_rsa ]] \
-    && plugins+=ssh-agent \
-    && zstyle :omz:plugins:ssh-agent lifetime 4h
-
-source ~/.zsh/ohmyzsh/oh-my-zsh.sh
+# plugins=(
+#     asdf
+#     aws
+#     docker
+#     docker-compose
+#     git
+#     github
+#     kubectl
+#     python
+#     systemd
+# )
+# 
+# [[ -x $(which tmux 2>/dev/null) ]] && plugins+=tmux
+# [[ -x $(which pip 2>/dev/null) ]] && plugins+=pip
+# 
+# [[ -r ~/.ssh/id_rsa ]] \
+#     && plugins+=ssh-agent \
+#     && zstyle :omz:plugins:ssh-agent lifetime 4h
+# 
+# source ~/.zsh/ohmyzsh/oh-my-zsh.sh
 
 # }}}
 # {{{ ⛔ DISABLED: ⚡️Znap! - ZSH plugin manager
@@ -177,96 +177,48 @@ source ~/.zsh/ohmyzsh/oh-my-zsh.sh
 # off each module and it will pull them in parallel and load them by default,
 # has better cleanup as well.
 
-#ZNAPDIR=~/.zsh/znap
-#zstyle ':znap:*' git-dir ${ZNAPDIR}
-#[[ -d ${ZNAPDIR} ]] || git clone https://github.com/marlonrichert/zsh-snap.git ${ZNAPDIR}
-#source ${ZNAPDIR}/znap.zsh
+ZNAPDIR=~/.zsh/znap
+zstyle ':znap:*' git-dir ${ZNAPDIR}
+
+[[ -d ${ZNAPDIR} ]] \
+    || git clone https://github.com/marlonrichert/zsh-snap.git ${ZNAPDIR}
+
+source ${ZNAPDIR}/znap.zsh
 
 #znap prompt agnoster/agnoster-zsh-theme
 
 # List repos here to paralell pull
-#znap clone \
-#    https://github.com/romkatv/powerlevel10k
-#
-#znap source powerlevel10k
-# To customize prompt, run `p10k configure` or edit ~/.p10k.zsh.
-#[ ! -f ~/.p10k.zsh ] || source ~/.p10k.zsh
-
-#if [[ -r "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh" ]]; then
-#  source "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh"
-#fi
+znap clone \
+    https://github.com/romkatv/powerlevel10k
 
 # Do not use znap for ohmyzsh stuff it causes problems - use omz first for
 # it's plugins, then use znap for external repos.
-#znap source ohmyzsh/ohmyzsh
+znap source ohmyzsh/ohmyzsh
 
-#znap source ohmyzsh/ohmyzsh lib/{directories,git,kubectl}
-#znap source ohmyzsh/ohmyzsh plugins/git
-#set -xv
-#znap source ohmyzsh/ohmyzsh plugins/kubectl
-#set +xv
-#znap source Tarrasch/zsh-autoenv
-#znap source zdharma/fast-syntax-highlighting
-#znap source zdharma/history-search-multi-word
-#znap source zsh-users/zsh-autosuggestions
-#znap source zsh-users/zsh-completions
-#znap source zsh-users/zsh-history-substring-search
-#znap source zsh-users/zsh-syntax-highlighting
-#
-#znap eval trapd00r/LS_COLORS 'dircolors -b LS_COLORS'
-#zstyle ':completion:*' list-colors "${(s.:.)LS_COLORS}"
+znap source ohmyzsh/ohmyzsh lib/{directories,git,kubectl}
+znap source ohmyzsh/ohmyzsh plugins/git
+# set -xv
+znap source ohmyzsh/ohmyzsh plugins/kubectl
+# set +xv
+znap source Tarrasch/zsh-autoenv
+znap source zdharma/fast-syntax-highlighting
+znap source zdharma/history-search-multi-word
+znap source zsh-users/zsh-autosuggestions
+znap source zsh-users/zsh-completions
+znap source zsh-users/zsh-history-substring-search
+znap source zsh-users/zsh-syntax-highlighting
 
-# plugin specific options to load before antigen apply
-#[[ -r ~/.ssh/id_rsa ]] && zstyle :omz:plugins:ssh-agent agent-forwarding on
-
-# Apply theme
-#
-# Enable Powerlevel10k instant prompt. Should stay close to the top of ~/.zshrc.
-# Initialization code that may require console input (password prompts, [y/n]
-# confirmations, etc.) must go above this block; everything else may go below.
-#if [[ -r "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh" ]]; then
-#  source "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh"
-#fi
-
-# }}}
-# {{{ 💉 Antigen - ZSH Plugin Manager
-
-[[ -d ~/.zsh/antigen ]] \
-        || git clone --depth 1 https://github.com/zsh-users/antigen.git ~/.zsh/antigen
-
-# ADOTDIR — This directory is used to store all the repo clones, your bundles,
-# themes, caches and everything else Antigen requires to run smoothly. Defaults
-# to $HOME/.antigen
-ADOTDIR=~/.zsh
-
-# Load
-source ~/.zsh/antigen/antigen.zsh
-# Load ohmyzsh - many plugins/themes require its core library
-## We are already loaded above
-#antigen use oh-my-zsh
-
-# Bundles to use
-antigen bundles << EOBUNDLES
-    Tarrasch/zsh-autoenv
-    zdharma/fast-syntax-highlighting
-    zdharma/history-search-multi-word
-    zsh-users/zsh-autosuggestions
-    zsh-users/zsh-completions
-    zsh-users/zsh-history-substring-search
-    zsh-users/zsh-syntax-highlighting
-EOBUNDLES
+znap eval trapd00r/LS_COLORS 'dircolors -b LS_COLORS'
+zstyle ':completion:*' list-colors "${(s.:.)LS_COLORS}"
 
 # plugin specific options to load before antigen apply
-# enabed above in OMZ setup
-# Disabled to use default 4h timeout
 #[[ -r ~/.ssh/id_rsa ]] && zstyle :omz:plugins:ssh-agent agent-forwarding on
 
 # {{{ 🔠 Prompt
 case ${TERM} in
     *256color*|xterm*|rxvt*|Eterm|aterm|kterm|gnome*)
-
         # Apply theme early
-        antigen theme romkatv/powerlevel10k
+        znap source powerlevel10k
 
         # Enable Powerlevel10k instant prompt. Should stay close to the top of ~/.zshrc.
         # Initialization code that may require console input (password prompts, [y/n]
@@ -280,7 +232,9 @@ case ${TERM} in
     ;;
 
     linux)
-        antigen theme romkatv/powerlevel10k
+        # Apply theme early
+        znap source powerlevel10k
+
         if [[ -r "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh" ]]; then
           source "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh"
         fi
@@ -289,13 +243,79 @@ case ${TERM} in
 
     *)
         # This is a OMZ ssh theme - loading OMZ twice seems to hang
-        #antigen theme pure
+        # antigen theme pure
     ;;
 esac
-# }}}
 
-# Antigen config complete
-antigen apply
+# }}}
+# {{{ 💉 Antigen - ZSH Plugin Manager
+
+# [[ -d ~/.zsh/antigen ]] \
+#         || git clone --depth 1 https://github.com/zsh-users/antigen.git ~/.zsh/antigen
+# 
+# # ADOTDIR — This directory is used to store all the repo clones, your bundles,
+# # themes, caches and everything else Antigen requires to run smoothly. Defaults
+# # to $HOME/.antigen
+# ADOTDIR=~/.zsh
+# 
+# # Load
+# source ~/.zsh/antigen/antigen.zsh
+# # Load ohmyzsh - many plugins/themes require its core library
+# ## We are already loaded above
+# #antigen use oh-my-zsh
+# 
+# # Bundles to use
+# antigen bundles << EOBUNDLES
+#     Tarrasch/zsh-autoenv
+#     zdharma/fast-syntax-highlighting
+#     zdharma/history-search-multi-word
+#     zsh-users/zsh-autosuggestions
+#     zsh-users/zsh-completions
+#     zsh-users/zsh-history-substring-search
+#     zsh-users/zsh-syntax-highlighting
+# EOBUNDLES
+# 
+# # plugin specific options to load before antigen apply
+# # enabed above in OMZ setup
+# # Disabled to use default 4h timeout
+# #[[ -r ~/.ssh/id_rsa ]] && zstyle :omz:plugins:ssh-agent agent-forwarding on
+# 
+# # {{{ 🔠 Prompt
+# case ${TERM} in
+#     *256color*|xterm*|rxvt*|Eterm|aterm|kterm|gnome*)
+# 
+#         # Apply theme early
+#         antigen theme romkatv/powerlevel10k
+# 
+#         # Enable Powerlevel10k instant prompt. Should stay close to the top of ~/.zshrc.
+#         # Initialization code that may require console input (password prompts, [y/n]
+#         # confirmations, etc.) must go above this block; everything else may go below.
+#         if [[ -r "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh" ]]; then
+#           source "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh"
+#         fi
+# 
+#         # To customize prompt, run `p10k configure` or edit ~/.p10k.zsh.
+#         [[ -f ~/.p10k-graphical.zsh ]] && source ~/.p10k-graphical.zsh
+#     ;;
+# 
+#     linux)
+#         antigen theme romkatv/powerlevel10k
+#         if [[ -r "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh" ]]; then
+#           source "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh"
+#         fi
+#         [[ -f ~/.p10k-console.zsh ]] && source ~/.p10k-console.zsh
+#     ;;
+# 
+#     *)
+#         # This is a OMZ ssh theme - loading OMZ twice seems to hang
+#         #antigen theme pure
+#     ;;
+# esac
+# 
+# # }}}
+# 
+# # Antigen config complete
+# antigen apply
 
 # }}}
 # {{{ 🎹 Key bindings - Load after ZSH Plugin Manager(s)
