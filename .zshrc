@@ -178,6 +178,8 @@ warn_not_installed
 # has better cleanup as well.
 
 ZNAPDIR=~/.zsh/znap
+# This is normally set by oh-my-zsh.  We don't load all of it so set it here.
+ZSH_CACHE_DIR=$ZSH/cache
 zstyle ':znap:*' git-dir ${ZNAPDIR}
 
 [[ -d ${ZNAPDIR} ]] \
@@ -193,12 +195,14 @@ znap clone \
 
 # Do not use znap for ohmyzsh stuff it causes problems - use omz first for
 # it's plugins, then use znap for external repos.
-znap source ohmyzsh/ohmyzsh
+#znap source ohmyzsh/ohmyzsh
 
-znap source ohmyzsh/ohmyzsh lib/{directories,git,kubectl}
+#znap source ohmyzsh/ohmyzsh lib/{directories,git,kubectl}
+znap source ohmyzsh/ohmyzsh lib/{completions,directories,git}
 znap source ohmyzsh/ohmyzsh plugins/asdf
 znap source ohmyzsh/ohmyzsh plugins/git
 znap source ohmyzsh/ohmyzsh plugins/kubectl
+znap source ohmyzsh/ohmyzsh plugins/terraform
 znap source Tarrasch/zsh-autoenv
 znap source zdharma/fast-syntax-highlighting
 znap source zdharma/history-search-multi-word
