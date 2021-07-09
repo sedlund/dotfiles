@@ -195,7 +195,7 @@ znap clone \
 # it's plugins, then use znap for external repos.
 znap source ohmyzsh/ohmyzsh
 
-znap source ohmyzsh/ohmyzsh lib/{directories,git,kubectl}
+znap source ohmyzsh/ohmyzsh lib/{directories,asdf,git,kubectl}
 znap source ohmyzsh/ohmyzsh plugins/git
 # set -xv
 znap source ohmyzsh/ohmyzsh plugins/kubectl
