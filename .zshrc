@@ -2,7 +2,7 @@
 
 # {{{ Functions
 
-typeset -TU NOT_INSTALLED not_installed ", "
+typeset -TU NOT_INSTALLED not_installed ","
 warn_not_installed() {
     [[ "${NOT_INSTALLED}" != "" ]] \
         && echo warn: ${NOT_INSTALLED} not installed
@@ -343,6 +343,6 @@ cosa() {
 [[ -d ~/.sdkman ]] && export SDKMAN_DIR=~/.sdkman
 [[ -r ~/.sdkman/bin/sdkman-init.sh ]] && source ~/.sdkman/bin/sdkman-init.sh
 
-warn_not_installed
+sleep 1; warn_not_installed
 
 # }}}
