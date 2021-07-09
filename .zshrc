@@ -1,6 +1,6 @@
 # vim: et foldmethod=marker
 
-# {{{ Functions
+# {{{ 🧩 Functions
 
 typeset -TU NOT_INSTALLED not_installed ","
 warn_not_installed() {
@@ -133,38 +133,6 @@ ADOTDIR=~/.zsh
 
 # Load
 source ~/.zsh/antigen/antigen.zsh
-
-case ${TERM} in
-    *256color*|xterm*|rxvt*|Eterm|aterm|kterm|gnome*)
-
-        # Apply theme early
-        antigen theme romkatv/powerlevel10k
-
-        # Enable Powerlevel10k instant prompt. Should stay close to the top of ~/.zshrc.
-        # Initialization code that may require console input (password prompts, [y/n]
-        # confirmations, etc.) must go above this block; everything else may go below.
-        if [[ -r "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh" ]]; then
-          source "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh"
-        fi
-
-        # To customize prompt, run `p10k configure` or edit ~/.p10k.zsh.
-        [[ -f ~/.p10k-graphical.zsh ]] && source ~/.p10k-graphical.zsh
-    ;;
-
-    linux)
-        antigen theme romkatv/powerlevel10k
-        if [[ -r "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh" ]]; then
-          source "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh"
-        fi
-        [[ -f ~/.p10k-console.zsh ]] && source ~/.p10k-console.zsh
-    ;;
-
-    *)
-        # This is a OMZ ssh theme - loading OMZ twice seems to hang
-        #antigen theme pure
-    ;;
-esac
-
 # Load ohmyzsh - many plugins/themes require its core library
 ## We are already loaded above
 #antigen use oh-my-zsh
@@ -343,6 +311,38 @@ cosa() {
 [[ -d ~/.sdkman ]] && export SDKMAN_DIR=~/.sdkman
 [[ -r ~/.sdkman/bin/sdkman-init.sh ]] && source ~/.sdkman/bin/sdkman-init.sh
 
-sleep 1; warn_not_installed
-
 # }}}
+# {{{ 🔠 Prompt
+case ${TERM} in
+    *256color*|xterm*|rxvt*|Eterm|aterm|kterm|gnome*)
+
+        # Apply theme early
+        antigen theme romkatv/powerlevel10k
+
+        # Enable Powerlevel10k instant prompt. Should stay close to the top of ~/.zshrc.
+        # Initialization code that may require console input (password prompts, [y/n]
+        # confirmations, etc.) must go above this block; everything else may go below.
+        if [[ -r "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh" ]]; then
+          source "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh"
+        fi
+
+        # To customize prompt, run `p10k configure` or edit ~/.p10k.zsh.
+        [[ -f ~/.p10k-graphical.zsh ]] && source ~/.p10k-graphical.zsh
+    ;;
+
+    linux)
+        antigen theme romkatv/powerlevel10k
+        if [[ -r "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh" ]]; then
+          source "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh"
+        fi
+        [[ -f ~/.p10k-console.zsh ]] && source ~/.p10k-console.zsh
+    ;;
+
+    *)
+        # This is a OMZ ssh theme - loading OMZ twice seems to hang
+        #antigen theme pure
+    ;;
+esac
+# }}}
+
+
