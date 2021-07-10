@@ -85,19 +85,6 @@ fi
 
 which less &>/dev/null && alias more=less; export PAGER=less
 
-if [[ -x $(which lsd 2>/dev/null) ]]; then
-    alias ls='lsd --group-dirs first --classify'
-else
-    not_installed+=lsd
-    alias ls='ls --color=auto --group-directories-first --classify'
-    [[ -x /usr/bin/dircolors ]] && eval $(dircolors ~/.dir_colors)
-fi
-
-alias l='ls'
-alias la='ls -a'
-alias ll='ls -l'
-alias lla='ls -la'
-alias lld='ls -ld'
 
 # Ansible
 which ansible-vault &>/dev/null \
@@ -220,13 +207,24 @@ znap source zsh-users/zsh-syntax-highlighting
 # plugin specific options to load before antigen apply
 #[[ -r ~/.ssh/id_rsa ]] && zstyle :omz:plugins:ssh-agent agent-forwarding on
 
-# Set these again because I like stuff in ohmyzsh/libs/directories
-alias ls='lsd'
+# {{{ 📜 ls config
+
+if [[ -x $(which lsd 2>/dev/null) ]]; then
+    alias ls='lsd --group-dirs first --classify'
+else
+    not_installed+=lsd
+    alias ls='ls --color=auto --group-directories-first --classify'
+    [[ -x /usr/bin/dircolors ]] && eval $(dircolors ~/.dir_colors)
+fi
+
 alias l='ls'
 alias la='ls -a'
 alias ll='ls -l'
+alias l1='ls -1':w
 alias lla='ls -la'
 alias lld='ls -ld'
+
+# }}}
 
 # {{{ 🔠 Prompt
 case ${TERM} in
