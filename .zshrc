@@ -58,7 +58,7 @@ export ZSH_AUTOSUGGEST_HIGHLIGHT_STYLE="fg=244"     # When using a solarized ter
 
 # {{{ 🖊 EDITOR Config
 
-export EDITOR=$(basename $(whence nvim vim vi | head -1))
+export EDITOR=$(basename $(whence nvim vim vi | head -1) 2>/dev/null)
 case ${EDITOR} in
     nvim)
         alias vi=nvim
@@ -110,7 +110,7 @@ which batcat &>/dev/null && alias bat='batcat'
 which bat &>/dev/null || not_installed+=bat
 
 # Prefer podman container runtime interface
-export CRI=$(basename $(whence podman docker))
+export CRI=$(basename $(whence podman docker) 2>dev/null)
 if [[ -x ${CRI} ]]; then
     which butane &>/dev/null \
         || alias butane='${CRI} run -it --rm -v ${PWD}:/pwd -w /pwd quay.io/coreos/butane:release'
