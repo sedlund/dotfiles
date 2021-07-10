@@ -206,7 +206,7 @@ if [[ -x $(which lsd 2>/dev/null) ]]; then
 else
     not_installed+=lsd
     alias ls='ls --color=auto --group-directories-first --classify'
-    [[ -x /usr/bin/dircolors ]] && eval $(dircolors ~/.dir_colors)
+    [[ -x $(which dircolors 2>/dev/null) ]] && eval $(dircolors ~/.dir_colors)
 fi
 
 alias l='ls'
