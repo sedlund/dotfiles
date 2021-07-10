@@ -204,7 +204,7 @@ znap source zsh-users/zsh-syntax-highlighting
 if [[ -x $(which lsd 2>/dev/null) ]]; then
     alias ls='lsd --group-dirs first --classify'
 else
-    not_installed+=lsd
+    not_installed+="lsd"
     alias ls='ls --color=auto --group-directories-first --classify'
     [[ -x $(which dircolors 2>/dev/null) ]] && eval $(dircolors ~/.dir_colors)
 fi
