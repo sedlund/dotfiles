@@ -200,7 +200,7 @@ znap clone \
 #znap source ohmyzsh/ohmyzsh
 
 #znap source ohmyzsh/ohmyzsh lib/{directories,git,kubectl}
-znap source ohmyzsh/ohmyzsh lib/{completions,directories,git}
+znap source ohmyzsh/ohmyzsh lib/{completions,git}
 znap source ohmyzsh/ohmyzsh plugins/asdf
 znap source ohmyzsh/ohmyzsh plugins/git
 znap source ohmyzsh/ohmyzsh plugins/kubectl
