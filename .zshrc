@@ -221,6 +221,7 @@ znap source zsh-users/zsh-syntax-highlighting
 #[[ -r ~/.ssh/id_rsa ]] && zstyle :omz:plugins:ssh-agent agent-forwarding on
 
 # Set these again because I like stuff in ohmyzsh/libs/directories
+alias ls='lsd'
 alias l='ls'
 alias la='ls -a'
 alias ll='ls -l'
