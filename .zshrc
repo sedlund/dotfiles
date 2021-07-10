@@ -214,8 +214,8 @@ znap source zsh-users/zsh-completions
 znap source zsh-users/zsh-history-substring-search
 znap source zsh-users/zsh-syntax-highlighting
 
-znap eval trapd00r/LS_COLORS 'dircolors -b LS_COLORS'
-zstyle ':completion:*' list-colors "${(s.:.)LS_COLORS}"
+#znap eval trapd00r/LS_COLORS 'dircolors -b LS_COLORS'
+#zstyle ':completion:*' list-colors "${(s.:.)LS_COLORS}"
 
 # plugin specific options to load before antigen apply
 #[[ -r ~/.ssh/id_rsa ]] && zstyle :omz:plugins:ssh-agent agent-forwarding on
