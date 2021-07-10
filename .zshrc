@@ -201,8 +201,7 @@ znap clone \
 # it's plugins, then use znap for external repos.
 #znap source ohmyzsh/ohmyzsh
 
-#znap source ohmyzsh/ohmyzsh lib/{directories,git,kubectl}
-znap source ohmyzsh/ohmyzsh lib/{completions,directories,git}
+znap source ohmyzsh/ohmyzsh lib/{git,completion,theme-and-appearance,directories}
 znap source ohmyzsh/ohmyzsh plugins/asdf
 znap source ohmyzsh/ohmyzsh plugins/git
 znap source ohmyzsh/ohmyzsh plugins/kubectl
@@ -238,7 +237,7 @@ case ${TERM} in
         # Initialization code that may require console input (password prompts, [y/n]
         # confirmations, etc.) must go above this block; everything else may go below.
         if [[ -r "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh" ]]; then
-          source "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh"
+            source "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh"
         fi
 
         # To customize prompt, run `p10k configure` or edit ~/.p10k.zsh.
@@ -250,7 +249,7 @@ case ${TERM} in
         znap source powerlevel10k
 
         if [[ -r "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh" ]]; then
-          source "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh"
+            source "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh"
         fi
         [[ -f ~/.p10k-console.zsh ]] && source ~/.p10k-console.zsh
     ;;
@@ -262,6 +261,7 @@ case ${TERM} in
 esac
 
 # }}}
+
 # }}}
 # {{{ ⛔ DISABLED: 💉 Antigen - ZSH Plugin Manager
 
