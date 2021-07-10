@@ -178,7 +178,7 @@ source ${ZNAPDIR}/znap.zsh
 znap clone \
     https://github.com/romkatv/powerlevel10k
 
-znap source ohmyzsh/ohmyzsh lib/{git,completion,theme-and-appearance,directories}
+znap source ohmyzsh/ohmyzsh lib/{git,completion,theme-and-appearance,directories,history}
 znap source ohmyzsh/ohmyzsh plugins/asdf
 znap source ohmyzsh/ohmyzsh plugins/git
 znap source ohmyzsh/ohmyzsh plugins/kubectl
