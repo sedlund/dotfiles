@@ -160,12 +160,6 @@ warn_not_installed
 
 # Znap: https://github.com/marlonrichert/zsh-snap
 
-# FIXME Waiting on: https://github.com/marlonrichert/zsh-snap/issues/43
-# Since both Antigen and Znap both have this issue, sticking with
-# Antigen as it is more mature.  Bundles supports a DRY interface to list
-# off each module and it will pull them in parallel and load them by default,
-# has better cleanup as well.
-
 # This is normally set by oh-my-zsh.  We don't load all of it so set it here.
 ZSH=~/.zsh/ohmyzsh
 ZSH_CACHE_DIR=$ZSH/cache
@@ -183,10 +177,6 @@ source ${ZNAPDIR}/znap.zsh
 # List repos here to paralell pull
 znap clone \
     https://github.com/romkatv/powerlevel10k
-
-# Do not use znap for ohmyzsh stuff it causes problems - use omz first for
-# it's plugins, then use znap for external repos.
-#znap source ohmyzsh/ohmyzsh
 
 znap source ohmyzsh/ohmyzsh lib/{git,completion,theme-and-appearance,directories}
 znap source ohmyzsh/ohmyzsh plugins/asdf
@@ -208,6 +198,8 @@ znap source zsh-users/zsh-syntax-highlighting
 #[[ -r ~/.ssh/id_rsa ]] && zstyle :omz:plugins:ssh-agent agent-forwarding on
 
 # {{{ 📜 ls config
+
+# This overwrites parts of ohmyzsh/ohmyzsh/libs{directories} that I prefer
 
 if [[ -x $(which lsd 2>/dev/null) ]]; then
     alias ls='lsd --group-dirs first --classify'
