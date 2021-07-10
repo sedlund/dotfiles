@@ -110,7 +110,7 @@ which batcat &>/dev/null && alias bat='batcat'
 which bat &>/dev/null || not_installed+=bat
 
 # Prefer podman container runtime interface
-export CRI=$(basename $(whence podman docker) 2>dev/null)
+export CRI=$(basename $(whence podman docker) 2>/dev/null)
 if [[ -x ${CRI} ]]; then
     which butane &>/dev/null \
         || alias butane='${CRI} run -it --rm -v ${PWD}:/pwd -w /pwd quay.io/coreos/butane:release'
