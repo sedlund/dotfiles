@@ -84,7 +84,7 @@ fi
 # }}}
 
 # Test for lsd here so we can warn on it missing before znap init
-[[ -x $(which lsd 2>/dev/null) ]] && not_installed+="lsd"
+[[ -x $(which lsd 2>/dev/null) ]] || not_installed+="lsd"
 
 which less &>/dev/null && alias more=less; export PAGER=less
 
