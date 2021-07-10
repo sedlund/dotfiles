@@ -201,7 +201,6 @@ znap source zsh-users/zsh-syntax-highlighting
 
 # {{{ 📜 ls config
 
-# This overwrites parts of ohmyzsh/ohmyzsh/libs{directories} that I prefer
 if [[ -x $(which lsd 2>/dev/null) ]]; then
     alias ls='lsd --group-dirs first --classify'
 else
@@ -210,6 +209,7 @@ else
     [[ -x $(which dircolors 2>/dev/null) ]] && eval $(dircolors ~/.dir_colors)
 fi
 
+# This overwrides ls aliases of ohmyzsh/ohmyzsh/libs{directories} that I prefer
 alias l='ls'
 alias la='ls -a'
 alias ll='ls -l'
