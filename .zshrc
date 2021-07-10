@@ -83,13 +83,8 @@ fi
 
 # }}}
 
-if [[ -x $(which lsd 2>/dev/null) ]]; then
-    alias ls='lsd --group-dirs first --classify'
-else
-    not_installed+="lsd"
-    alias ls='ls --color=auto --group-directories-first --classify'
-    [[ -x $(which dircolors 2>/dev/null) ]] && eval $(dircolors ~/.dir_colors)
-fi
+# Test for lsd here so we can warn on it missing before znap init
+[[ -x $(which lsd 2>/dev/null) ]] && not_installed+="lsd"
 
 which less &>/dev/null && alias more=less; export PAGER=less
 
@@ -207,6 +202,13 @@ znap source zsh-users/zsh-syntax-highlighting
 # {{{ 📜 ls config
 
 # This overwrites parts of ohmyzsh/ohmyzsh/libs{directories} that I prefer
+if [[ -x $(which lsd 2>/dev/null) ]]; then
+    alias ls='lsd --group-dirs first --classify'
+else
+    not_installed+="lsd"
+    alias ls='ls --color=auto --group-directories-first --classify'
+    [[ -x $(which dircolors 2>/dev/null) ]] && eval $(dircolors ~/.dir_colors)
+fi
 
 alias l='ls'
 alias la='ls -a'
