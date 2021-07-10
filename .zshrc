@@ -213,7 +213,7 @@ fi
 alias l='ls'
 alias la='ls -a'
 alias ll='ls -l'
-alias l1='ls -1':w
+alias l1='ls -1'
 alias lla='ls -la'
 alias lld='ls -ld'
 
