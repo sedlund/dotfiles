@@ -94,6 +94,8 @@ else
 fi
 
 alias l='ls'
+alias la='ls -a'
+alias ll='ls -l'
 alias lla='ls -la'
 alias lld='ls -ld'
 
@@ -200,7 +202,7 @@ znap clone \
 #znap source ohmyzsh/ohmyzsh
 
 #znap source ohmyzsh/ohmyzsh lib/{directories,git,kubectl}
-znap source ohmyzsh/ohmyzsh lib/{completions,git}
+znap source ohmyzsh/ohmyzsh lib/{completions,directories,git}
 znap source ohmyzsh/ohmyzsh plugins/asdf
 znap source ohmyzsh/ohmyzsh plugins/git
 znap source ohmyzsh/ohmyzsh plugins/kubectl
@@ -218,6 +220,13 @@ zstyle ':completion:*' list-colors "${(s.:.)LS_COLORS}"
 
 # plugin specific options to load before antigen apply
 #[[ -r ~/.ssh/id_rsa ]] && zstyle :omz:plugins:ssh-agent agent-forwarding on
+
+# Set these again because I like stuff in ohmyzsh/libs/directories
+alias l='ls'
+alias la='ls -a'
+alias ll='ls -l'
+alias lla='ls -la'
+alias lld='ls -ld'
 
 # {{{ 🔠 Prompt
 case ${TERM} in
