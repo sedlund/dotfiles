@@ -212,10 +212,10 @@ fi
 # This overwrides ls aliases of ohmyzsh/ohmyzsh/libs{directories} that I prefer
 alias l='ls'
 alias la='ls -a'
-alias ll='ls -l'
+alias ll='ls -lh'
 alias l1='ls -1'
-alias lla='ls -la'
-alias lld='ls -ld'
+alias lla='ls -lah'
+alias lld='ls -ldh'
 
 # }}}
 
