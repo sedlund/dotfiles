@@ -204,6 +204,7 @@ znap source zsh-users/zsh-syntax-highlighting
 
 znap compdef _kubectl 'kubectl completion zsh'
 
+znap source rupa/z
 #znap eval trapd00r/LS_COLORS 'dircolors -b LS_COLORS'
 #zstyle ':completion:*' list-colors "${(s.:.)LS_COLORS}"
 
