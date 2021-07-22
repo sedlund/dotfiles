@@ -1,5 +1,19 @@
 # vim: et foldmethod=marker
 
+#{{{ Profile - Start
+# zmodload zsh/datetime
+# setopt PROMPT_SUBST
+# PS4='+$EPOCHREALTIME %N:%i> '
+#
+# logfile=$(mktemp zsh_profile.XXXXXXXX)
+# echo "Logging to $logfile"
+# exec 3>&2 2>$logfile
+#
+# setopt XTRACE
+
+# zmodload zsh/zprof
+
+#}}}
 # {{{ 🧩 Functions
 
 typeset -TU NOT_INSTALLED not_installed ","
@@ -58,28 +72,23 @@ export ZSH_AUTOSUGGEST_HIGHLIGHT_STYLE="fg=244"     # When using a solarized ter
 
 # {{{ 🖊 EDITOR Config
 
-export EDITOR=$(basename $(whence nvim vim vi | head -1) 2>/dev/null)
-case ${EDITOR} in
-    nvim)
-        alias vi=nvim
-        if [[ -x $(which pip3 2>/dev/null) ]]; then
-            [[ -d ~/.config/nvim ]] || bash <(curl -s https://raw.githubusercontent.com/ChristianChiarulli/lunarvim/master/utils/installer/install.sh)
-        fi
-    ;;
-    vim)
-        alias vi=vim
-    ;;
-esac
-
-# }}}
-# {{{ 🌈 GRC: Generic colorizer
-
-if [[ -f /etc/grc.zsh ]]; then
-    source <(ls /usr/share/grc | cut -d. -f2 \
-        | xargs -I{} -P6 sh -c "which {} >/dev/null && echo alias {}=\\\"grc {}\\\" ")
-else
-    not_installed+="grc"
-fi
+for cmd in nvim vim vi; do
+    if (( $+commands[$cmd] )); then
+        EDITOR=$cmd
+        case ${EDITOR} in
+            nvim)
+                alias vi=nvim
+                if (( $+commands[pip3] )); then
+                    [[ -d ~/.config/nvim ]] || bash <(curl -s https://raw.githubusercontent.com/ChristianChiarulli/lunarvim/master/utils/installer/install.sh)
+                fi
+            ;;
+            vim)
+                alias vi=vim
+            ;;
+        esac
+        break
+    fi
+done
 
 # }}}
 
@@ -110,6 +119,8 @@ which journalctl &>/dev/null && alias j='sudo -E journalctl'
 
 which batcat &>/dev/null && alias bat='batcat'
 which bat &>/dev/null || not_installed+="bat"
+
+alias k=kubectl
 
 # Prefer podman container runtime interface
 export CRI=$(basename $(whence podman docker) 2>/dev/null)
@@ -162,16 +173,13 @@ warn_not_installed
 
 # Znap: https://github.com/marlonrichert/zsh-snap
 
-# This is normally set by oh-my-zsh.  We don't load all of it so set it here.
+# These are normally set by oh-my-zsh.  We don't load all of it so set it here.
 ZSH=~/.zsh/ohmyzsh
 ZSH_CACHE_DIR=$ZSH/cache
 
 ZNAPDIR=~/.zsh/znap
-zstyle ':znap:*' git-dir ${ZNAPDIR}
-
 [[ -d ${ZNAPDIR} ]] \
-    || git clone https://github.com/marlonrichert/zsh-snap.git ${ZNAPDIR}
-
+    || git clone --depth 1 https://github.com/marlonrichert/zsh-snap.git ${ZNAPDIR}
 source ${ZNAPDIR}/znap.zsh
 
 #znap prompt agnoster/agnoster-zsh-theme
@@ -181,9 +189,10 @@ znap clone \
     https://github.com/romkatv/powerlevel10k
 
 znap source ohmyzsh/ohmyzsh lib/{git,completion,theme-and-appearance,directories,history}
+# znap source ohmyzsh/ohmyzsh lib/{completion,theme-and-appearance,directories}
 znap source ohmyzsh/ohmyzsh plugins/asdf
 znap source ohmyzsh/ohmyzsh plugins/git
-znap source ohmyzsh/ohmyzsh plugins/kubectl
+# znap source ohmyzsh/ohmyzsh plugins/kubectl
 znap source ohmyzsh/ohmyzsh plugins/terraform
 znap source Tarrasch/zsh-autoenv
 znap source zdharma/fast-syntax-highlighting
@@ -192,6 +201,8 @@ znap source zsh-users/zsh-autosuggestions
 znap source zsh-users/zsh-completions
 znap source zsh-users/zsh-history-substring-search
 znap source zsh-users/zsh-syntax-highlighting
+
+znap compdef _kubectl 'kubectl completion zsh'
 
 #znap eval trapd00r/LS_COLORS 'dircolors -b LS_COLORS'
 #zstyle ':completion:*' list-colors "${(s.:.)LS_COLORS}"
@@ -248,11 +259,30 @@ case ${TERM} in
 
     *)
         # This is a OMZ ssh theme - loading OMZ twice seems to hang
-        # antigen theme pure
+        znap prompt agnoster/agnoster-zsh-theme
     ;;
 esac
 
 # }}}
+
+# }}}
+# {{{ 🌈 GRC: Generic colorizer
+
+if [[ -f /etc/grc.zsh ]]; then
+    znap eval grc-cmds ' \
+        for cmd in $(ls /usr/share/grc | cut -d. -f2); do \
+            if (( $+commands[$cmd] )); then \
+                $cmd() { \
+                grc --colour=auto ${commands[$0]} "$@" }; \
+            fi; \
+        done'
+
+    # source <(ls /usr/share/grc | cut -d. -f2 \
+    #     | xargs -I{} -P6 sh -c "which {} >/dev/null && echo alias {}=\\\"grc {}\\\" ")
+
+else
+    not_installed+="grc"
+fi
 
 # }}}
 # {{{ ⛔ DISABLED: 💉 Antigen - ZSH Plugin Manager
@@ -354,4 +384,12 @@ bindkey -v                              # Set VI key bindings
 bindkey '^ ' autosuggest-accept         # zsh-autosuggestion: Bind CTRL-<space> to accept suggestion
 
 # }}}
+#{{{ Profile - Stop
+
+# unsetopt XTRACE
+# exec 2>&3 3>&-
+
+# zprof
+
+#}}}
 
