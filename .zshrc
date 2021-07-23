@@ -138,8 +138,6 @@ fi
 [[ -d ~/.sdkman ]] && export SDKMAN_DIR=~/.sdkman
 [[ -r ~/.sdkman/bin/sdkman-init.sh ]] && source ~/.sdkman/bin/sdkman-init.sh
 
-warn_not_installed
-
 # }}}
 # {{{ ⛔ DISABLED: 😮 Oh-My-ZSH Plugin manager
 # http://github.com/ohmyzsh/ohmyzsh Oh-My-Zsh
@@ -269,7 +267,6 @@ esac
 # }}}
 # {{{ 🌈 GRC: Generic colorizer
 
-set -x
 if [[ -r /etc/grc.zsh ]]; then
     for cmd in $(/usr/bin/ls /usr/share/grc | cut -d. -f2); do
         if (( $+commands[$cmd] )); then
@@ -279,7 +276,6 @@ if [[ -r /etc/grc.zsh ]]; then
 else
     not_installed+="grc"
 fi
-set +x
 
 # }}}
 # {{{ ⛔ DISABLED: 💉 Antigen - ZSH Plugin Manager
@@ -379,6 +375,8 @@ bindkey -M vicmd 'j' history-substring-search-down
 bindkey -M vicmd v edit-command-line    # Enables pressing ESC-v to open current command line in vi
 bindkey -v                              # Set VI key bindings
 bindkey '^ ' autosuggest-accept         # zsh-autosuggestion: Bind CTRL-<space> to accept suggestion
+
+warn_not_installed
 
 # }}}
 #{{{ Profile - Stop
