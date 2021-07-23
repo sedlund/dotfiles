@@ -108,8 +108,8 @@ which apt &>/dev/null \
 
 alias gzip='nice gzip'
 alias tar='nice tar'
-which xz &>/dev/null && alias xz='nice xz -T0' || not_installed+=xz
-which zstd &>/dev/null && alias zstd='nice zstd -T0' || not_installed+=zstd
+which xz &>/dev/null && alias xz='nice xz -T0' || not_installed+="xz"
+which zstd &>/dev/null && alias zstd='nice zstd -T0' || not_installed+="zstd"
 
 which make &>/dev/null && alias make='nice make'
 
@@ -117,10 +117,10 @@ which make &>/dev/null && alias make='nice make'
 which systemctl &>/dev/null && alias s='sudo -E systemctl'
 which journalctl &>/dev/null && alias j='sudo -E journalctl'
 
-which batcat &>/dev/null && alias bat='batcat'
+which batcat &>/dev/null && alias bat="batcat"
 which bat &>/dev/null || not_installed+="bat"
 
-alias k=kubectl
+which kubectl &>/dev/null && alias k=kubectl || not_installed+="kubectl"
 
 # Prefer podman container runtime interface
 export CRI=$(basename $(whence podman docker) 2>/dev/null)
