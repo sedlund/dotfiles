@@ -133,11 +133,6 @@ fi
 #amd64 builds only :P
 #alias ghrd="docker run --rm -v /tmp:/tmp zero88/ghrd:latest"
 
-# THIS MUST BE AT THE END OF THE FILE FOR SDKMAN TO WORK!!!
-# SE - Really?
-[[ -d ~/.sdkman ]] && export SDKMAN_DIR=~/.sdkman
-[[ -r ~/.sdkman/bin/sdkman-init.sh ]] && source ~/.sdkman/bin/sdkman-init.sh
-
 # }}}
 # {{{ ⛔ DISABLED: 😮 Oh-My-ZSH Plugin manager
 # http://github.com/ohmyzsh/ohmyzsh Oh-My-Zsh
