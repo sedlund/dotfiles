@@ -138,7 +138,9 @@ fi
 [[ -d ~/.sdkman ]] && export SDKMAN_DIR=~/.sdkman
 [[ -r ~/.sdkman/bin/sdkman-init.sh ]] && source ~/.sdkman/bin/sdkman-init.sh
 
+set -x
 warn_not_installed
+set +x
 
 # }}}
 # {{{ ⛔ DISABLED: 😮 Oh-My-ZSH Plugin manager
