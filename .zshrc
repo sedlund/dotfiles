@@ -17,6 +17,7 @@
 # {{{ 🧩 Functions
 
 typeset -TU NOT_INSTALLED not_installed ","
+export NOT_INSTALLED
 warn_not_installed() {
     [[ "${NOT_INSTALLED}" != "" ]] \
         && echo warn: ${NOT_INSTALLED} not installed
