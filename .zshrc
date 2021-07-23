@@ -270,17 +270,11 @@ esac
 # {{{ 🌈 GRC: Generic colorizer
 
 if [[ -f /etc/grc.zsh ]]; then
-    znap eval grc-cmds ' \
-        for cmd in $(ls /usr/share/grc | cut -d. -f2); do \
-            if (( $+commands[$cmd] )); then \
-                $cmd() { \
-                grc --colour=auto ${commands[$0]} "$@" }; \
-            fi; \
-        done'
-
-    # source <(ls /usr/share/grc | cut -d. -f2 \
-    #     | xargs -I{} -P6 sh -c "which {} >/dev/null && echo alias {}=\\\"grc {}\\\" ")
-
+    for cmd in $(/usr/bin/ls /usr/share/grc | cut -d. -f2); do
+        if (( $+commands[$cmd] )); then
+            $cmd() { grc --colour=auto ${commands[$0]} "$@" }
+        fi
+    done
 else
     not_installed+="grc"
 fi
