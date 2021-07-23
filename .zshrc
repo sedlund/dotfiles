@@ -17,7 +17,6 @@
 # {{{ 🧩 Functions
 
 typeset -TU NOT_INSTALLED not_installed ","
-export NOT_INSTALLED
 warn_not_installed() {
     [[ "${NOT_INSTALLED}" != "" ]] \
         && echo warn: ${NOT_INSTALLED} not installed
@@ -139,9 +138,7 @@ fi
 [[ -d ~/.sdkman ]] && export SDKMAN_DIR=~/.sdkman
 [[ -r ~/.sdkman/bin/sdkman-init.sh ]] && source ~/.sdkman/bin/sdkman-init.sh
 
-set -x
 warn_not_installed
-set +x
 
 # }}}
 # {{{ ⛔ DISABLED: 😮 Oh-My-ZSH Plugin manager
@@ -272,7 +269,8 @@ esac
 # }}}
 # {{{ 🌈 GRC: Generic colorizer
 
-if [[ -f /etc/grc.zsh ]]; then
+set -x
+if [[ -r /etc/grc.zsh ]]; then
     for cmd in $(/usr/bin/ls /usr/share/grc | cut -d. -f2); do
         if (( $+commands[$cmd] )); then
             $cmd() { grc --colour=auto ${commands[$0]} "$@" }
@@ -281,6 +279,7 @@ if [[ -f /etc/grc.zsh ]]; then
 else
     not_installed+="grc"
 fi
+set +x
 
 # }}}
 # {{{ ⛔ DISABLED: 💉 Antigen - ZSH Plugin Manager
