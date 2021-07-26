@@ -373,6 +373,7 @@ bindkey -M vicmd v edit-command-line    # Enables pressing ESC-v to open current
 bindkey -v                              # Set VI key bindings
 bindkey '^ ' autosuggest-accept         # zsh-autosuggestion: Bind CTRL-<space> to accept suggestion
 
+[[ -x /usr/local/bin/aws_completer ]] && complete -C '/usr/local/bin/aws_completer' aws
 warn_not_installed
 
 # }}}
