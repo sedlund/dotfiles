@@ -99,6 +99,9 @@ for cmd in lvim nvim vim vi; do
                 export EDITOR=vim
                 alias vi=vim
             ;;
+            vi)
+                export EDITOR=vi
+            ;;
         esac
         break
     fi
