@@ -3,7 +3,13 @@
 -- general
 lvim.format_on_save = true
 lvim.lint_on_save = true
+
+-- spacegrey comments are too dark
 lvim.colorscheme = "spacegray"
+-- lvim.colorscheme = "evening"
+-- lvim.colorscheme = "koehler"
+-- lvim.colorscheme = "morning"
+
 vim.opt.relativenumber = true
 
 -- keymappings

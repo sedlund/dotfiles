@@ -94,14 +94,14 @@ for cmd in lvim nvim vim vi; do
           export EDITOR=$cmd
           alias vi=$cmd
         fi
-        ;;
-        vim)
-          export EDITOR=$cmd
-          alias vi=$cmd
-        ;;
-        vi)
-          export EDITOR=vi
-        ;;
+      ;;
+      vim)
+        export EDITOR=$cmd
+        alias vi=$cmd
+      ;;
+      vi)
+        export EDITOR=vi
+      ;;
     esac
     break
   fi
@@ -285,7 +285,7 @@ if [[ -r /etc/grc.zsh ]]; then
   for cmd in $(/bin/ls /usr/share/grc | cut -d. -f2); do
     if (( $+commands[$cmd] )); then
       $cmd() { grc --colour=auto ${commands[$0]} "$@" }
-      fi
+    fi
   done
 else
   not_installed+="grc"
