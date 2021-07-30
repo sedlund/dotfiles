@@ -72,14 +72,14 @@ export ZSH_AUTOSUGGEST_HIGHLIGHT_STYLE="fg=244"     # When using a solarized ter
 
 # {{{ 🖊 EDITOR Config
 
-for cmd in nvim vim vi; do
+for cmd in lvim nvim vim vi; do
     if (( $+commands[$cmd] )); then
         EDITOR=$cmd
         case ${EDITOR} in
             nvim)
                 alias vi=nvim
                 if (( $+commands[pip3] )); then
-                    [[ -d ~/.config/nvim ]] || bash <(curl -s https://raw.githubusercontent.com/ChristianChiarulli/lunarvim/master/utils/installer/install.sh)
+                    [[ -d ~/.local/share/lunarvim ]] || bash <(curl -s https://raw.githubusercontent.com/ChristianChiarulli/lunarvim/master/utils/installer/install.sh)
                 fi
             ;;
             vim)
