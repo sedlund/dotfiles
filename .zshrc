@@ -74,17 +74,22 @@ export ZSH_AUTOSUGGEST_HIGHLIGHT_STYLE="fg=244"     # When using a solarized ter
 
 for cmd in lvim nvim vim vi; do
     if (( $+commands[$cmd] )); then
-        EDITOR=$cmd
         case ${EDITOR} in
             lvim)
+                EDITOR=$cmd
                 alias vi=lvim
             ;;
             nvim)
-                alias vi=nvim
+                alias
                 if (( $+commands[pip3] )); then
                     [[ -d ~/.local/share/lunarvim ]] \
                         || bash <(curl -s https://raw.githubusercontent.com/ChristianChiarulli/lunarvim/master/utils/installer/install.sh)
+                    alias vi=lvim
+                    EDITOR=$cmd
                 fi
+                # Fallback to vim if we dont have the requisuites for lunarvim
+                alias vi=vim
+                EDITOR=vim
             ;;
             vim)
                 alias vi=vim
