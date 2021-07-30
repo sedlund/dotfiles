@@ -1,6 +1,7 @@
 # vim: et foldmethod=marker
 
-#{{{ Profile - Start
+# {{{ Profile - Start
+
 # zmodload zsh/datetime
 # setopt PROMPT_SUBST
 # PS4='+$EPOCHREALTIME %N:%i> '
@@ -13,7 +14,7 @@
 
 # zmodload zsh/zprof
 
-#}}}
+# }}}
 # {{{ 🧩 Functions
 
 typeset -TU NOT_INSTALLED not_installed ","
@@ -396,12 +397,12 @@ bindkey '^ ' autosuggest-accept         # zsh-autosuggestion: Bind CTRL-<space> 
 warn_not_installed
 
 # }}}
-#{{{ Profile - Stop
+# {{{ Profile - Stop
 
 # unsetopt XTRACE
 # exec 2>&3 3>&-
 
 # zprof
 
-#}}}
+# }}}
 
