@@ -82,7 +82,8 @@ for cmd in lvim nvim vim vi; do
             nvim)
                 alias vi=nvim
                 if (( $+commands[pip3] )); then
-                    [[ -d ~/.local/share/lunarvim ]] || bash <(curl -s https://raw.githubusercontent.com/ChristianChiarulli/lunarvim/master/utils/installer/install.sh)
+                    [[ -d ~/.local/share/lunarvim ]] \
+                        || bash <(curl -s https://raw.githubusercontent.com/ChristianChiarulli/lunarvim/master/utils/installer/install.sh)
                 fi
             ;;
             vim)
