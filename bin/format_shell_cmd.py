@@ -13,6 +13,7 @@ Examples:
     echo 'echo "hi there" | awk "{{print $1}}"' | {sys.argv[0]}
 Help:
 Please see Benjamin Kane for help.
+https://github.com/bbkane/dotfiles/blob/master/bin_common/bin_common/format_shell_cmd.py
 """
 
 
