@@ -18,8 +18,8 @@
 
 typeset -TU NOT_INSTALLED not_installed ","
 warn_not_installed() {
-    [[ "${NOT_INSTALLED}" != "" ]] \
-        && echo warn: ${NOT_INSTALLED} not installed
+  [[ "${NOT_INSTALLED}" != "" ]] \
+    && echo warn: ${NOT_INSTALLED} not installed
 }
 
 # }}}
@@ -49,12 +49,12 @@ umask 007
 
 # Test for some common paths and add them to PATH if they exist
 for p in \
-    ~/.asdf/shims \
-    ~/.pub-cache/bin \
-    ~/bin \
-    ~/src/flutter/bin \
-    /usr/lib/dart/bin \
-    /usr/local/go/bin
+  ~/.asdf/shims \
+  ~/.pub-cache/bin \
+  ~/bin \
+  ~/src/flutter/bin \
+  /usr/lib/dart/bin \
+  /usr/local/go/bin
 do
     [[ -d "${p}" ]] && path+="${p}"
 done
@@ -73,38 +73,38 @@ export ZSH_AUTOSUGGEST_HIGHLIGHT_STYLE="fg=244"     # When using a solarized ter
 # {{{ 🖊 EDITOR Config
 
 for cmd in lvim nvim vim vi; do
-    if (( $+commands[$cmd] )); then
-        case $cmd in
-            lvim)
-                export EDITOR=$cmd
-                alias vi=lvim
-            ;;
-            nvim)
-                if (( $+commands[pip3] )); then
-                    [[ -d ~/.local/share/lunarvim ]] \
-                        || bash <(curl -s https://raw.githubusercontent.com/ChristianChiarulli/lunarvim/master/utils/installer/install.sh)
-                    alias vi=lvim
-                    export EDITOR=$cmd
-                fi
-                # Fallback to vim if we dont have the requisuites for lunarvim
-                if $(( $+commands[vim] )); then
-                        alias vi=vim
-                        export EDITOR=vim
-                else
-                        alias vi=nvim
-                        export EDITOR=nvim
-                fi
-            ;;
-            vim)
-                export EDITOR=vim
-                alias vi=vim
-            ;;
-            vi)
-                export EDITOR=vi
-            ;;
-        esac
-        break
-    fi
+  if (( $+commands[$cmd] )); then
+    case $cmd in
+      lvim)
+        export EDITOR=$cmd
+        alias vi=$cmd
+      ;;
+      nvim)
+        if (( $+commands[pip3] )); then
+          [[ -d ~/.local/share/lunarvim ]] \
+            || bash <(curl -s https://raw.githubusercontent.com/ChristianChiarulli/lunarvim/master/utils/installer/install.sh)
+          alias vi=lvim
+          export EDITOR=$cmd
+        fi
+        # Fallback to vim if we dont have the requisuites for lunarvim
+        if $(( $+commands[vim] )); then
+          alias vi=vim
+          export EDITOR=vim
+        else
+          export EDITOR=$cmd
+          alias vi=$cmd
+        fi
+        ;;
+        vim)
+          export EDITOR=$cmd
+          alias vi=$cmd
+        ;;
+        vi)
+          export EDITOR=vi
+        ;;
+    esac
+    break
+  fi
 done
 
 # }}}
@@ -116,12 +116,12 @@ which less &>/dev/null && alias more=less; export PAGER=less
 
 # Ansible
 which ansible-vault &>/dev/null \
-    && alias ave='ansible-vault edit' \
-    && alias avv='ansible-vault view' \
-    && alias avc='ansible-vault encrypt'
+  && alias ave='ansible-vault edit' \
+  && alias avv='ansible-vault view' \
+  && alias avc='ansible-vault encrypt'
 
 which apt &>/dev/null \
-    && alias apt='sudo nice apt'
+  && alias apt='sudo nice apt'
 
 alias gzip='nice gzip'
 alias tar='nice tar'
@@ -142,8 +142,8 @@ which kubectl &>/dev/null && alias k=kubectl || not_installed+="kubectl"
 # Prefer podman container runtime interface
 export CRI=$(basename $(whence podman docker) 2>/dev/null)
 if [[ -x $(which ${CRI} 2>/dev/null) ]]; then
-    which butane &>/dev/null \
-        || alias butane='${CRI} run -it --rm -v ${PWD}:/pwd -w /pwd quay.io/coreos/butane:release'
+  which butane &>/dev/null \
+    || alias butane='${CRI} run -it --rm -v ${PWD}:/pwd -w /pwd quay.io/coreos/butane:release'
 fi
 
 # https://github.com/zero88/gh-release-downloader - github release downloader
@@ -245,35 +245,35 @@ alias lld='ls -ldh'
 
 # {{{ 🔠 Prompt
 case ${TERM} in
-    *256color*|xterm*|rxvt*|Eterm|aterm|kterm|gnome*)
-        # Apply theme early
-        znap source powerlevel10k
+  *256color*|xterm*|rxvt*|Eterm|aterm|kterm|gnome*)
+    # Apply theme early
+    znap source powerlevel10k
 
-        # Enable Powerlevel10k instant prompt. Should stay close to the top of ~/.zshrc.
-        # Initialization code that may require console input (password prompts, [y/n]
-        # confirmations, etc.) must go above this block; everything else may go below.
-        if [[ -r "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh" ]]; then
-            source "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh"
-        fi
+    # Enable Powerlevel10k instant prompt. Should stay close to the top of ~/.zshrc.
+    # Initialization code that may require console input (password prompts, [y/n]
+    # confirmations, etc.) must go above this block; everything else may go below.
+    if [[ -r "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh" ]]; then
+        source "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh"
+    fi
 
-        # To customize prompt, run `p10k configure` or edit ~/.p10k.zsh.
-        [[ -f ~/.p10k-graphical.zsh ]] && source ~/.p10k-graphical.zsh
-    ;;
+    # To customize prompt, run `p10k configure` or edit ~/.p10k.zsh.
+    [[ -f ~/.p10k-graphical.zsh ]] && source ~/.p10k-graphical.zsh
+  ;;
 
-    linux)
-        # Apply theme early
-        znap source powerlevel10k
+  linux)
+    # Apply theme early
+    znap source powerlevel10k
 
-        if [[ -r "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh" ]]; then
-            source "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh"
-        fi
-        [[ -f ~/.p10k-console.zsh ]] && source ~/.p10k-console.zsh
-    ;;
+    if [[ -r "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh" ]]; then
+        source "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh"
+    fi
+    [[ -f ~/.p10k-console.zsh ]] && source ~/.p10k-console.zsh
+  ;;
 
-    *)
-        # This is a OMZ ssh theme - loading OMZ twice seems to hang
-        znap prompt agnoster/agnoster-zsh-theme
-    ;;
+  *)
+    # This is a OMZ ssh theme - loading OMZ twice seems to hang
+    znap prompt agnoster/agnoster-zsh-theme
+  ;;
 esac
 
 # }}}
@@ -282,13 +282,13 @@ esac
 # {{{ 🌈 GRC: Generic colorizer
 
 if [[ -r /etc/grc.zsh ]]; then
-    for cmd in $(/bin/ls /usr/share/grc | cut -d. -f2); do
-        if (( $+commands[$cmd] )); then
-            $cmd() { grc --colour=auto ${commands[$0]} "$@" }
-        fi
-    done
+  for cmd in $(/bin/ls /usr/share/grc | cut -d. -f2); do
+    if (( $+commands[$cmd] )); then
+      $cmd() { grc --colour=auto ${commands[$0]} "$@" }
+      fi
+  done
 else
-    not_installed+="grc"
+  not_installed+="grc"
 fi
 
 # }}}
@@ -390,7 +390,9 @@ bindkey -M vicmd v edit-command-line    # Enables pressing ESC-v to open current
 bindkey -v                              # Set VI key bindings
 bindkey '^ ' autosuggest-accept         # zsh-autosuggestion: Bind CTRL-<space> to accept suggestion
 
-[[ -x /usr/local/bin/aws_completer ]] && complete -C '/usr/local/bin/aws_completer' aws
+[[ -x /usr/local/bin/aws_completer ]] \
+  && complete -C '/usr/local/bin/aws_completer' aws
+
 warn_not_installed
 
 # }}}
