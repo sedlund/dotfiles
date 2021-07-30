@@ -4,10 +4,11 @@
 lvim.format_on_save = true
 lvim.lint_on_save = true
 
--- spacegrey comments are too dark
-lvim.colorscheme = "spacegray"
+-- spacegrey folds are too dark and visual highlight doesnt show
+-- lvim.colorscheme = "spacegray"
+-- evening doesnt load completely on initial load
 -- lvim.colorscheme = "evening"
--- lvim.colorscheme = "koehler"
+lvim.colorscheme = "koehler"
 -- lvim.colorscheme = "morning"
 
 vim.opt.relativenumber = true

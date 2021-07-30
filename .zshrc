@@ -100,7 +100,7 @@ for cmd in lvim nvim vim vi; do
         alias vi=$cmd
       ;;
       vi)
-        export EDITOR=vi
+        export EDITOR=$cmd
       ;;
     esac
     break
