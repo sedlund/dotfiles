@@ -76,6 +76,9 @@ for cmd in lvim nvim vim vi; do
     if (( $+commands[$cmd] )); then
         EDITOR=$cmd
         case ${EDITOR} in
+            lvim)
+                alias vi=lvim
+            ;;
             nvim)
                 alias vi=nvim
                 if (( $+commands[pip3] )); then
