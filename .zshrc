@@ -62,6 +62,8 @@ done
 
 [[ -d ~/go ]] && export GOPATH=~/go && path+=~/go/bin
 
+path+=./
+
 export LANG=en_US.UTF-8
 export LC_COLLATE="C"                               # Makes ls sort dotfiles first
 
@@ -88,7 +90,7 @@ for cmd in lvim nvim vim vi; do
           export EDITOR=$cmd
         fi
         # Fallback to vim if we dont have the requisuites for lunarvim
-        if $(( $+commands[vim] )); then
+        if (( $+commands[vim] )); then
           alias vi=vim
           export EDITOR=vim
         else
