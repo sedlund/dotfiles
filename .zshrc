@@ -140,7 +140,6 @@ which journalctl &>/dev/null && alias j='sudo -E journalctl'
 which batcat &>/dev/null && alias bat="batcat"
 which bat &>/dev/null || not_installed+="bat"
 
-which kubectl &>/dev/null && alias k=kubectl || not_installed+="kubectl"
 
 # Prefer podman container runtime interface
 export CRI=$(basename $(whence podman docker) 2>/dev/null)
@@ -207,7 +206,6 @@ znap source ohmyzsh/ohmyzsh plugins/asdf
 znap source ohmyzsh/ohmyzsh plugins/git
 [[ -x $(which tmux 2>/dev/null) ]] && znap source ohmyzsh/ohmyzsh plugins/tmux
 [[ -x $(which pip 2>/dev/null) ]] && znap source ohmyzsh/ohmyzsh plugins/pip
-# znap source ohmyzsh/ohmyzsh plugins/kubectl
 znap source ohmyzsh/ohmyzsh plugins/terraform
 znap source Tarrasch/zsh-autoenv
 znap source zdharma/fast-syntax-highlighting
@@ -217,7 +215,12 @@ znap source zsh-users/zsh-completions
 znap source zsh-users/zsh-history-substring-search
 znap source zsh-users/zsh-syntax-highlighting
 
-znap compdef _kubectl 'kubectl completion zsh'
+if [[ -x $(which kubectl 2>/dev/null) ]]; then
+  alias k=kubectl
+  znap compdef _kubectl 'kubectl completion zsh'
+else
+  not_installed+="kubectl"
+fi
 
 znap source rupa/z
 #znap eval trapd00r/LS_COLORS 'dircolors -b LS_COLORS'
