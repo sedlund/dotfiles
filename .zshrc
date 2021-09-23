@@ -222,7 +222,9 @@ else
   not_installed+="kubectl"
 fi
 
-znap source rupa/z
+znap compdef z "zoxide init zsh"
+
+#znap source rupa/z
 #znap eval trapd00r/LS_COLORS 'dircolors -b LS_COLORS'
 #zstyle ':completion:*' list-colors "${(s.:.)LS_COLORS}"
 
