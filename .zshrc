@@ -222,7 +222,12 @@ else
   not_installed+="kubectl"
 fi
 
-znap compdef z "zoxide init zsh"
+
+if [[ -x $(which zoxide 2>/dev/null) ]]; then
+  eval "$(zoxide init zsh)"
+else
+  not_installed+="zoxide"
+fi
 
 #znap source rupa/z
 #znap eval trapd00r/LS_COLORS 'dircolors -b LS_COLORS'
