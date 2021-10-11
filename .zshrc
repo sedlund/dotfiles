@@ -79,8 +79,12 @@ for cmd in lvim nvim vim vi; do
   if (( $+commands[$cmd] )); then
     case $cmd in
       lvim)
-        export EDITOR=$cmd
-        alias vi=$cmd
+        if (( $+commands[nvim] )); then
+          export EDITOR=$cmd
+          alias vi=$cmd
+        else
+          not_installed+=nvim
+        fi
       ;;
       nvim)
         if (( $+commands[pip3] )); then
@@ -221,7 +225,6 @@ if [[ -x $(which kubectl 2>/dev/null) ]]; then
 else
   not_installed+="kubectl"
 fi
-
 
 if [[ -x $(which zoxide 2>/dev/null) ]]; then
   eval "$(zoxide init zsh)"
