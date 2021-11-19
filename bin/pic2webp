@@ -1,0 +1,8 @@
+#!/bin/sh
+
+find . -maxdepth 1 -regextype egrep -iregex ".*\.(png|gif|jpg|jpeg|gif)$" -print0 \
+  |  xargs \
+    -0 \
+    -P$(nproc) \
+    -I{} \
+    sh -c "echo {}; convert \"{}\" \"\$(echo \"{}\" | sed -r 's/\.(png|jpeg|gif|jpg)$//I').webp\""
