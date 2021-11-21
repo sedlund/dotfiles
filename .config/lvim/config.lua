@@ -13,8 +13,8 @@ vim.opt.relativenumber = true
 -- general
 lvim.log.level = "warn"
 lvim.format_on_save = true
--- lvim.colorscheme = "onedarker"
-lvim.colorscheme = "koehler"
+lvim.colorscheme = "onedarker"
+-- lvim.colorscheme = "koehler"
 
 -- keymappings [view all the defaults by pressing <leader>Lk]
 lvim.leader = "space"
