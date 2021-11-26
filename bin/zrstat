@@ -1,0 +1,10 @@
+#!/bin/sh
+
+# https://www.kernel.org/doc/html/latest/admin-guide/blockdev/zram.html
+# https://github.com/torvalds/linux/blob/master/Documentation/admin-guide/blockdev/zram.rst
+
+zsize=$(( ( $(awk '{print $1}' /sys/block/zram?/mm_stat | sed ':a; N; s#\n#+#g') ) / 1024 / 1024 ))
+zused=$(( ( $(awk '{print $3}' /sys/block/zram?/mm_stat | sed ':a; N; s#\n#+#g') ) / 1024 / 1024 ))
+zperc=$(echo "scale=2; $zsize / $zused" | bc)
+
+echo "Swap Used: ${zsize} MB Compressed: ${zused} MB Ratio: $zperc"
