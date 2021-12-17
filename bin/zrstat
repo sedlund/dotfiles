@@ -17,5 +17,6 @@ zsize=$(( ( $(awk '{print $1}' /sys/block/zram?/mm_stat | sed ':a; N; s#\n#+#g')
 zused=$(( ( $(awk '{print $3}' /sys/block/zram?/mm_stat | sed ':a; N; s#\n#+#g') ) / 1024 / 1024 ))
 zperc=$(echo "scale=2; $zsize / $zused" | bc)
 zhuge=$(( $(awk '{print $8}' /sys/block/zram?/mm_stat) * 4 / 1024 ))
+zalgo=$( cat /sys/block/zram0/comp_algorithm | awk -F"[][]" '{print $2}' )
 
-echo "Swap Used: ${zsize} MB Compressed: ${zused} MB Ratio: $zperc Incompressible: ${zhuge} MB"
+echo "Swap Used: ${zsize} MB Compressed: ${zused} MB Ratio: $zperc Incompressible: ${zhuge} MB Algo: ${zalgo}"
