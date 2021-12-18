@@ -9,11 +9,20 @@ an executable
 -- THESE ARE EXAMPLE CONFIGS FEEL FREE TO CHANGE TO WHATEVER YOU WANT
 
 vim.opt.relativenumber = true
+lvim.builtin.lualine.sections.lualine_y = { "location" }
+
+-- lualine.styles.lvim = {
+--   sections = {
+--     lualine_y = {location},
+--   }
+-- }
+
+-- lualine_y = { location },
 
 -- general
 lvim.log.level = "warn"
 lvim.format_on_save = true
-lvim.colorscheme = "onedarker"
+-- lvim.colorscheme = "onedarker"
 -- lvim.colorscheme = "koehler"
 
 -- keymappings [view all the defaults by pressing <leader>Lk]
@@ -159,6 +168,7 @@ lvim.plugins = {
 --       cmd = "TroubleToggle",
   "google/vim-jsonnet",
   "itspriddle/vim-shellcheck",
+  "lukas-reineke/indent-blankline.nvim",
 
 --     },
 }
