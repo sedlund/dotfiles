@@ -11,14 +11,6 @@ an executable
 vim.opt.relativenumber = true
 lvim.builtin.lualine.sections.lualine_y = { "location" }
 
--- lualine.styles.lvim = {
---   sections = {
---     lualine_y = {location},
---   }
--- }
-
--- lualine_y = { location },
-
 -- general
 lvim.log.level = "warn"
 lvim.format_on_save = true
