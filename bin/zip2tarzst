@@ -1,0 +1,13 @@
+#!/bin/sh
+
+readonly dir="$(mktemp -d)"
+readonly zipWithPath=$(readlink -f "${1}")
+readonly zip=$(basename "${zipWithPath}")
+readonly file=$(basename "${zip}" .zip)
+readonly cwd="${PWD}"
+
+cd "${dir}"
+unzip "${zipWithPath}"
+tar c . | zstd -T0 -v -o "${cwd}/${file}.tar.zst"
+cd "${cwd}"
+rm -rf "${dir}"
