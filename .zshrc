@@ -208,10 +208,11 @@ znap source ohmyzsh/ohmyzsh lib/{git,completion,theme-and-appearance,directories
 # znap source ohmyzsh/ohmyzsh lib/{completion,theme-and-appearance,directories}
 znap source ohmyzsh/ohmyzsh plugins/asdf
 znap source ohmyzsh/ohmyzsh plugins/git
+znap source ohmyzsh/ohmyzsh plugins/vi-mode
 [[ -x $(which tmux 2>/dev/null) ]] && znap source ohmyzsh/ohmyzsh plugins/tmux
 [[ -x $(which pip 2>/dev/null) ]] && znap source ohmyzsh/ohmyzsh plugins/pip
-znap source ohmyzsh/ohmyzsh plugins/terraform
 znap source Tarrasch/zsh-autoenv
+znap source ohmyzsh/ohmyzsh plugins/terraform
 znap source zdharma-continuum/fast-syntax-highlighting
 znap source zdharma-continuum/history-search-multi-word
 znap source zsh-users/zsh-autosuggestions
