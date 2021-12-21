@@ -3,6 +3,6 @@
 find . -maxdepth 1 -regextype egrep -iregex ".*\.(png|gif|jpg|jpeg)$" -print0 \
   |  xargs \
     -0 \
-    -P$(nproc) \
+    -P"$(nproc)" \
     -I{} \
     sh -c "echo {}; convert \"{}\" \"\$(echo \"{}\" | sed -r 's/\.(png|gif|jpg|jpeg)$//I').webp\""
