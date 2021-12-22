@@ -48,6 +48,8 @@ umask 007
 # }}}
 # {{{ 🌎 Environment variables
 
+# dont error on failed globs
+setopt NULL_GLOB
 # Test for some common paths and add them to PATH if they exist
 for p in \
   ./ \
@@ -59,8 +61,9 @@ for p in \
   ~/bin \
   ~/src/flutter/bin
 do
-  [[ -d "${p}" ]] && path+="${p}"
+  [[ -d ${p} ]] && path+="${p}"
 done
+unsetopt NULL_GLOB
 
 [[ -d ~/go ]] && export GOPATH=~/go && path+=~/go/bin
 
