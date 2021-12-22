@@ -50,19 +50,19 @@ umask 007
 
 # Test for some common paths and add them to PATH if they exist
 for p in \
+  ./ \
+  /usr/lib/dart/bin \
+  /usr/local/go/bin \
+  ~/.asdf/installs/krew/*/bin \
   ~/.asdf/shims \
   ~/.pub-cache/bin \
   ~/bin \
-  ~/src/flutter/bin \
-  /usr/lib/dart/bin \
-  /usr/local/go/bin
+  ~/src/flutter/bin
 do
-    [[ -d "${p}" ]] && path+="${p}"
+  [[ -d "${p}" ]] && path+="${p}"
 done
 
 [[ -d ~/go ]] && export GOPATH=~/go && path+=~/go/bin
-
-path+=./
 
 export LANG=en_US.UTF-8
 export LC_COLLATE="C"                               # Makes ls sort dotfiles first
