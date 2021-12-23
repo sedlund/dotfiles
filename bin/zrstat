@@ -13,6 +13,8 @@
 # huge_pages        the number of incompressible pages
 # huge_pages_since: the number of incompressible pages since zram set up
 
+[ ! -d /sys/block/zram0 ] && echo Not using zram && exit 1 
+
 zsize=$(( ( $(awk '{print $1}' /sys/block/zram?/mm_stat | sed ':a; N; s#\n#+#g') ) / 1024 / 1024 ))
 zused=$(( ( $(awk '{print $3}' /sys/block/zram?/mm_stat | sed ':a; N; s#\n#+#g') ) / 1024 / 1024 ))
 zperc=$(echo "scale=2; $zsize / $zused" | bc)
