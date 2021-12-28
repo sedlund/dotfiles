@@ -305,7 +305,7 @@ esac
 # {{{ 🌈 GRC: Generic colorizer
 
 if [[ -r /etc/grc.zsh ]]; then
-  for cmd in $(/bin/ls /usr/share/grc | cut -d. -f2); do
+  for cmd in $(/bin/ls /usr/share/grc | grep -vE "ls" | cut -d. -f2); do
     if (( $+commands[$cmd] )); then
       $cmd() { grc --colour=auto ${commands[$0]} "$@" }
     fi
