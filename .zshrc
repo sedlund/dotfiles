@@ -241,7 +241,8 @@ fi
 # cache completions
 sf=~/.local/share/zsh/site-functions
 for cmd in \
-  hcloud
+  hcloud \
+  podman
 do
   [[ -x $(which ${cmd}) ]] \
     && [[ ! -f ${sf}/_${cmd} ]] \
