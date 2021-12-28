@@ -227,7 +227,6 @@ znap source zsh-users/zsh-history-substring-search
 znap source zsh-users/zsh-syntax-highlighting
 
 if [[ -x $(which kubectl 2>/dev/null) ]]; then
-  alias k=kubectl
   znap source ohmyzsh/ohmyzsh plugins/kubectl
 else
   not_installed+="kubectl"
@@ -239,7 +238,17 @@ else
   not_installed+="zoxide"
 fi
 
-#znap source rupa/z
+# cache completions
+sf=~/.local/share/zsh/site-functions
+for cmd in \
+  hcloud
+do
+  [[ -x $(which ${cmd}) ]] \
+    && [[ ! -f ${sf}/_${cmd} ]] \
+    && ${cmd} completion zsh > ${sf}/_${cmd}
+done
+
+
 #znap eval trapd00r/LS_COLORS 'dircolors -b LS_COLORS'
 #zstyle ':completion:*' list-colors "${(s.:.)LS_COLORS}"
 
