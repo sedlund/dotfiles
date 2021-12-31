@@ -146,7 +146,7 @@ which journalctl &>/dev/null && alias j='sudo -E journalctl'
 
 which batcat &>/dev/null \
   && alias bat="batcat"; export MANPAGER="sh -c \
-    'col --no-backspaces --spaces | bat --language man --plain'" \
+    'col --no-backspaces --spaces | batcat --language man --plain'" \
   || not_installed+="bat"
 
 # Prefer podman container runtime interface
