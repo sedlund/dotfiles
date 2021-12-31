@@ -144,12 +144,10 @@ which make &>/dev/null && alias make='nice make'
 which systemctl &>/dev/null && alias s='sudo -E systemctl'
 which journalctl &>/dev/null && alias j='sudo -E journalctl'
 
-which batcat &>/dev/null && alias bat="batcat"
-which bat &>/dev/null \
-  && export MANPAGER="sh -c \
+which batcat &>/dev/null \
+  && alias bat="batcat"; export MANPAGER="sh -c \
     'col --no-backspaces --spaces | bat --language man --plain'" \
   || not_installed+="bat"
-
 
 # Prefer podman container runtime interface
 export CRI=$(basename $(whence podman docker) 2>/dev/null)
