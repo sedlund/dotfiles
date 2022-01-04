@@ -145,12 +145,13 @@ which systemctl &>/dev/null && alias s='sudo -E systemctl'
 which journalctl &>/dev/null && alias j='sudo -E journalctl'
 
 which batcat &>/dev/null \
-  && alias batcat=bat; export MANPAGER="sh -c \
-    'col --no-backspaces --spaces | batcat --language man --plain'" \
+  && alias batcat=bat \
+  && export MANPAGER="sh -c 'col -bx | batcat --language man --plain'"
+
+# use short options for col as raspbian col doesnt have long options
 
 which bat &>/dev/null \
-  && export MANPAGER="sh -c \
-    'col --no-backspaces --spaces | bat --language man --plain'"
+  && export MANPAGER="sh -c 'col -bx | bat --language man --plain'"
 
 # Prefer podman container runtime interface
 export CRI=$(basename $(whence podman docker) 2>/dev/null)
