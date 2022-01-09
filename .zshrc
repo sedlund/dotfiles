@@ -321,6 +321,10 @@ if [[ -r /etc/grc.zsh ]]; then
       $cmd() { grc --colour=auto ${commands[$0]} "$@" }
     fi
   done
+  # some commands don't work with grc
+  for cmd in mtr systemctl; do
+    disable -f ${cmd}
+  done
 else
   not_installed+="grc"
 fi
@@ -438,4 +442,3 @@ warn_not_installed
 # zprof
 
 # }}}
-
