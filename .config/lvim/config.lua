@@ -161,7 +161,8 @@ lvim.plugins = {
   "google/vim-jsonnet",
   "itspriddle/vim-shellcheck",
   "lukas-reineke/indent-blankline.nvim",
-
+  "lunarvim/colorschemes",
+  "folke/tokyonight.nvim",
 --     },
 }
 
