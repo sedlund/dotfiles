@@ -322,7 +322,8 @@ if [[ -r /etc/grc.zsh ]]; then
     fi
   done
   # some commands don't work with grc
-  for cmd in mtr systemctl; do
+  # maybe add `mtr` below
+  for cmd in systemctl; do
     disable -f ${cmd}
   done
 else
