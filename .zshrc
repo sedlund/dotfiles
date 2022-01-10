@@ -141,8 +141,16 @@ which zstd &>/dev/null && alias zstd='nice zstd -T0' || not_installed+="zstd"
 which make &>/dev/null && alias make='nice make'
 
 # Systemd
-which systemctl &>/dev/null && alias s='sudo -E systemctl'
-which journalctl &>/dev/null && alias j='sudo -E journalctl'
+
+# check if --user is specified to decide to use sudo for systemd controls
+function check_user {
+  SUDO="sudo -E"
+  [[ ${argv[(ie)--user]} -le ${#argv} ]] && unset SUDO
+  zsh -c "${SUDO} $argv"
+}
+
+which systemctl &>/dev/null && alias s="check_user systemctl"
+which journalctl &>/dev/null && alias j="check_user journalctl"
 
 which batcat &>/dev/null \
   && alias batcat=bat \
@@ -324,7 +332,7 @@ if [[ -r /etc/grc.zsh ]]; then
   # some commands don't work with grc
   # maybe add `mtr` below
   for cmd in systemctl; do
-    disable -f ${cmd}
+    unfunction ${cmd}
   done
 else
   not_installed+="grc"
