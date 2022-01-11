@@ -143,14 +143,14 @@ which make &>/dev/null && alias make='nice make'
 # Systemd
 
 # check if --user is specified to decide to use sudo for systemd controls
-function check_user {
+function systemd_check_user {
   SUDO="sudo -E"
   [[ ${argv[(ie)--user]} -le ${#argv} ]] && unset SUDO
   zsh -c "${SUDO} $argv"
 }
 
-which systemctl &>/dev/null && alias s="check_user systemctl"
-which journalctl &>/dev/null && alias j="check_user journalctl"
+which systemctl &>/dev/null && alias s="systemd_check_user systemctl"
+which journalctl &>/dev/null && alias j="systemd_check_user journalctl"
 
 which batcat &>/dev/null \
   && alias batcat=bat \
