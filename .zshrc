@@ -153,8 +153,8 @@ which make &>/dev/null && alias make='nice make'
 # which systemctl &>/dev/null && alias s="systemd_check_user systemctl"
 # which journalctl &>/dev/null && alias j="systemd_check_user journalctl"
 
-which systemctl &>/dev/null && alias s="systemctl"
-which journalctl &>/dev/null && alias j="journalctl"
+which systemctl &>/dev/null && alias s="sudo systemctl"
+which journalctl &>/dev/null && alias j="sudo journalctl"
 
 which batcat &>/dev/null \
   && alias batcat=bat \
