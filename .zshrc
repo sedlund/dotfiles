@@ -142,15 +142,19 @@ which make &>/dev/null && alias make='nice make'
 
 # Systemd
 
+# This breaks tab completion :(
 # check if --user is specified to decide to use sudo for systemd controls
-function systemd_check_user {
-  SUDO="sudo -E"
-  [[ ${argv[(ie)--user]} -le ${#argv} ]] && unset SUDO
-  zsh -c "${SUDO} $argv"
-}
+# function systemd_check_user {
+#   SUDO="sudo -E"
+#   [[ ${argv[(ie)--user]} -le ${#argv} ]] && unset SUDO
+#   zsh -c "${SUDO} $argv"
+# }
 
-which systemctl &>/dev/null && alias s="systemd_check_user systemctl"
-which journalctl &>/dev/null && alias j="systemd_check_user journalctl"
+# which systemctl &>/dev/null && alias s="systemd_check_user systemctl"
+# which journalctl &>/dev/null && alias j="systemd_check_user journalctl"
+
+which systemctl &>/dev/null && alias s="systemctl"
+which journalctl &>/dev/null && alias j="journalctl"
 
 which batcat &>/dev/null \
   && alias batcat=bat \
