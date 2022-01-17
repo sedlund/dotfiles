@@ -170,6 +170,7 @@ lvim.plugins = {
 --     },
 }
 
+-- https://vim.fandom.com/wiki/Highlight_unwanted_spaces
 vim.cmd [[
   autocmd ColorScheme * highlight ExtraWhitespace ctermbg=red guibg=red
   match ExtraWhitespace /\s\+$/
