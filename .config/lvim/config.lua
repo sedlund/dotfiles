@@ -9,11 +9,15 @@ an executable
 -- THESE ARE EXAMPLE CONFIGS FEEL FREE TO CHANGE TO WHATEVER YOU WANT
 
 vim.opt.relativenumber = true
+-- vim.opt.list = true
+vim.opt.listchars = {eol = '↲', tab = '▸ ', trail = '·'}
 lvim.builtin.lualine.sections.lualine_y = { "location" }
-
+ 
 -- general
-lvim.log.level = "warn"
+lvim.log.level = "warn" 
+  
 lvim.format_on_save = true
+lvim.colorscheme = "tokyonight"
 -- lvim.colorscheme = "onedarker"
 -- lvim.colorscheme = "koehler"
 
@@ -165,6 +169,15 @@ lvim.plugins = {
   "folke/tokyonight.nvim",
 --     },
 }
+
+vim.cmd [[
+  autocmd ColorScheme * highlight ExtraWhitespace ctermbg=red guibg=red
+  match ExtraWhitespace /\s\+$/
+  autocmd BufWinEnter * match ExtraWhitespace /\s\+$/
+  autocmd InsertEnter * match ExtraWhitespace /\s\+\%#\@<!$/
+  autocmd InsertLeave * match ExtraWhitespace /\s\+$/
+  autocmd BufWinLeave * call clearmatches()
+]]
 
 -- Autocommands (https://neovim.io/doc/user/autocmd.html)
 -- lvim.autocommands.custom_groups = {
