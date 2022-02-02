@@ -67,7 +67,7 @@ unsetopt NULL_GLOB
 
 [[ -d ~/go ]] && export GOPATH=~/go && path+=~/go/bin
 
-export LANG=en_US.UTF-8
+export LANG=en_US
 export LC_COLLATE="C"                               # Makes ls sort dotfiles first
 
 # https://upload.wikimedia.org/wikipedia/commons/1/15/Xterm_256color_chart.svg
