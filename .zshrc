@@ -38,6 +38,9 @@ umask 007
 
 # }}}
 
+# Dont allow overwriting files by default
+set -o noclobber
+
 # Set NIX paths early so zsh plugins will load for these tools
 [[ -e ~/.nix-profile/etc/profile.d/nix.sh ]] && . ~/.nix-profile/etc/profile.d/nix.sh
 
@@ -228,6 +231,7 @@ znap source ohmyzsh/ohmyzsh lib/{git,completion,theme-and-appearance,directories
 # znap source ohmyzsh/ohmyzsh lib/{completion,theme-and-appearance,directories}
 znap source ohmyzsh/ohmyzsh plugins/asdf
 znap source ohmyzsh/ohmyzsh plugins/git
+znap source ohmyzsh/ohmyzsh plugins/ssh-agent
 znap source ohmyzsh/ohmyzsh plugins/vi-mode
 [[ -x $(which tmux 2>/dev/null) ]] && znap source ohmyzsh/ohmyzsh plugins/tmux
 [[ -x $(which pip 2>/dev/null) ]] && znap source ohmyzsh/ohmyzsh plugins/pip
