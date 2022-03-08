@@ -62,7 +62,8 @@ for p in \
   ~/.asdf/shims \
   ~/.pub-cache/bin \
   ~/bin \
-  ~/src/flutter/bin
+  ~/src/flutter/bin \
+  ~/.cargo/bin
 do
   [[ -d ${p} ]] && path+="${p}"
 done
