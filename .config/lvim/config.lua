@@ -12,10 +12,10 @@ vim.opt.relativenumber = true
 -- vim.opt.list = true
 vim.opt.listchars = {eol = '↲', tab = '▸ ', trail = '·'}
 lvim.builtin.lualine.sections.lualine_y = { "location" }
- 
+
 -- general
-lvim.log.level = "warn" 
-  
+lvim.log.level = "warn"
+
 lvim.format_on_save = true
 lvim.colorscheme = "tokyonight"
 -- lvim.colorscheme = "onedarker"
@@ -167,6 +167,7 @@ lvim.plugins = {
   "lukas-reineke/indent-blankline.nvim",
   "lunarvim/colorschemes",
   "folke/tokyonight.nvim",
+  "mbbill/undotree"
 --     },
 }
 
