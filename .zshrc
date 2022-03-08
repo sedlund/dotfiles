@@ -60,10 +60,11 @@ for p in \
   /usr/local/go/bin \
   ~/.asdf/installs/krew/*/bin \
   ~/.asdf/shims \
+  ~/.cargo/bin \
   ~/.pub-cache/bin \
+  ~/.local/bin \
   ~/bin \
-  ~/src/flutter/bin \
-  ~/.cargo/bin
+  ~/src/flutter/bin
 do
   [[ -d ${p} ]] && path+="${p}"
 done
@@ -82,6 +83,7 @@ export ZSH_AUTOSUGGEST_HIGHLIGHT_STYLE="fg=244"     # When using a solarized ter
 
 # {{{ 🖊 EDITOR Config
 
+set -x
 for cmd in lvim nvim vim vi; do
   if (( $+commands[$cmd] )); then
     case $cmd in
@@ -120,6 +122,7 @@ for cmd in lvim nvim vim vi; do
     break
   fi
 done
+set +x
 
 # }}}
 
