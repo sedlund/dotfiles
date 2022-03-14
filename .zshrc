@@ -162,7 +162,7 @@ which systemctl &>/dev/null && alias s="sudo systemctl"
 which journalctl &>/dev/null && alias j="sudo journalctl"
 
 which batcat &>/dev/null \
-  && alias batcat=bat \
+  && alias bat=batcat \
   && export MANPAGER="sh -c 'col -bx | batcat --language man --plain'"
 
 # use short options for col as raspbian col doesnt have long options
