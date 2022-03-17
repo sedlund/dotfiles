@@ -9,6 +9,7 @@ an executable
 -- THESE ARE EXAMPLE CONFIGS FEEL FREE TO CHANGE TO WHATEVER YOU WANT
 
 vim.opt.relativenumber = true
+vim.opt.foldmethod = 'syntax'
 -- vim.opt.list = true
 -- vim.opt.listchars = {eol = '↲', tab = '▸ ', trail = '·', lead = '·'}
 vim.opt.listchars = {eol = '↲', tab = '«-»', trail = '·', lead = '·'}
