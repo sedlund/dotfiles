@@ -173,6 +173,14 @@ lvim.plugins = {
 --     },
 }
 
+-- indent-blankline.nvim options
+
+require("indent_blankline").setup {
+    space_char_blankline = " ",
+    show_current_context = true,
+    show_current_context_start = true,
+}
+
 -- https://vim.fandom.com/wiki/Highlight_unwanted_spaces
 vim.cmd [[
   autocmd ColorScheme * highlight ExtraWhitespace ctermbg=red guibg=red
