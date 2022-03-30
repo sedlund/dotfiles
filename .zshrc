@@ -243,7 +243,7 @@ znap source zdharma-continuum/fast-syntax-highlighting
 znap source zdharma-continuum/history-search-multi-word
 znap source zsh-users/zsh-autosuggestions
 znap source zsh-users/zsh-completions
-# znap source zsh-users/zsh-history-substring-search
+znap source zsh-users/zsh-history-substring-search
 # znap source zsh-users/zsh-syntax-highlighting
 
 if [[ -x $(which kubectl 2>/dev/null) ]]; then
