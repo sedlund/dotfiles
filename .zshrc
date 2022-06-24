@@ -163,12 +163,12 @@ which journalctl &>/dev/null && alias j="sudo journalctl"
 
 which batcat &>/dev/null \
   && alias bat=batcat \
-  && export MANPAGER="sh -c 'col -bx | batcat --language man --plain'"
+  && export MANPAGER="sh -c 'col -bx | $(whence batcat) --language man --plain'"
 
 # use short options for col as raspbian col doesnt have long options
 
 which bat &>/dev/null \
-  && export MANPAGER="sh -c 'col -bx | bat --language man --plain'"
+  && export MANPAGER="sh -c 'col -bx | $(whence bat) --language man --plain'"
 
 # Prefer podman container runtime interface
 export CRI=$(basename $(whence podman docker) 2>/dev/null)
@@ -462,3 +462,7 @@ warn_not_installed
 # zprof
 
 # }}}
+
+# Generated for envman. Do not edit.
+[ -s "$HOME/.config/envman/load.sh" ] && source "$HOME/.config/envman/load.sh"
+
