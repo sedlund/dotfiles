@@ -161,6 +161,8 @@ which make &>/dev/null && alias make='nice make'
 which systemctl &>/dev/null && alias s="sudo systemctl"
 which journalctl &>/dev/null && alias j="sudo journalctl"
 
+which fdfind &>/dev/null && alias fd=fdfind
+
 which batcat &>/dev/null \
   && alias bat=batcat \
   && export MANPAGER="sh -c 'col -bx | $(whence batcat) --language man --plain'"

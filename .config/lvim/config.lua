@@ -12,7 +12,7 @@ vim.opt.relativenumber = true
 vim.opt.foldmethod = 'syntax'
 -- vim.opt.list = true
 -- vim.opt.listchars = {eol = '↲', tab = '▸ ', trail = '·', lead = '·'}
-vim.opt.listchars = {eol = '↲', tab = '«-»', trail = '·', lead = '·'}
+vim.opt.listchars = { eol = '↲', tab = '«-»', trail = '·', lead = '·' }
 lvim.builtin.lualine.sections.lualine_y = { "location" }
 
 -- general
@@ -69,7 +69,7 @@ lvim.builtin.alpha.mode = "dashboard"
 lvim.builtin.notify.active = true
 lvim.builtin.terminal.active = true
 lvim.builtin.nvimtree.setup.view.side = "left"
-lvim.builtin.nvimtree.show_icons.git = 0
+-- lvim.builtin.nvimtree.show_icons.git = 0
 
 -- if you don't want all the parsers change this to a table of the ones you want
 lvim.builtin.treesitter.ensure_installed = {
@@ -132,27 +132,27 @@ lvim.builtin.treesitter.highlight.enabled = true
 -- -- set additional linters
 local linters = require "lvim.lsp.null-ls.linters"
 linters.setup {
---   { command = "flake8", filetypes = { "python" } },
+  --   { command = "flake8", filetypes = { "python" } },
   {
     command = "shellcheck",
---     ---@usage arguments to pass to the formatter
---     -- these cannot contain whitespaces, options such as `--line-width 80` become either `{'--line-width', '80'}` or `{'--line-width=80'}`
+    --     ---@usage arguments to pass to the formatter
+    --     -- these cannot contain whitespaces, options such as `--line-width 80` become either `{'--line-width', '80'}` or `{'--line-width=80'}`
     extra_args = { "--severity", "warning" },
   },
---   {
---     command = "codespell",
---     ---@usage specify which filetypes to enable. By default a providers will attach to all the filetypes it supports.
---     filetypes = { "javascript", "python" },
---   },
+  --   {
+  --     command = "codespell",
+  --     ---@usage specify which filetypes to enable. By default a providers will attach to all the filetypes it supports.
+  --     filetypes = { "javascript", "python" },
+  --   },
 }
 
 -- Additional Plugins
 lvim.plugins = {
---     {"folke/tokyonight.nvim"},
---     {
---       "folke/trouble.nvim",
---       cmd = "TroubleToggle",
---     },
+  --     {"folke/tokyonight.nvim"},
+  --     {
+  --       "folke/trouble.nvim",
+  --       cmd = "TroubleToggle",
+  --     },
   "google/vim-jsonnet",
   "itspriddle/vim-shellcheck",
   "lukas-reineke/indent-blankline.nvim",
@@ -164,9 +164,9 @@ lvim.plugins = {
 -- indent-blankline.nvim options
 
 require("indent_blankline").setup {
-    space_char_blankline = " ",
-    show_current_context = true,
-    show_current_context_start = true,
+  space_char_blankline = " ",
+  show_current_context = true,
+  show_current_context_start = true,
 }
 
 -- https://vim.fandom.com/wiki/Highlight_unwanted_spaces
