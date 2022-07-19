@@ -95,12 +95,10 @@ for cmd in lvim nvim vim vi; do
         fi
       ;;
       nvim)
-        if (( $+commands[pip3] )); then
-          [[ -d ~/.local/share/lunarvim ]] \
-            || bash <(curl -s https://raw.githubusercontent.com/ChristianChiarulli/lunarvim/master/utils/installer/install.sh)
-          alias vi=lvim
-          export EDITOR=$cmd
-        fi
+        [[ -d ~/.local/share/lunarvim ]] \
+          || bash <(curl -s https://raw.githubusercontent.com/ChristianChiarulli/lunarvim/master/utils/installer/install.sh)
+        alias vi=lvim
+        export EDITOR=$cmd
         # Fallback to vim if we dont have the requisuites for lunarvim
         if (( $+commands[vim] )); then
           alias vi=vim
