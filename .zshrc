@@ -264,7 +264,7 @@ for cmd in \
   hcloud \
   podman
 do
-  [[ -x $(which ${cmd}) ]] \
+  [[ -x $(which ${cmd} 2>/dev/null) ]] \
     && [[ ! -f ${sf}/_${cmd} ]] \
     && ${cmd} completion zsh > ${sf}/_${cmd}
 done
