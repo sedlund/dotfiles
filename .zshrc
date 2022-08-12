@@ -161,12 +161,17 @@ which journalctl &>/dev/null && alias j="sudo journalctl"
 
 which fdfind &>/dev/null && alias fd=fdfind
 
+# disable color codes from rendered man pages for bat
+MANROFFOPT="-c"
+
+# debian
 which batcat &>/dev/null \
   && alias bat=batcat \
   && export MANPAGER="sh -c 'col -bx | $(whence batcat) --language man --plain'"
 
 # use short options for col as raspbian col doesnt have long options
 
+# fedora / asdf
 which bat &>/dev/null \
   && export MANPAGER="sh -c 'col -bx | $(whence bat) --language man --plain'"
 
@@ -248,8 +253,8 @@ znap source zsh-users/zsh-history-substring-search
 
 if [[ -x $(which kubectl 2>/dev/null) ]]; then
   znap source ohmyzsh/ohmyzsh plugins/kubectl
-else
-  not_installed+="kubectl"
+# else
+#   not_installed+="kubectl"
 fi
 
 if [[ -x $(which zoxide 2>/dev/null) ]]; then
