@@ -162,7 +162,7 @@ which journalctl &>/dev/null && alias j="sudo journalctl"
 which fdfind &>/dev/null && alias fd=fdfind
 
 # disable color codes from rendered man pages for bat
-MANROFFOPT="-c"
+export MANROFFOPT="-c"
 
 # debian
 which batcat &>/dev/null \
