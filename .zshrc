@@ -136,6 +136,12 @@ which ansible-vault &>/dev/null \
 which apt &>/dev/null \
   && alias apt='sudo nice apt'
 
+which dnf &>/dev/null \
+  && alias dnf='sudo nice dnf'
+
+# Fedora Toolbox
+[ "$(hostname)" == "toolbox" ] && alias podman='flatpak-spawn --host podman'
+
 alias gzip='nice gzip'
 alias tar='nice tar'
 which xz &>/dev/null && alias xz='nice xz -T0' || not_installed+="xz"
