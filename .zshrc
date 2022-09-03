@@ -140,7 +140,8 @@ which dnf &>/dev/null \
   && alias dnf='sudo nice dnf'
 
 # Fedora Toolbox
-[ "$(hostname)" == "toolbox" ] && alias podman='flatpak-spawn --host podman'
+[ "$(hostname)" = "toolbox" ] \
+  && alias podman='flatpak-spawn --host podman'
 
 alias gzip='nice gzip'
 alias tar='nice tar'
