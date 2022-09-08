@@ -53,18 +53,19 @@ set -o noclobber
 
 # dont error on failed globs
 setopt NULL_GLOB
-# Test for some common paths and add them to PATH if they exist
+# Test for some common paths and add them to PATH if they exist in order of precedence
 for p in \
   ./ \
-  /usr/lib/dart/bin \
-  /usr/local/go/bin \
-  ~/.asdf/installs/krew/*/bin \
+  ~/.local/bin \
   ~/.asdf/shims \
+  ~/.asdf/installs/krew/*/bin \
   ~/.cargo/bin \
   ~/.pub-cache/bin \
-  ~/.local/bin \
   ~/bin \
-  ~/src/flutter/bin
+  ~/src/flutter/bin \
+  /usr/lib/cargo/bin \
+  /usr/lib/dart/bin \
+  /usr/local/go/bin
 do
   [[ -d ${p} ]] && path+="${p}"
 done
@@ -83,16 +84,20 @@ export ZSH_AUTOSUGGEST_HIGHLIGHT_STYLE="fg=244"     # When using a solarized ter
 
 # {{{ 🖊 EDITOR Config
 
+# FIXME: create array of commands that are individually specified below and
+# include in this case statement (maybe?)
+# In the order of preference
 for cmd in lvim nvim vim vi; do
   if (( $+commands[$cmd] )); then
     case $cmd in
       lvim)
-        if (( $+commands[nvim] )); then
+# FIXME: not sure what this is for
+#        if (( $+commands[nvim] )); then
           export EDITOR=$cmd
           alias vi=$cmd
-        else
-          not_installed+=nvim
-        fi
+#        else
+#          not_installed+=neovim
+#        fi
       ;;
       nvim)
         [[ -d ~/.local/share/lunarvim ]] \
@@ -111,9 +116,11 @@ for cmd in lvim nvim vim vi; do
       vim)
         export EDITOR=$cmd
         alias vi=$cmd
+        not_installed+=neovim
       ;;
       vi)
         export EDITOR=$cmd
+        not_installed+=neovim
       ;;
     esac
     break
@@ -148,7 +155,7 @@ alias tar='nice tar'
 which xz &>/dev/null && alias xz='nice xz -T0' || not_installed+="xz"
 which zstd &>/dev/null && alias zstd='nice zstd -T0' || not_installed+="zstd"
 
-which make &>/dev/null && alias make='nice make'
+which make &>/dev/null && alias make='nice make' || not_installed+="make"
 
 # Systemd
 
@@ -166,7 +173,7 @@ which make &>/dev/null && alias make='nice make'
 which systemctl &>/dev/null && alias s="sudo systemctl"
 which journalctl &>/dev/null && alias j="sudo journalctl"
 
-which fdfind &>/dev/null && alias fd=fdfind
+which fd &>/dev/null || not_installed+="fd-find"
 
 # disable color codes from rendered man pages for bat
 export MANROFFOPT="-c"
