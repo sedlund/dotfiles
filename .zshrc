@@ -84,9 +84,7 @@ export ZSH_AUTOSUGGEST_HIGHLIGHT_STYLE="fg=244"     # When using a solarized ter
 
 # {{{ 🖊 EDITOR Config
 
-# FIXME: create array of commands that are individually specified below and
-# include in this case statement (maybe?)
-# In the order of preference
+# In the order of preference - stops after first found
 for cmd in lvim nvim vim vi; do
   if (( $+commands[$cmd] )); then
     case $cmd in
@@ -100,6 +98,11 @@ for cmd in lvim nvim vim vi; do
 #        fi
       ;;
       nvim)
+        for lvimreq in git make pip npm node cargo; do
+          if ((  !$+commands[$lvimreq] )); then
+            not_installed+="${lvimreq}"
+          fi
+        done
         [[ -d ~/.local/share/lunarvim ]] \
           || bash <(curl -s https://raw.githubusercontent.com/ChristianChiarulli/lunarvim/master/utils/installer/install.sh)
         alias vi=lvim
@@ -128,6 +131,9 @@ for cmd in lvim nvim vim vi; do
 done
 
 # }}}
+
+# FIXME: create array of commands that are individually specified below and
+# wrap in a case statement like above (maybe?)
 
 # Test for lsd here so we can warn on it missing before znap init
 [[ -x $(which lsd 2>/dev/null) ]] || not_installed+="lsd"
