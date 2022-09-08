@@ -8,6 +8,7 @@ an executable
 ]]
 -- THESE ARE EXAMPLE CONFIGS FEEL FREE TO CHANGE TO WHATEVER YOU WANT
 
+-- https://www.lunarvim.org/configuration/01-settings.html#example-options
 vim.opt.relativenumber = true
 vim.opt.foldmethod = 'syntax'
 -- vim.opt.list = true
