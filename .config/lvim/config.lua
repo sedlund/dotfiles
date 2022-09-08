@@ -15,12 +15,16 @@ vim.opt.foldmethod = 'syntax'
 vim.opt.listchars = { eol = '↲', tab = '«-»', trail = '·', lead = '·' }
 lvim.builtin.lualine.sections.lualine_y = { "location" }
 
+-- temp fix for https://github.com/LunarVim/LunarVim/issues/2993
+lvim.builtin.bufferline.options.indicator_icon = nil
+lvim.builtin.bufferline.options.indicator = { style = "icon", icon = "▎" }
+
 -- general
 lvim.log.level = "warn"
 
 lvim.format_on_save = true
-lvim.colorscheme = "tokyonight"
--- lvim.colorscheme = "onedarker"
+-- lvim.colorscheme = "tokyonight"
+lvim.colorscheme = "onedarker"
 -- to disable icons and use a minimalist setup, uncomment the following
 -- lvim.use_icons = false
 
