@@ -89,13 +89,13 @@ for cmd in lvim nvim vim vi; do
   if (( $+commands[$cmd] )); then
     case $cmd in
       lvim)
-# FIXME: not sure what this is for
-#        if (( $+commands[nvim] )); then
-          export EDITOR=$cmd
-          alias vi=$cmd
-#        else
-#          not_installed+=neovim
-#        fi
+      # Sanity check if running a restored homedir on a OS without neovim
+      if (( $+commands[nvim] )); then
+         export EDITOR=$cmd
+         alias vi=$cmd
+      else
+        not_installed+=neovim
+      fi
       ;;
       nvim)
         for lvimreq in git make pip npm node cargo; do
@@ -126,6 +126,7 @@ for cmd in lvim nvim vim vi; do
         not_installed+=neovim
       ;;
     esac
+    # stop after first loop
     break
   fi
 done
