@@ -1,11 +1,10 @@
-#!/bin/sh -x
+#!/bin/sh
 
 find . -regextype egrep -regex ".*\.(avi|mp4|mkv|webm)$" -print0 \
-  | xargs -0 -n1 -I{} -P"$(nproc)" \
+  | xargs -0 -I{} -P"$(nproc)" \
     sh -c " \
       ffprobe \"{}\" 2>&1 \
         | grep -E 'Input|bitrate' \
-        | sed 's#Input.*from ##; s# start: .*,##' \
-        | sed -z 's#:\n #:#' \
+        | sed -z 's#Input.*from ##; s# start: .*,##; s#:\n #:#' \
       " \
   | sort -t: -n -k6
