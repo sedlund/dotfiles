@@ -9,12 +9,20 @@ an executable
 -- THESE ARE EXAMPLE CONFIGS FEEL FREE TO CHANGE TO WHATEVER YOU WANT
 
 -- https://www.lunarvim.org/configuration/01-settings.html#example-options
+vim.opt.guicursor = ""
+vim.opt.scrolloff = 8
 vim.opt.relativenumber = true
+vim.opt.colorcolumn = "80"
+vim.opt.updatetime = 200
+vim.opt.cmdheight = 1
 vim.opt.foldmethod = 'syntax'
 -- vim.opt.list = true
 -- vim.opt.listchars = {eol = '↲', tab = '▸ ', trail = '·', lead = '·'}
 vim.opt.listchars = { eol = '↲', tab = '«-»', trail = '·', lead = '·' }
+lvim.lsp.document_highlight = false
+lvim.builtin.autopairs.active = false
 lvim.builtin.lualine.sections.lualine_y = { "location" }
+lvim.transparent_window = true
 
 -- temp fix for https://github.com/LunarVim/LunarVim/issues/2993
 lvim.builtin.bufferline.options.indicator_icon = nil
@@ -25,7 +33,8 @@ lvim.log.level = "warn"
 
 lvim.format_on_save = true
 -- lvim.colorscheme = "tokyonight"
-lvim.colorscheme = "onedarker"
+-- lvim.colorscheme = "onedarker"
+lvim.colorscheme = "gruvbox"
 -- to disable icons and use a minimalist setup, uncomment the following
 -- lvim.use_icons = false
 
@@ -170,6 +179,7 @@ lvim.plugins = {
   "lukas-reineke/indent-blankline.nvim",
   "lunarvim/colorschemes",
   "folke/tokyonight.nvim",
+  "ellisonleao/gruvbox.nvim",
   "mbbill/undotree"
 }
 
