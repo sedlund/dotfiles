@@ -42,7 +42,8 @@ umask 007
 set -o noclobber
 
 # Set NIX paths early so zsh plugins will load for these tools
-[[ -e ~/.nix-profile/etc/profile.d/nix.sh ]] && . ~/.nix-profile/etc/profile.d/nix.sh
+[[ -e ~/.nix-profile/etc/profile.d/nix.sh ]] \
+  && . ~/.nix-profile/etc/profile.d/nix.sh
 
 # Do we like asdf really?
 [[ -d ~/.asdf ]] \
@@ -53,7 +54,7 @@ set -o noclobber
 
 # dont error on failed globs
 setopt NULL_GLOB
-# Test for some common paths and add them to PATH if they exist in order of precedence
+# Test for common paths, add them to PATH in order of precedence
 for p in \
   ./ \
   ~/.local/bin \
@@ -74,10 +75,12 @@ unsetopt NULL_GLOB
 [[ -d ~/go ]] && export GOPATH=~/go && path+=~/go/bin
 
 export LANG=en_US.UTF-8
-export LC_COLLATE="C"                               # Makes ls sort dotfiles first
+export LC_COLLATE="C"                           # Makes ls sort dotfiles first
 
 # https://upload.wikimedia.org/wikipedia/commons/1/15/Xterm_256color_chart.svg
-export ZSH_AUTOSUGGEST_HIGHLIGHT_STYLE="fg=244"     # When using a solarized termcolors the default of 8 is mapped to a unreadable color, 244 is analgous to 8 in a 256 color term
+# When using a solarized termcolors the default of 8 is mapped to a unreadable
+# color, 244 is analgous to 8 in a 256 color term
+export ZSH_AUTOSUGGEST_HIGHLIGHT_STYLE="fg=244"
 
 # }}}
 # {{{ 🎭 Aliases
@@ -86,11 +89,11 @@ export ZSH_AUTOSUGGEST_HIGHLIGHT_STYLE="fg=244"     # When using a solarized ter
 
 # In the order of preference - stops after first found
 for cmd in lvim nvim vim vi; do
-  if (( $+commands[$cmd] )); then
+  if (( ${+commands[$cmd]} )); then
     case $cmd in
       lvim)
       # Sanity check if running a restored homedir on a OS without neovim
-      if (( $+commands[nvim] )); then
+      if (( ${+commands[nvim]} )); then
          export EDITOR=$cmd
          alias vi=$cmd
       else
@@ -99,7 +102,7 @@ for cmd in lvim nvim vim vi; do
       ;;
       nvim)
         for lvimreq in git make pip npm node cargo; do
-          if ((  !$+commands[$lvimreq] )); then
+          if (( !${+commands[$lvimreq]} )); then
             not_installed+="${lvimreq}"
           fi
         done
@@ -136,6 +139,7 @@ done
 # FIXME: create array of commands that are individually specified below and
 # wrap in a case statement like above (maybe?)
 
+
 # Test for lsd here so we can warn on it missing before znap init
 [[ -x $(which lsd 2>/dev/null) ]] || not_installed+="lsd"
 
@@ -166,17 +170,6 @@ which make &>/dev/null && alias make='nice make' || not_installed+="make"
 
 # Systemd
 
-# This breaks tab completion :(
-# check if --user is specified to decide to use sudo for systemd controls
-# function systemd_check_user {
-#   SUDO="sudo -E"
-#   [[ ${argv[(ie)--user]} -le ${#argv} ]] && unset SUDO
-#   zsh -c "${SUDO} $argv"
-# }
-
-# which systemctl &>/dev/null && alias s="systemd_check_user systemctl"
-# which journalctl &>/dev/null && alias j="systemd_check_user journalctl"
-
 which systemctl &>/dev/null && alias s="sudo systemctl"
 which journalctl &>/dev/null && alias j="sudo journalctl"
 
@@ -203,10 +196,6 @@ if [[ -x $(which ${CRI} 2>/dev/null) ]]; then
     || alias butane='${CRI} run -it --rm -v ${PWD}:/pwd -w /pwd quay.io/coreos/butane:release'
 fi
 
-# https://github.com/zero88/gh-release-downloader - github release downloader
-#amd64 builds only :P
-#alias ghrd="docker run --rm -v /tmp:/tmp zero88/ghrd:latest"
-
 # }}}
 # {{{ ⛔ DISABLED: 😮 Oh-My-ZSH Plugin manager
 # http://github.com/ohmyzsh/ohmyzsh Oh-My-Zsh
@@ -225,14 +214,14 @@ fi
 #     python
 #     systemd
 # )
-# 
+#
 # [[ -x $(which tmux 2>/dev/null) ]] && plugins+=tmux
 # [[ -x $(which pip 2>/dev/null) ]] && plugins+=pip
-# 
+#
 # [[ -r ~/.ssh/id_rsa ]] \
 #     && plugins+=ssh-agent \
 #     && zstyle :omz:plugins:ssh-agent lifetime 4h
-# 
+#
 # source ~/.zsh/ohmyzsh/oh-my-zsh.sh
 
 # }}}
@@ -304,12 +293,12 @@ done
 # {{{ 📜 ls config
 
 if [[ -x $(which lsd 2>/dev/null) ]]; then
-    alias ls='lsd --group-dirs first --classify'
+  alias ls='lsd --group-dirs first --classify'
 else
-    not_installed+="lsd"
-    # use -F instead of --classify to appease busybox
-    alias ls='ls --color=auto --group-directories-first -F'
-    [[ -x $(which dircolors 2>/dev/null) ]] && eval $(dircolors ~/.dir_colors)
+  not_installed+="lsd"
+  # use -F instead of --classify to appease busybox
+  alias ls='ls --color=auto --group-directories-first -F'
+  [[ -x $(which dircolors 2>/dev/null) ]] && eval $(dircolors ~/.dir_colors)
 fi
 
 # This overwrides ls aliases of ohmyzsh/ohmyzsh/libs{directories} that I prefer
@@ -328,9 +317,10 @@ case ${TERM} in
     # Apply theme early
     znap source powerlevel10k
 
-    # Enable Powerlevel10k instant prompt. Should stay close to the top of ~/.zshrc.
-    # Initialization code that may require console input (password prompts, [y/n]
-    # confirmations, etc.) must go above this block; everything else may go below.
+    # Enable Powerlevel10k instant prompt. Should stay close to the top of
+    # ~/.zshrc. Initialization code that may require console input (password
+    # prompts, [y/n] confirmations, etc.) must go above this block; everything
+    # else may go below.
     if [[ -r "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh" ]]; then
         source "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh"
     fi
@@ -380,18 +370,18 @@ fi
 
 # [[ -d ~/.zsh/antigen ]] \
 #         || git clone --depth 1 https://github.com/zsh-users/antigen.git ~/.zsh/antigen
-# 
+#
 # # ADOTDIR — This directory is used to store all the repo clones, your bundles,
 # # themes, caches and everything else Antigen requires to run smoothly. Defaults
 # # to $HOME/.antigen
 # ADOTDIR=~/.zsh
-# 
+#
 # # Load
 # source ~/.zsh/antigen/antigen.zsh
 # # Load ohmyzsh - many plugins/themes require its core library
 # ## We are already loaded above
 # #antigen use oh-my-zsh
-# 
+#
 # # Bundles to use
 # antigen bundles << EOBUNDLES
 #     Tarrasch/zsh-autoenv
@@ -402,30 +392,30 @@ fi
 #     zsh-users/zsh-history-substring-search
 #     zsh-users/zsh-syntax-highlighting
 # EOBUNDLES
-# 
+#
 # # plugin specific options to load before antigen apply
 # # enabed above in OMZ setup
 # # Disabled to use default 4h timeout
 # #[[ -r ~/.ssh/id_rsa ]] && zstyle :omz:plugins:ssh-agent agent-forwarding on
-# 
+#
 # # {{{ 🔠 Prompt
 # case ${TERM} in
 #     *256color*|xterm*|rxvt*|Eterm|aterm|kterm|gnome*)
-# 
+#
 #         # Apply theme early
 #         antigen theme romkatv/powerlevel10k
-# 
+#
 #         # Enable Powerlevel10k instant prompt. Should stay close to the top of ~/.zshrc.
 #         # Initialization code that may require console input (password prompts, [y/n]
 #         # confirmations, etc.) must go above this block; everything else may go below.
 #         if [[ -r "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh" ]]; then
 #           source "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh"
 #         fi
-# 
+#
 #         # To customize prompt, run `p10k configure` or edit ~/.p10k.zsh.
 #         [[ -f ~/.p10k-graphical.zsh ]] && source ~/.p10k-graphical.zsh
 #     ;;
-# 
+#
 #     linux)
 #         antigen theme romkatv/powerlevel10k
 #         if [[ -r "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh" ]]; then
@@ -433,15 +423,15 @@ fi
 #         fi
 #         [[ -f ~/.p10k-console.zsh ]] && source ~/.p10k-console.zsh
 #     ;;
-# 
+#
 #     *)
 #         # This is a OMZ ssh theme - loading OMZ twice seems to hang
 #         #antigen theme pure
 #     ;;
 # esac
-# 
+#
 # # }}}
-# 
+#
 # # Antigen config complete
 # antigen apply
 
@@ -469,10 +459,12 @@ bindkey -M vicmd 'k' history-substring-search-up
 bindkey -M vicmd 'j' history-substring-search-down
 
 # }}}
-
-bindkey -M vicmd v edit-command-line    # Enables pressing ESC-v to open current command line in vi
-bindkey -v                              # Set VI key bindings
-bindkey '^ ' autosuggest-accept         # zsh-autosuggestion: Bind CTRL-<space> to accept suggestion
+# Enable pressing ESC-v to open current command line in vi
+bindkey -M vicmd v edit-command-line
+# Set VI key bindings
+bindkey -v
+# zsh-autosuggestion: Bind CTRL-<space> to accept suggestion
+bindkey '^ ' autosuggest-accept
 
 [[ -x /usr/local/bin/aws_completer ]] \
   && complete -C '/usr/local/bin/aws_completer' aws
