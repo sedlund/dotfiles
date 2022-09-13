@@ -25,8 +25,8 @@ lvim.builtin.lualine.sections.lualine_y = { "location" }
 lvim.transparent_window = true
 
 -- temp fix for https://github.com/LunarVim/LunarVim/issues/2993
-lvim.builtin.bufferline.options.indicator_icon = nil
-lvim.builtin.bufferline.options.indicator = { style = "icon", icon = "▎" }
+-- lvim.builtin.bufferline.options.indicator_icon = nil
+-- lvim.builtin.bufferline.options.indicator = { style = "icon", icon = "▎" }
 
 -- general
 lvim.log.level = "warn"
