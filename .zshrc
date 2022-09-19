@@ -107,8 +107,8 @@ for cmd in lvim nvim vim vi; do
             install_lvim=1
           fi
         done
-        [[ -v install_lvim ]] && [[ -d ~/.local/share/lunarvim ]] \
-          || bash <(curl -s https://raw.githubusercontent.com/ChristianChiarulli/lunarvim/master/utils/installer/install.sh)
+        [[ ! -v install_lvim ]] && [[ ! -d ~/.local/share/lunarvim ]] \
+          && bash <(curl -s https://raw.githubusercontent.com/ChristianChiarulli/lunarvim/master/utils/installer/install.sh)
         alias vi=lvim
         export EDITOR=$cmd
         # Fallback to vim if we dont have the requisuites for lunarvim
