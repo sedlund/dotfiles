@@ -104,10 +104,10 @@ for cmd in lvim nvim vim vi; do
         for lvimreq in git make pip npm node cargo; do
           if (( !${+commands[$lvimreq]} )); then
             not_installed+="${lvimreq}"
-            noinstall_lvim=1
+            install_lvim=1
           fi
         done
-        [[ ${noinstall_lvim} = 0 ]] && [[ -d ~/.local/share/lunarvim ]] \
+        [[ ! -v ${install_lvim} ]] && [[ -d ~/.local/share/lunarvim ]] \
           || bash <(curl -s https://raw.githubusercontent.com/ChristianChiarulli/lunarvim/master/utils/installer/install.sh)
         alias vi=lvim
         export EDITOR=$cmd
