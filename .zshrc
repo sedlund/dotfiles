@@ -104,7 +104,7 @@ for cmd in lvim nvim vim vi; do
         for lvimreq in git make pip npm node cargo; do
           if (( !${+commands[$lvimreq]} )); then
             not_installed+="${lvimreq}"
-            install_lvim=1
+            private install_lvim=1
           fi
         done
         [[ ! -v install_lvim ]] && [[ ! -d ~/.local/share/lunarvim ]] \
