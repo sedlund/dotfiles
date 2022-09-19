@@ -101,7 +101,7 @@ for cmd in lvim nvim vim vi; do
       fi
       ;;
       nvim)
-        private install_lvim
+        private install_lvim=0
         for lvimreq in git make pip npm node cargo; do
           if (( !${+commands[$lvimreq]} )); then
             not_installed+="${lvimreq}"
