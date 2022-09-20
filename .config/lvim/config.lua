@@ -35,6 +35,8 @@ lvim.format_on_save = true
 -- lvim.colorscheme = "tokyonight"
 -- lvim.colorscheme = "onedarker"
 lvim.colorscheme = "gruvbox"
+-- vim.g.catppuccin_flavour = "macchiato" -- latte, frappe, macchiato, mocha
+-- lvim.colorscheme = "catppuccin"
 -- to disable icons and use a minimalist setup, uncomment the following
 -- lvim.use_icons = false
 
@@ -178,8 +180,9 @@ lvim.plugins = {
   "itspriddle/vim-shellcheck",
   "lukas-reineke/indent-blankline.nvim",
   "lunarvim/colorschemes",
-  "folke/tokyonight.nvim",
+  -- "folke/tokyonight.nvim",
   "ellisonleao/gruvbox.nvim",
+  "catppuccin/nvim",
   "mbbill/undotree"
 }
 
