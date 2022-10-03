@@ -315,7 +315,7 @@ alias lld='ls -ldh'
 
 # {{{ 🔠 Prompt
 case ${TERM} in
-  *256color*|xterm*|rxvt*|Eterm|aterm|kterm|gnome*)
+  *256color*|xterm*|rxvt*|Eterm|alacritty|aterm|contour|kterm|gnome*)
     # Apply theme early
     znap source powerlevel10k
 
