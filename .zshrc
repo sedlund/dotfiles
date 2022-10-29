@@ -263,6 +263,10 @@ znap source zsh-users/zsh-completions
 znap source zsh-users/zsh-history-substring-search
 # znap source zsh-users/zsh-syntax-highlighting
 
+# FIXME - NOTE 2022/10/29 oh-my-zsh init checks for $ZSH_CACHE_DIR/completions
+# and creates it !exist - since we do not init it might need to do this
+# ourselves
+
 if [[ -x $(which kubectl 2>/dev/null) ]]; then
   znap source ohmyzsh/ohmyzsh plugins/kubectl
 # else
