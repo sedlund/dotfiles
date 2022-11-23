@@ -168,7 +168,7 @@ alias tar='nice tar'
 which xz &>/dev/null && alias xz='nice xz -T0' || not_installed+="xz"
 which zstd &>/dev/null && alias zstd='nice zstd -T0' || not_installed+="zstd"
 
-which make &>/dev/null && alias make='nice make' || not_installed+="make"
+which make &>/dev/null && alias make='nice make -j$(nproc)' || not_installed+="make"
 
 # Systemd
 
