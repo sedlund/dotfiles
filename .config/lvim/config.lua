@@ -93,6 +93,7 @@ lvim.builtin.nvimtree.setup.view.side = "left"
 lvim.builtin.treesitter.ensure_installed = {
   "bash",
   "c",
+  "dart",
   "javascript",
   "json",
   "lua",
