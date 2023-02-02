@@ -141,7 +141,6 @@ done
 # FIXME: create array of commands that are individually specified below and
 # wrap in a case statement like above (maybe?)
 
-
 # Test for lsd here so we can warn on it missing before znap init
 [[ -x $(which lsd 2>/dev/null) ]] || not_installed+="lsd"
 
@@ -191,7 +190,7 @@ which batcat &>/dev/null \
 which bat &>/dev/null \
   && export MANPAGER="sh -c 'col -bx | $(whence bat) --language man --plain'"
 
-# Prefer podman container runtime interface
+# Prefer podman CRI (container runtime interface)
 export CRI=$(basename $(whence podman docker) 2>/dev/null)
 if [[ -x $(which ${CRI} 2>/dev/null) ]]; then
   which butane &>/dev/null \
