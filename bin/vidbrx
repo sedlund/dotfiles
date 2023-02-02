@@ -7,4 +7,4 @@ find . -regextype egrep -regex ".*\.(avi|mp4|mkv|webm)$" -print0 \
         | egrep 'Input|bitrate' \
         | sed --null-data 's#Input.*from ##; s# start: .*,##; s#:\n #:#' \
       " \
-  | sort -t: -n -k6
+  | sort --field-separator=: --numeric-sort --key=6
