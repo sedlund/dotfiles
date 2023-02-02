@@ -18,3 +18,13 @@
 
 [diff]
     colorMoved = default
+[maintenance]
+	repo = /home/sedlund/.zsh/fast-syntax-highlighting
+	repo = /home/sedlund/.zsh/history-search-multi-word
+	repo = /home/sedlund/.zsh/ohmyzsh
+	repo = /home/sedlund/.zsh/powerlevel10k
+	repo = /home/sedlund/.zsh/znap
+	repo = /home/sedlund/.zsh/zsh-autoenv
+	repo = /home/sedlund/.zsh/zsh-autosuggestions
+	repo = /home/sedlund/.zsh/zsh-completions
+	repo = /home/sedlund/.zsh/zsh-history-substring-search
