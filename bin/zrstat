@@ -29,4 +29,4 @@ zperc=$(echo "scale=2; $zsize / $zused" | bc)
 zhuge=$(( $(awk '{print $8}' /sys/block/zram"${ZDEV}"/mm_stat) * 4 / 1024 ))
 zalgo=$( awk -F"[][]" '{print $2}' /sys/block/zram"${ZDEV}"/comp_algorithm )
 
-echo "Swap Used: ${zsize} MB Compressed: ${zused} MB Ratio: $zperc Incompressible: ${zhuge} MB Algo: ${zalgo}"
+echo "Used: ${zsize} MB Compressed: ${zused} MB Ratio: $zperc Incompressible: ${zhuge} MB Algo: ${zalgo}"
