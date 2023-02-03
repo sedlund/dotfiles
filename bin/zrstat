@@ -17,12 +17,16 @@
 # huge_pages        the number of incompressible pages
 # huge_pages_since: the number of incompressible pages since zram set up
 
-[ ! -d /sys/block/zram0 ] && echo Not using zram && exit 1
+[ -z "$1" ] \
+  && echo "usage: zrstat <zram device #> eg: zrstat 0" \
+  && exit 0
 
-zsize=$(( ( $(awk '{print $1}' /sys/block/zram?/mm_stat | sed ':a; N; s#\n#+#g') ) / 1024 / 1024 ))
-zused=$(( ( $(awk '{print $3}' /sys/block/zram?/mm_stat | sed ':a; N; s#\n#+#g') ) / 1024 / 1024 ))
+ZDEV=$1
+
+zsize=$(( ( $(awk '{print $1}' /sys/block/zram"${ZDEV}"/mm_stat | sed ':a; N; s#\n#+#g') ) / 1024 / 1024 ))
+zused=$(( ( $(awk '{print $3}' /sys/block/zram"${ZDEV}"/mm_stat | sed ':a; N; s#\n#+#g') ) / 1024 / 1024 ))
 zperc=$(echo "scale=2; $zsize / $zused" | bc)
-zhuge=$(( $(awk '{print $8}' /sys/block/zram?/mm_stat) * 4 / 1024 ))
-zalgo=$( awk -F"[][]" '{print $2}' /sys/block/zram0/comp_algorithm )
+zhuge=$(( $(awk '{print $8}' /sys/block/zram"${ZDEV}"/mm_stat) * 4 / 1024 ))
+zalgo=$( awk -F"[][]" '{print $2}' /sys/block/zram"${ZDEV}"/comp_algorithm )
 
 echo "Swap Used: ${zsize} MB Compressed: ${zused} MB Ratio: $zperc Incompressible: ${zhuge} MB Algo: ${zalgo}"
