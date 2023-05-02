@@ -236,20 +236,19 @@ ZSH_CACHE_DIR=$ZSH/cache
 
 ZNAPDIR=~/.zsh/znap
 [[ -d ${ZNAPDIR} ]] \
-    || git clone --depth 1 https://github.com/marlonrichert/zsh-snap.git ${ZNAPDIR}
+    || git clone --branch 22.06.22 https://github.com/marlonrichert/zsh-snap.git ${ZNAPDIR}
 source ${ZNAPDIR}/znap.zsh
 
 #znap prompt agnoster/agnoster-zsh-theme
 
 # List repos here to paralell pull
-znap clone \
-    https://github.com/romkatv/powerlevel10k
+znap clone https://github.com/romkatv/powerlevel10k
 
 znap source ohmyzsh/ohmyzsh lib/{git,completion,theme-and-appearance,directories,history}
-# znap source ohmyzsh/ohmyzsh lib/{completion,theme-and-appearance,directories}
 znap source ohmyzsh/ohmyzsh plugins/asdf
 znap source ohmyzsh/ohmyzsh plugins/git
-znap source ohmyzsh/ohmyzsh plugins/ssh-agent
+# ssh-agent should only run on hosts that will serve keys, not clients
+[[ -r ~/.ssh/id_ed25519 ]] && znap source ohmyzsh/ohmyzsh plugins/ssh-agent
 znap source ohmyzsh/ohmyzsh plugins/vi-mode
 [[ -x $(which tmux 2>/dev/null) ]] && znap source ohmyzsh/ohmyzsh plugins/tmux
 [[ -x $(which pip 2>/dev/null) ]] && znap source ohmyzsh/ohmyzsh plugins/pip
@@ -291,9 +290,6 @@ done
 
 #znap eval trapd00r/LS_COLORS 'dircolors -b LS_COLORS'
 #zstyle ':completion:*' list-colors "${(s.:.)LS_COLORS}"
-
-# plugin specific options to load before antigen apply
-#[[ -r ~/.ssh/id_rsa ]] && zstyle :omz:plugins:ssh-agent agent-forwarding on
 
 # {{{ 📜 ls config
 
