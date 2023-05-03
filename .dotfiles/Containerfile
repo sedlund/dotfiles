@@ -13,10 +13,7 @@ RUN apk add neovim make py3-pip npm nodejs cargo
 RUN apk add vim
 
 # tools
-RUN apk add curl bat fd make lsd ripgrep zoxide openssh
-
-# bash required for tpm tmux plugin manager
-RUN apk add tmux bash
+RUN apk add curl bat fd make lsd ripgrep zoxide openssh tmux delta bash
 
 # required for usermod
 RUN apk add shadow
