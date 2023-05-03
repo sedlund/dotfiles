@@ -1,0 +1,28 @@
+FROM alpine:edge
+
+RUN apk update
+
+# Base
+RUN apk add zsh git
+
+# LunarVim requirements
+RUN apk add neovim make py3-pip npm nodejs cargo
+
+RUN apk add vim
+
+# tools
+RUN apk add curl bat fd make lsd zoxide openssh
+
+# bash required for tpm tmux plugin manager
+RUN apk add tmux bash
+
+#RUN adduser -D -s /bin/zsh user
+#USER user
+#WORKDIR /home/user
+WORKDIR /root
+
+#ADD --chown=user:user --chmod=770 install.sh /home/user
+ADD --chmod=770 install.sh /root
+
+RUN ./install.sh
+
