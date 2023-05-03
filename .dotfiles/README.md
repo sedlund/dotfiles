@@ -10,15 +10,19 @@
 
 > wget -O- https://raw.githubusercontent.com/sedlund/dotfiles/dev/.dotfiles/install.sh |  sh -
 
-## Build container
+## Build dev container
 
 > cd ~/.dotfiles
 
-### Podman
+### Using Podman
 
 > podman build . --tag dotfiles
 
-### Docker
+Run
+
+> podman run -it --rm --name dotfiles dotfiles zsh
+
+### Using Docker to build
 
 > docker build . --file Containerfile --tag dotfiles
 
