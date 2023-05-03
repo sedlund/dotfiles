@@ -1,5 +1,7 @@
 FROM alpine:edge
 
+# lsd is in testing repo
+RUN echo "https://dl-cdn.alpinelinux.org/alpine/edge/testing" >> /etc/apk/repositories
 RUN apk update
 
 # Base
@@ -11,10 +13,14 @@ RUN apk add neovim make py3-pip npm nodejs cargo
 RUN apk add vim
 
 # tools
-RUN apk add curl bat fd make lsd zoxide openssh
+RUN apk add curl bat fd make lsd ripgrep zoxide openssh
 
 # bash required for tpm tmux plugin manager
 RUN apk add tmux bash
+
+# required for usermod
+RUN apk add shadow
+RUN usermod -s /bin/zsh root
 
 #RUN adduser -D -s /bin/zsh user
 #USER user

@@ -109,6 +109,8 @@ for cmd in lvim nvim vim vi; do
         done
         [[ ! -v install_lvim ]] && [[ ! -d ~/.local/share/lunarvim ]] \
           && bash <(curl -s https://raw.githubusercontent.com/ChristianChiarulli/lunarvim/master/utils/installer/install.sh)
+        # the installer overwrites our config
+        git checkout ~/.config/lvim/config.lua
         unset install_lvim
         alias vi=lvim
         export EDITOR=$cmd
