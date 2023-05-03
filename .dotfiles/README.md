@@ -16,9 +16,9 @@
 
 ### Podman
 
-> podman build . -t dotfiles
+> podman build . --tag dotfiles
 
 ### Docker
 
-> docker build . -f Containerfile -t dotfiles
+> docker build . --file Containerfile --tag dotfiles
 
