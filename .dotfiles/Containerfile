@@ -10,10 +10,11 @@ RUN apk add zsh git
 # LunarVim requirements
 RUN apk add neovim make py3-pip npm nodejs cargo
 
+# Testing .vimrc for using vim on systems packages cannot be installed
 RUN apk add vim
 
 # tools
-RUN apk add curl bat fd make lsd ripgrep zoxide openssh tmux delta bash
+RUN apk add curl bat fd make lsd ripgrep zoxide openssh tmux delta bash dust
 
 # required for usermod
 RUN apk add shadow
@@ -23,9 +24,8 @@ RUN usermod -s /bin/zsh root
 #USER user
 #WORKDIR /home/user
 WORKDIR /root
-
 #ADD --chown=user:user --chmod=770 install.sh /home/user
 ADD --chmod=770 install.sh /root
-
 RUN ./install.sh
 
+CMD [ "/bin/zsh" ]
