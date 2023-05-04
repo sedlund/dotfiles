@@ -14,18 +14,26 @@ RUN apk add neovim make py3-pip npm nodejs cargo
 RUN apk add vim
 
 # tools
-RUN apk add curl bat fd make lsd ripgrep zoxide openssh tmux delta bash dust
+RUN apk add curl bat fd make lsd ripgrep zoxide openssh tmux delta bash dust fzf
 
+# Run as root
+# required for usermod
+# RUN apk add shadow
+# RUN usermod -s /bin/zsh root
+# WORKDIR /root
+# ADD --chmod=770 install.sh /root
+
+# Run as user
+RUN apk add sudo
+RUN echo "%wheel ALL=(ALL:ALL) NOPASSWD: ALL" > /etc/sudoers.d/wheel_nopasswd
+RUN adduser -D -s /bin/zsh user
 # required for usermod
 RUN apk add shadow
-RUN usermod -s /bin/zsh root
+RUN usermod -aG wheel user
+USER user
+WORKDIR /home/user
+ADD --chown=user:user --chmod=770 install.sh /home/user
 
-#RUN adduser -D -s /bin/zsh user
-#USER user
-#WORKDIR /home/user
-WORKDIR /root
-#ADD --chown=user:user --chmod=770 install.sh /home/user
-ADD --chmod=770 install.sh /root
 RUN ./install.sh
 
 CMD [ "/bin/zsh" ]
