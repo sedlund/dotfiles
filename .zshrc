@@ -101,17 +101,6 @@ for cmd in lvim nvim vim vi; do
       fi
       ;;
       nvim)
-        for lvimreq in git make pip npm node cargo; do
-          if (( !${+commands[$lvimreq]} )); then
-            not_installed+="${lvimreq}"
-            install_lvim=1
-          fi
-        done
-        [[ ! -v install_lvim ]] && [[ ! -d ~/.local/share/lunarvim ]] \
-          && bash <(curl -s https://raw.githubusercontent.com/ChristianChiarulli/lunarvim/master/utils/installer/install.sh)
-        # the installer overwrites our config
-        git checkout ~/.config/lvim/config.lua
-        unset install_lvim
         alias vi=lvim
         export EDITOR=$cmd
         # Fallback to vim if we dont have the requisuites for lunarvim
