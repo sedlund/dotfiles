@@ -5,17 +5,16 @@ RUN echo "https://dl-cdn.alpinelinux.org/alpine/edge/testing" >> /etc/apk/reposi
 RUN apk update
 
 # Base
-RUN apk add zsh git
+RUN apk add zsh git bash
 
 # LunarVim requirements
 RUN apk add neovim make py3-pip npm nodejs cargo
 
-# Testing .vimrc for using vim on systems packages cannot be installed
+# For testing .vimrc for systems that packages cannot be installed
 RUN apk add vim
 
 # tools
-RUN apk add curl bat fd make lsd ripgrep zoxide openssh tmux delta bash dust fzf
-RUN apk add htop btop
+RUN apk add curl lsd ripgrep openssh tmux
 
 # Run as root
 # required for usermod
@@ -46,4 +45,8 @@ RUN ~/.local/bin/lvim -es
 # Run vim to install initial plugins to make container imutable
 RUN vim -q | true
 
+# packages I use, but not requried for dev of dotfiles
+# RUN apk add htop btop bat fd lsd ripgrep zoxide delta dust fzf
+
 CMD [ "/bin/zsh" ]
+

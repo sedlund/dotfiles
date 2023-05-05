@@ -233,7 +233,7 @@ source ${ZNAPDIR}/znap.zsh
 #znap prompt agnoster/agnoster-zsh-theme
 
 # List repos here to paralell pull
-znap clone https://github.com/romkatv/powerlevel10k
+znap clone https://github.com/romkatv/powerlevel10k.git
 
 znap source ohmyzsh/ohmyzsh lib/{git,completion,theme-and-appearance,directories,history}
 znap source ohmyzsh/ohmyzsh plugins/asdf
