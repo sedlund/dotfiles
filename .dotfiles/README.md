@@ -16,7 +16,7 @@
 
 ### Using Podman
 
-> REF=$(git show-ref -s HEAD); podman build . --tag dotfiles:${REF} --tag dotfiles:latest
+> REF=$(git log -1 --format=%H); podman build . --tag dotfiles:${REF} --tag dotfiles:latest
 
 Run
 
@@ -24,5 +24,5 @@ Run
 
 ### Using Docker to build
 
-> REF=$(git show-ref -s HEAD); docker build . --file Containerfile --tag dotfiles:${REF} --tag dotfiles:latest
+> REF=$(git log -1 --format=%H); docker build . --file Containerfile --tag dotfiles:${REF} --tag dotfiles:latest
 
