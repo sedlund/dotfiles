@@ -45,8 +45,5 @@ RUN ~/.local/bin/lvim -es
 # Run vim to install initial plugins to make container imutable
 RUN vim -q | true
 
-# packages I use, but not requried for dev of dotfiles
-# RUN apk add htop btop bat fd lsd ripgrep zoxide delta dust fzf
-
 CMD [ "/bin/zsh" ]
 
