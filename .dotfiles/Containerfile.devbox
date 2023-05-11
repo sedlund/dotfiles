@@ -4,7 +4,7 @@ FROM dotfiles-testing:latest
 RUN sudo apk add htop btop bat kubectl k9s fd lsd ripgrep zoxide delta dust fzf
 RUN sudo apk add zstd xz
 RUN umask 000; sudo npm install -g @bitwarden/cli
-RUN sudo apk add yq
+RUN sudo apk add yq gping
 
 CMD [ "/bin/zsh" ]
 
