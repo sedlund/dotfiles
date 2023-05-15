@@ -350,7 +350,8 @@ if [[ -r /etc/grc.zsh ]]; then
   done
   # some commands don't work with grc
   for cmd in mtr systemctl; do
-    unfunction ${cmd}
+    # TODO: maybe check if it exists before unfunction
+    unfunction ${cmd} 2>/dev/null
   done
 else
   not_installed+="grc"

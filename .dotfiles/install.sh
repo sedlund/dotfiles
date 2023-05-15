@@ -1,5 +1,8 @@
 #!/usr/bin/env bash
 
+# TODO: check path for required packages
+# fedora: git cargo
+
 cd \
   && git clone --recurse-submodules https://github.com/sedlund/dotfiles.git
 
