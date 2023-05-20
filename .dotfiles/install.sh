@@ -1,7 +1,9 @@
 #!/usr/bin/env bash
 
 # TODO: check path for required packages
-# fedora: git cargo
+# req: git zsh
+# fedora for lvim: cargo
+# tools: zoxide grc tmux
 
 cd \
   && git clone --recurse-submodules https://github.com/sedlund/dotfiles.git

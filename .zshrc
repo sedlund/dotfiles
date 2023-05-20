@@ -45,6 +45,7 @@ set -o noclobber
 [[ -e ~/.nix-profile/etc/profile.d/nix.sh ]] \
   && . ~/.nix-profile/etc/profile.d/nix.sh
 
+# TODO: Look at arkade https://github.com/alexellis/arkade
 # Do we like asdf really?
 [[ -d ~/.asdf ]] \
     || git clone --depth 1 https://github.com/asdf-vm/asdf.git ~/.asdf
