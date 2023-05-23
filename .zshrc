@@ -55,25 +55,35 @@ set -o noclobber
 
 # dont error on failed globs
 setopt NULL_GLOB
+# remove path set from /etc/zsh/zshenv, we can set it at the end
+# path=("${(@)path:#/usr/local/bin}")
+unset path
 # Test for common paths, add them to PATH in order of precedence
 for p in \
   ./ \
-  ~/.local/bin \
+  ~/.arkade/bin \
   ~/.asdf/shims \
   ~/.asdf/installs/krew/*/bin \
   ~/.cargo/bin \
   ~/.pub-cache/bin \
+  ~/.local/bin \
   ~/bin \
   ~/src/flutter/bin \
+  ~/go/bin \
   /usr/lib/cargo/bin \
   /usr/lib/dart/bin \
-  /usr/local/go/bin
+  /usr/local/go/bin \
+  /usr/local/bin \
+  /usr/bin \
+  /bin \
+  /usr/sbin \
+  /sbin
 do
   [[ -d ${p} ]] && path+="${p}"
 done
 unsetopt NULL_GLOB
 
-[[ -d ~/go ]] && export GOPATH=~/go && path+=~/go/bin
+[[ -d ~/go ]] && export GOPATH=~/go
 
 export LANG=en_US.UTF-8
 export LC_COLLATE="C"                           # Makes ls sort dotfiles first
