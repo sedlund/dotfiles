@@ -45,7 +45,6 @@ set -o noclobber
 [[ -e ~/.nix-profile/etc/profile.d/nix.sh ]] \
   && . ~/.nix-profile/etc/profile.d/nix.sh
 
-# TODO: Look at arkade https://github.com/alexellis/arkade
 # Do we like asdf really?
 [[ -d ~/.asdf ]] \
     || git clone --depth 1 https://github.com/asdf-vm/asdf.git ~/.asdf
@@ -53,12 +52,13 @@ set -o noclobber
 # }}}
 # {{{ 🌎 Environment variables
 
-# dont error on failed globs
+# save original system path
+opath=("${path[@]}")
+
+# dont error on failed globs in the for loop below (~)
 setopt NULL_GLOB
-# remove path set from /etc/zsh/zshenv, we can set it at the end
-# path=("${(@)path:#/usr/local/bin}")
-# FIXME: tmux requries its paths
-#unset path
+
+typeset -a npath
 # Test for common paths, add them to PATH in order of precedence
 for p in \
   ./ \
@@ -80,10 +80,18 @@ for p in \
   /usr/sbin \
   /sbin
 do
-  [[ -d ${p} ]] && path+="${p}"
+  [[ -d ${p} ]] && npath+="${p}"
 done
 unsetopt NULL_GLOB
 
+# remove original path
+unset path
+
+# add system path to the end
+path=("${npath[@]}" "${opath[@]}")
+unset npath opath
+
+# set GOPATH
 [[ -d ~/go ]] && export GOPATH=~/go
 
 export LANG=en_US.UTF-8
