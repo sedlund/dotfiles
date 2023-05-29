@@ -57,7 +57,8 @@ set -o noclobber
 setopt NULL_GLOB
 # remove path set from /etc/zsh/zshenv, we can set it at the end
 # path=("${(@)path:#/usr/local/bin}")
-unset path
+# FIXME: tmux requries its paths
+#unset path
 # Test for common paths, add them to PATH in order of precedence
 for p in \
   ./ \
