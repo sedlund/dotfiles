@@ -1,6 +1,6 @@
 # vim: et foldmethod=marker
 
-# {{{ Profile - Start
+# {{{ ⌚ Profile - Start
 
 # zmodload zsh/datetime
 # setopt PROMPT_SUBST
@@ -24,7 +24,7 @@ warn_not_installed() {
 }
 
 # }}}
-# {{{ ⌚ Early config
+# {{{ 🌅 Early config
 
 # 😷 Umask {{{
 
@@ -48,6 +48,9 @@ set -o noclobber
 # Do we like asdf really?
 [[ -d ~/.asdf ]] \
     || git clone --depth 1 https://github.com/asdf-vm/asdf.git ~/.asdf
+    #
+# Generated for envman. Do not edit.
+[ -s "$HOME/.config/envman/load.sh" ] && source "$HOME/.config/envman/load.sh"
 
 # }}}
 # {{{ 🌎 Environment variables
@@ -244,6 +247,10 @@ fi
 # These are normally set by oh-my-zsh.  We don't load all of it so set it here.
 ZSH=~/.zsh/ohmyzsh
 ZSH_CACHE_DIR=$ZSH/cache
+# ohmyzsh puts completions here, since we do not init omz we make them
+[[ ! -x ${ZSH_CACHE_DIR}/completions ]] && mkdir ${ZSH_CACHE_DIR}/completions
+# add to zsh completion path
+fpath+=${ZSH_CACHE_DIR}/completions
 
 ZNAPDIR=~/.zsh/znap
 [[ -d ${ZNAPDIR} ]] \
@@ -271,10 +278,6 @@ znap source zsh-users/zsh-autosuggestions
 znap source zsh-users/zsh-completions
 znap source zsh-users/zsh-history-substring-search
 # znap source zsh-users/zsh-syntax-highlighting
-
-# FIXME - NOTE 2022/10/29 oh-my-zsh init checks for $ZSH_CACHE_DIR/completions
-# and creates it !exist - since we do not init it might need to do this
-# ourselves
 
 if [[ -x $(which kubectl 2>/dev/null) ]]; then
   znap source ohmyzsh/ohmyzsh plugins/kubectl
@@ -368,7 +371,7 @@ if [[ -r /etc/grc.zsh ]]; then
       $cmd() { grc --colour=auto ${commands[$0]} "$@" }
     fi
   done
-  # some commands don't work with grc
+  # some commands don't work with grc / kubectl completions break
   for cmd in mtr systemctl; do
     # TODO: maybe check if it exists before unfunction
     unfunction ${cmd} 2>/dev/null
@@ -484,7 +487,17 @@ bindkey '^ ' autosuggest-accept
 warn_not_installed
 
 # }}}
-# {{{ Profile - Stop
+# {{{ 🪟 TMUX auto start
+
+# tmux command in path?
+  # TMUX var not set with socket path = already running inside tmux
+    # Start tmux or attach to existing
+[ ${+commands[tmux]} ] \
+  && [ "${TMUX}" = "" ] \
+    && tmux
+
+# }}}
+# {{{ ⌚ Profile - Stop
 
 # unsetopt XTRACE
 # exec 2>&3 3>&-
@@ -493,12 +506,3 @@ warn_not_installed
 
 # }}}
 
-# Generated for envman. Do not edit.
-[ -s "$HOME/.config/envman/load.sh" ] && source "$HOME/.config/envman/load.sh"
-
-# tmux command in path?
-  # TMUX var not set with socket path = already running inside tmux
-    # Start tmux or attach to existing
-[ ${+commands[tmux]} ] \
-  && [ "${TMUX}" = "" ] \
-    && tmux
