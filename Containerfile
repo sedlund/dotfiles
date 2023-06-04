@@ -8,13 +8,13 @@ RUN apk update
 RUN apk add zsh git bash
 
 # LunarVim requirements
-RUN apk add neovim make py3-pip npm nodejs cargo
+RUN apk add neovim make py3-pip npm fd ripgrep fzf gcc musl-dev
 
 # For testing .vimrc for systems that packages cannot be installed
 RUN apk add vim
 
 # tools
-RUN apk add curl lsd ripgrep openssh tmux
+RUN apk add curl lsd openssh tmux
 
 # Run as root
 # required for usermod

@@ -1,11 +1,4 @@
-# vim: et foldmethod=marker
-
-# TODO: restructure to use GNU stow
-# This alleviates a few pain points with this method
-# - Having to use status.showuntrackedfiles=no
-# - Be able to use git clean
-# - tools like lazygit will not delete everything in my homedir because they
-#   run `git clean -fd` and `git commit -A`
+# vim: expandtab foldmethod=marker
 
 # {{{ ⌚ Profile - Start
 
@@ -53,9 +46,9 @@ set -o noclobber
   && . ~/.nix-profile/etc/profile.d/nix.sh
 
 # Do we like asdf really?
-[[ -d ~/.asdf ]] \
-    || git clone --depth 1 https://github.com/asdf-vm/asdf.git ~/.asdf
-    #
+# [[ -d ~/.asdf ]] \
+#     || git clone --depth 1 https://github.com/asdf-vm/asdf.git ~/.asdf
+
 # Generated for envman. Do not edit.
 [ -s "$HOME/.config/envman/load.sh" ] && source "$HOME/.config/envman/load.sh"
 
@@ -163,12 +156,12 @@ done
 # wrap in a case statement like above (maybe?)
 
 # Test for lsd here so we can warn on it missing before znap init
-[[ -x $(which lsd 2>/dev/null) ]] || not_installed+="lsd"
+command -v lsd &>/dev/null || not_installed+="lsd"
 
-which less &>/dev/null && alias more=less; export PAGER=less
+command -v less &>/dev/null ]] && alias more=less; export PAGER=less
 
 # Ansible
-which ansible-vault &>/dev/null \
+command -v ansible-vault &>/dev/null \
   && alias ave='ansible-vault edit' \
   && alias avv='ansible-vault view' \
   && alias avc='ansible-vault encrypt'
@@ -213,7 +206,7 @@ which bat &>/dev/null \
 
 # Prefer podman CRI (container runtime interface)
 export CRI=$(basename $(whence podman docker) 2>/dev/null)
-if [[ -x $(which ${CRI} 2>/dev/null) ]]; then
+if [[ $(command -v ${CRI} &>/dev/null) ]]; then
   which butane &>/dev/null \
     || alias butane='${CRI} run -it --rm -v ${PWD}:/pwd -w /pwd quay.io/coreos/butane:release'
 fi
@@ -237,8 +230,8 @@ fi
 #     systemd
 # )
 #
-# [[ -x $(which tmux 2>/dev/null) ]] && plugins+=tmux
-# [[ -x $(which pip 2>/dev/null) ]] && plugins+=pip
+# [[ $(command -v tmux &>/dev/null) ]] && plugins+=tmux
+# [[ $(command -v pip &>/dev/null) ]] && plugins+=pip
 #
 # [[ -r ~/.ssh/id_rsa ]] \
 #     && plugins+=ssh-agent \
@@ -275,8 +268,7 @@ znap source ohmyzsh/ohmyzsh plugins/git
 # ssh-agent should only run on hosts that will serve keys, not clients
 [[ -r ~/.ssh/id_ed25519 ]] && znap source ohmyzsh/ohmyzsh plugins/ssh-agent
 znap source ohmyzsh/ohmyzsh plugins/vi-mode
-[[ -x $(which tmux 2>/dev/null) ]] && znap source ohmyzsh/ohmyzsh plugins/tmux
-[[ -x $(which pip 2>/dev/null) ]] && znap source ohmyzsh/ohmyzsh plugins/pip
+command -v pip &>/dev/null && znap source ohmyzsh/ohmyzsh plugins/pip
 znap source Tarrasch/zsh-autoenv
 znap source ohmyzsh/ohmyzsh plugins/terraform
 znap source zdharma-continuum/fast-syntax-highlighting
@@ -286,41 +278,45 @@ znap source zsh-users/zsh-completions
 znap source zsh-users/zsh-history-substring-search
 # znap source zsh-users/zsh-syntax-highlighting
 
-if [[ -x $(which kubectl 2>/dev/null) ]]; then
+if $(command -v kubectl &>/dev/null); then
   znap source ohmyzsh/ohmyzsh plugins/kubectl
 # else
 #   not_installed+="kubectl"
 fi
 
-if [[ -x $(which zoxide 2>/dev/null) ]]; then
+if $(command -v zoxide &>/dev/null); then
   eval "$(zoxide init zsh)"
 else
   not_installed+="zoxide"
 fi
 
+# FIXME: zsh does this now
 # cache completions
-sf=~/.local/share/zsh/site-functions
-for cmd in \
-  hcloud \
-  podman
-do
-  [[ -x $(which ${cmd} 2>/dev/null) ]] \
-    && [[ ! -f ${sf}/_${cmd} ]] \
-    && ${cmd} completion zsh > ${sf}/_${cmd}
-done
+#sf=~/.local/share/zsh/site-functions
+#for cmd in \
+#  hcloud \
+#  podman
+#do
+#  if [[ command -v ${cmd} &>/dev/null) ]]; then
+#    if [[ ! -f ${sf}/_${cmd} ]]; then
+#      ${cmd} completion zsh > ${sf}/_${cmd}
+#    fi
+#  fi
+#done
 
 #znap eval trapd00r/LS_COLORS 'dircolors -b LS_COLORS'
 #zstyle ':completion:*' list-colors "${(s.:.)LS_COLORS}"
 
 # {{{ 📜 ls config
 
-if [[ -x $(which lsd 2>/dev/null) ]]; then
+if command -v lsd &>/dev/null; then
   alias ls='lsd --group-dirs first --classify'
 else
   not_installed+="lsd"
   # use -F instead of --classify to appease busybox
-  alias ls='ls --color=auto --group-directories-first -F'
-  [[ -x $(which dircolors 2>/dev/null) ]] && eval $(dircolors ~/.dir_colors)
+  # alias ls='ls --color=auto --group-directories-first -F'
+  # # dircolors is in coreutils on alpine
+  # command -v dircolors &>/dev/null && eval $(dircolors ~/.dir_colors)
 fi
 
 # This overwrides ls aliases of ohmyzsh/ohmyzsh/libs{directories} that I prefer
@@ -368,6 +364,21 @@ case ${TERM} in
 esac
 
 # }}}
+
+# }}}
+# # {{{ 🔧 Install tools from ~/.config/dotfiles
+
+# an array of functions to run at the end of init
+# the dotfile configs can create a function and add it here
+typeset -a autostart
+
+# Should occur after znap init as we can load the tools plugin in the script
+setopt NULL_GLOB
+for f in ~/.config/dotfiles/*; do
+  test -f "$f" || continue
+  source "${f}"
+done
+unsetopt NULL_GLOB
 
 # }}}
 # {{{ 🌈 GRC: Generic colorizer
@@ -494,16 +505,6 @@ bindkey '^ ' autosuggest-accept
 warn_not_installed
 
 # }}}
-# {{{ 🪟 TMUX auto start
-
-# tmux command in path?
-  # TMUX var not set with socket path = already running inside tmux
-    # Start tmux or attach to existing
-[ ${+commands[tmux]} ] \
-  && [ "${TMUX}" = "" ] \
-    && tmux
-
-# }}}
 # {{{ ⌚ Profile - Stop
 
 # unsetopt XTRACE
@@ -512,4 +513,11 @@ warn_not_installed
 # zprof
 
 # }}}
+# {{{ 🏃 Autostart
 
+# FIXME: Obviously this isn't well implemented yet
+for cmd in ${autostart[@]}; do
+  ${cmd}
+done
+
+# }}}
