@@ -1,5 +1,12 @@
 # vim: et foldmethod=marker
 
+# TODO: restructure to use GNU stow
+# This alleviates a few pain points with this method
+# - Having to use status.showuntrackedfiles=no
+# - Be able to use git clean
+# - tools like lazygit will not delete everything in my homedir because they
+#   run `git clean -fd` and `git commit -A`
+
 # {{{ ⌚ Profile - Start
 
 # zmodload zsh/datetime
