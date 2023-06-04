@@ -2,10 +2,6 @@
 
 ## Install
 
-### curl
-
-> curl https://raw.githubusercontent.com/sedlund/dotfiles/dev/.dotfiles/install.sh |  sh -
-
 ### wget
 
 > wget -O- https://raw.githubusercontent.com/sedlund/dotfiles/dev/.dotfiles/install.sh |  sh -
