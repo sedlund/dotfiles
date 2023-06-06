@@ -352,24 +352,6 @@ done
 unsetopt NULL_GLOB
 
 # }}}
-# {{{ 🌈 GRC: Generic colorizer
-
-if [[ -r /etc/grc.zsh ]]; then
-  for cmd in $(/bin/ls /usr/share/grc | grep -vE "ls" | cut -d. -f2); do
-    if (( $+commands[$cmd] )); then
-      $cmd() { grc --colour=auto ${commands[$0]} "$@" }
-    fi
-  done
-  # some commands don't work with grc / kubectl completions break
-  for cmd in mtr systemctl; do
-    # TODO: maybe check if it exists before unfunction
-    unfunction ${cmd} 2>/dev/null
-  done
-else
-  not_installed+="grc"
-fi
-
-# }}}
 # {{{ 🎹 Key bindings - Load after ZSH Plugin Manager(s)
 
 # {{{ ZSH history-substring-search plugin
