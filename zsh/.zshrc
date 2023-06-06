@@ -45,10 +45,6 @@ set -o noclobber
 [[ -e ~/.nix-profile/etc/profile.d/nix.sh ]] \
   && . ~/.nix-profile/etc/profile.d/nix.sh
 
-# Do we like asdf really?
-# [[ -d ~/.asdf ]] \
-#     || git clone --depth 1 https://github.com/asdf-vm/asdf.git ~/.asdf
-
 # Generated for envman. Do not edit.
 [ -s "$HOME/.config/envman/load.sh" ] && source "$HOME/.config/envman/load.sh"
 
@@ -371,7 +367,10 @@ esac
 # an array of functions to run at the end of init
 # the dotfile configs can create a function and add it here
 typeset -a autostart
-
+# FIXME:eventually each module will add their paths to this array and will be
+# prepended to the default system path
+# array of my paths to add
+typeset -a mpath
 # Should occur after znap init as we can load the tools plugin in the script
 setopt NULL_GLOB
 for f in ~/.config/dotfiles/*; do

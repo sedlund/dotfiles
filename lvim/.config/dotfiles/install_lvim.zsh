@@ -1,3 +1,5 @@
+# vim: foldmethod=marker
+
 req=(nvim npm python3 gcc bash make fd rg fzf)
 for p in ${req} ; do
   command -v ${p} &>/dev/null \
@@ -7,9 +9,6 @@ for p in ${req} ; do
   }
 done
 
-# Install lvim
-# https://www.lunarvim.org/docs/installation
-echo Installing Lunarvim...
 
 # initial lvim stow will symlink the directory which will cause lvim during
 # install to put the lazy-lock file in our dotfiles. so test if the directory
@@ -20,9 +19,13 @@ lvcd="$HOME/.config/lvim"
        mkdir -p ~/.config/lvim &> /dev/null
 }
 
-command -v lvim \
-  || LV_BRANCH='release-1.3/neovim-0.9' \
-     bash <(wget -O- https://raw.githubusercontent.com/LunarVim/LunarVim/release-1.3/neovim-0.9/utils/installer/install.sh) -y
+# Install lvim
+# https://www.lunarvim.org/docs/installation
+command -v lvim &>/dev/null \
+  || { echo Installing Lunarvim...
+       LV_BRANCH='release-1.3/neovim-0.9' \
+       bash <(wget -O- https://raw.githubusercontent.com/LunarVim/LunarVim/release-1.3/neovim-0.9/utils/installer/install.sh) -y
+}
 
 # the installer removes our config from the initial stow
 cfg="$HOME/.config/lvim/config.lua"
