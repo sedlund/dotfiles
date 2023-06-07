@@ -1,5 +1,5 @@
 
-command -v grc &> /dev/null \ || {
+command -v grc &> /dev/null || {
   echo "Press return to install GRC in your home, CTRL-C to cancel and install via the package manager"
   read
   echo "Installing generic colouriser (grc)"
