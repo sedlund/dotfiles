@@ -1,3 +1,5 @@
+" vi: foldmethod=marker
+
 " https://coderoncode.com/tools/2018/04/16/vim-the-perfect-ide.html
 " This must be first, because it changes other options as a side effect.
 set nocompatible
@@ -87,7 +89,7 @@ Plug 'altercation/vim-colors-solarized'
 Plug 'ryanoasis/vim-devicons'
 " Plug 'vim-airline/vim-airline'
 " Plug 'vim-airline/vim-airline-themes'
- 
+
 " Initialize plugin system
 call plug#end()
 

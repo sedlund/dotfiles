@@ -3,6 +3,6 @@
 find . -maxdepth 1 -regextype egrep -iregex ".*\.(wav|mp3|aac|flac)$" -print0 \
   |  xargs \
     -0 \
-    -P$(nproc) \
+    -P"$(nproc)" \
     -I{} \
     sh -c "echo {}; ffmpeg -i \"{}\" -c:a libopus \"\$(echo \"{}\" | sed -r 's/\.(wav|mp3|aac|flac)$//I').opus\""

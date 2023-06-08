@@ -6,8 +6,8 @@ readonly zip=$(basename "${zipWithPath}")
 readonly file=$(basename "${zip}" .zip)
 readonly cwd="${PWD}"
 
-cd "${dir}"
+cd "${dir}" || exit
 unzip "${zipWithPath}"
 tar c . | zstd -T0 -v -o "${cwd}/${file}.tar.zst"
-cd "${cwd}"
+cd "${cwd}" || exit
 rm -rf "${dir}"
