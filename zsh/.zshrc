@@ -312,7 +312,7 @@ case ${TERM} in
     fi
 
     # To customize prompt, run `p10k configure` or edit ~/.p10k.zsh.
-    [[ -f ~/.p10k-graphical.zsh ]] && source ~/.p10k-graphical.zsh
+    [[ -f ~/.zsh/p10k/p10k-graphical.zsh ]] && source ~/.zsh/p10k/p10k-graphical.zsh
   ;;
 
   linux)
@@ -322,11 +322,11 @@ case ${TERM} in
     if [[ -r "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh" ]]; then
         source "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh"
     fi
-    [[ -f ~/.p10k-console.zsh ]] && source ~/.p10k-console.zsh
+    [[ -f ~/.zsh/p10k/p10k-console.zsh ]] && source ~/.zsh/p10k/p10k-console.zsh
   ;;
 
   *)
-    # This is a OMZ ssh theme - loading OMZ twice seems to hang
+    # This is a OMZ theme - loading OMZ twice seems to hang
     znap prompt agnoster/agnoster-zsh-theme
   ;;
 esac
