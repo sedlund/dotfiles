@@ -201,11 +201,10 @@ which bat &>/dev/null \
   && export MANPAGER="sh -c 'col -bx | $(whence bat) --language man --plain'"
 
 # Prefer podman CRI (container runtime interface)
-export CRI=$(basename $(whence podman docker) 2>/dev/null)
-if [[ $(command -v ${CRI} &>/dev/null) ]]; then
-  which butane &>/dev/null \
+CRI=$(basename $(whence podman docker) 2>/dev/null)
+command -v ${CRI} &>/dev/null \
+  && command -v butane &>/dev/null \
     || alias butane='${CRI} run -it --rm -v ${PWD}:/pwd -w /pwd quay.io/coreos/butane:release'
-fi
 
 # }}}
 # {{{ ⚡Znap! - ZSH plugin manager
