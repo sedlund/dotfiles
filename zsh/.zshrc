@@ -1,3 +1,4 @@
+# shellcheck shell=zsh
 # vim: expandtab foldmethod=marker
 
 # {{{ ⌚ Profile - Start
@@ -20,7 +21,7 @@
 typeset -TU NOT_INSTALLED not_installed ","
 warn_not_installed() {
   [[ "${NOT_INSTALLED}" != "" ]] \
-    && echo warn: ${NOT_INSTALLED} not installed
+    && echo warn: "${NOT_INSTALLED}" not installed
 }
 
 # }}}
@@ -79,7 +80,7 @@ for p in \
   /usr/sbin \
   /sbin
 do
-  [[ -d ${p} ]] && npath+="${p}"
+  [[ -d ${p} ]] && npath+=("${p}")
 done
 unsetopt NULL_GLOB
 
@@ -154,7 +155,7 @@ done
 # Test for lsd here so we can warn on it missing before znap init
 command -v lsd &>/dev/null || not_installed+="lsd"
 
-command -v less &>/dev/null ]] && alias more=less; export PAGER=less
+command -v less &>/dev/null || alias more=less; export PAGER=less
 
 # Ansible
 command -v ansible-vault &>/dev/null \
@@ -191,8 +192,9 @@ export MANROFFOPT="-c"
 
 # debian
 which batcat &>/dev/null \
-  && alias bat=batcat \
-  && export MANPAGER="sh -c 'col -bx | $(whence batcat) --language man --plain'"
+  && { alias bat=batcat
+       export MANPAGER="sh -c 'col -bx | $(whence batcat) --language man --plain'"
+     }
 
 # use short options for col as raspbian col doesnt have long options
 
@@ -201,10 +203,10 @@ which bat &>/dev/null \
   && export MANPAGER="sh -c 'col -bx | $(whence bat) --language man --plain'"
 
 # Prefer podman CRI (container runtime interface)
-CRI=$(basename $(whence podman docker) 2>/dev/null)
-command -v ${CRI} &>/dev/null \
-  && command -v butane &>/dev/null \
-    || alias butane='${CRI} run -it --rm -v ${PWD}:/pwd -w /pwd quay.io/coreos/butane:release'
+CRI=$(basename "$(whence podman docker)" 2>/dev/null)
+if ! command -v butane &>/dev/null && command -v "${CRI}" &>/dev/null; then
+  alias butane='${CRI} run -it --rm -v ${PWD}:/pwd -w /pwd quay.io/coreos/butane:release'
+fi
 
 # }}}
 # {{{ ⚡Znap! - ZSH plugin manager
@@ -245,13 +247,10 @@ znap source zsh-users/zsh-completions
 znap source zsh-users/zsh-history-substring-search
 # znap source zsh-users/zsh-syntax-highlighting
 
-if $(command -v kubectl &>/dev/null); then
-  znap source ohmyzsh/ohmyzsh plugins/kubectl
-# else
-#   not_installed+="kubectl"
-fi
+command -v kubectl &>/dev/null \
+  && znap source ohmyzsh/ohmyzsh plugins/kubectl
 
-if $(command -v zoxide &>/dev/null); then
+if command -v zoxide &>/dev/null; then
   eval "$(zoxide init zsh)"
 else
   not_installed+="zoxide"
@@ -398,7 +397,7 @@ warn_not_installed
 # {{{ 🏃 Autostart
 
 # FIXME: Obviously this isn't well implemented yet
-for cmd in ${autostart[@]}; do
+for cmd in "${autostart[@]}"; do
   ${cmd}
 done
 
