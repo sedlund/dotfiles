@@ -155,7 +155,7 @@ done
 # Test for lsd here so we can warn on it missing before znap init
 command -v lsd &>/dev/null || not_installed+="lsd"
 
-command -v less &>/dev/null || alias more=less; export PAGER=less
+command -v less &>/dev/null && alias more=less; export PAGER=less
 
 # Ansible
 command -v ansible-vault &>/dev/null \
