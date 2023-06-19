@@ -163,11 +163,8 @@ command -v ansible-vault &>/dev/null \
   && alias avv='ansible-vault view' \
   && alias avc='ansible-vault encrypt'
 
-which apt &>/dev/null \
-  && alias apt='sudo nice apt'
-
-which dnf &>/dev/null \
-  && alias dnf='sudo nice dnf'
+command -v apt &>/dev/null && alias apt='sudo nice apt'
+command -v dnf &>/dev/null && alias dnf='sudo nice dnf'
 
 # Fedora Toolbox
 [ "$(hostname)" = "toolbox" ] \
@@ -175,23 +172,23 @@ which dnf &>/dev/null \
 
 alias gzip='nice gzip'
 alias tar='nice tar'
-which xz &>/dev/null && alias xz='nice xz -T0' || not_installed+="xz"
-which zstd &>/dev/null && alias zstd='nice zstd -T0' || not_installed+="zstd"
+if command -v xz &>/dev/null; then alias xz='nice xz -T0' else not_installed+="xz"; fi
+if command -v zstd &>/dev/null; then alias zstd='nice zstd -T0'; else not_installed+="zstd"; fi
 
-which make &>/dev/null && alias make='nice make' || not_installed+="make"
+if command -v make &>/dev/null; then alias make='nice make'; else not_installed+="make"; fi
 
 # Systemd
 
-which systemctl &>/dev/null && alias s="sudo systemctl"
-which journalctl &>/dev/null && alias j="sudo journalctl"
+command -v systemctl &>/dev/null && alias s="sudo systemctl"
+command -v journalctl &>/dev/null && alias j="sudo journalctl"
 
-which fd &>/dev/null || not_installed+="fd-find"
+command -v fd &>/dev/null || not_installed+="fd-find"
 
 # disable color codes from rendered man pages for bat
 export MANROFFOPT="-c"
 
 # debian
-which batcat &>/dev/null \
+command -v batcat &>/dev/null \
   && { alias bat=batcat
        export MANPAGER="sh -c 'col -bx | $(whence batcat) --language man --plain'"
      }
@@ -199,7 +196,7 @@ which batcat &>/dev/null \
 # use short options for col as raspbian col doesnt have long options
 
 # fedora / asdf
-which bat &>/dev/null \
+command -v bat &>/dev/null \
   && export MANPAGER="sh -c 'col -bx | $(whence bat) --language man --plain'"
 
 # Prefer podman CRI (container runtime interface)
