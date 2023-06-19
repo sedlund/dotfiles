@@ -27,6 +27,11 @@ lvim.keys.normal_mode["<S-h>"] = ":BufferLineCyclePrev<CR>"
 vim.g.catppuccin_flavour = "macchiato" -- latte, frappe, macchiato, mocha
 lvim.colorscheme = "catppuccin"
 
+local formatters = require "lvim.lsp.null-ls.formatters"
+formatters.setup {
+  { exe = "yamlfmt", filetypes = { "yaml" } },
+}
+
 lvim.plugins = {
   -- { "folke/tokyonight.nvim" },
   -- {
