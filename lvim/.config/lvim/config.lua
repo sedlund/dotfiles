@@ -47,6 +47,7 @@ lvim.plugins = {
   -- "folke/tokyonight.nvim",
   "ellisonleao/gruvbox.nvim",
   "catppuccin/nvim",
+  "ixru/nvim-markdown",
   "mbbill/undotree",
   {
     "nacro90/numb.nvim",
@@ -73,16 +74,24 @@ lvim.plugins = {
     end,
   },
   {
-    "wfxr/minimap.vim",
-    build = "cargo install --locked code-minimap",
-    config = function()
-      vim.cmd("let g:minimap_width = 10")
-      vim.cmd("let g:minimap_auto_start = 1")
-      vim.cmd("let g:minimap_auto_start_win_enter = 1")
-    end,
+    "tpope/vim-surround",
+
+    -- make sure to change the value of `timeoutlen` if it's not triggering correctly, see https://github.com/tpope/vim-surround/issues/117
+    -- setup = function()
+    --  vim.o.timeoutlen = 500
+    -- end
   },
+  -- {
+  --   "wfxr/minimap.vim",
+  --   build = "cargo install --locked code-minimap",
+  --   config = function()
+  --     vim.cmd("let g:minimap_width = 10")
+  --     vim.cmd("let g:minimap_auto_start = 1")
+  --     vim.cmd("let g:minimap_auto_start_win_enter = 1")
+  --   end,
+  -- },
 }
 
-vim.cmd("let g:minimap_width = 10")
-vim.cmd("let g:minimap_auto_start = 1")
-vim.cmd("let g:minimap_auto_start_win_enter = 1")
+-- vim.cmd("let g:minimap_width = 10")
+-- vim.cmd("let g:minimap_auto_start = 1")
+-- vim.cmd("let g:minimap_auto_start_win_enter = 1")
