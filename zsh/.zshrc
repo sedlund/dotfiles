@@ -66,6 +66,7 @@ for p in \
   ~/.asdf/shims \
   ~/.asdf/installs/krew/*/bin \
   ~/.cargo/bin \
+  ~/.krew/bin \
   ~/.pub-cache/bin \
   ~/.local/bin \
   ~/bin \
