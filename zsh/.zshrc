@@ -332,6 +332,10 @@ esac
 # }}}
 # # {{{ 🔧 Install tools from ~/.config/dotfiles
 
+# NOTE:
+# These scripts are sourced inline as to have them be able to set environment
+# variables (add to the path with mpath).  The script should not `exit`.
+
 # an array of functions to run at the end of init
 # the dotfile configs can create a function and add it here
 typeset -a autostart
@@ -341,6 +345,7 @@ typeset -a autostart
 typeset -a mpath
 # Should occur after znap init as we can load the tools plugin in the script
 setopt NULL_GLOB
+# READ NOTE above!
 for f in ~/.config/dotfiles/*; do
   test -f "$f" || continue
   source "${f}"
