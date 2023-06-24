@@ -7,7 +7,7 @@ req=(nvim npm python3 gcc bash make fd rg fzf)
 for p in ${req} ; do
   command -v ${p} &>/dev/null || {
     echo FAIL: ${p} is required for lvim
-    echo All requirements: ${req}
+ #   echo All requirements: ${req}
     continue=0
   }
 done
@@ -30,7 +30,7 @@ unset req
   command -v lvim &>/dev/null || {
     echo Installing Lunarvim...
     LV_BRANCH='release-1.3/neovim-0.9' \
-    bash <(wget -O- https://raw.githubusercontent.com/LunarVim/LunarVim/release-1.3/neovim-0.9/utils/installer/install.sh) -y
+    bash <(wget -qO- https://raw.githubusercontent.com/LunarVim/LunarVim/release-1.3/neovim-0.9/utils/installer/install.sh) -y
   }
 
   # the installer removes our config from the initial stow
