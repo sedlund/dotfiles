@@ -327,6 +327,9 @@ case ${TERM} in
   ;;
 esac
 
+# NOTE: To disable gitstatusd when using browsing a restic mount or other oddity:
+# POWERLEVEL9K_DISABLE_GITSTATUS=true
+
 # }}}
 
 # }}}
