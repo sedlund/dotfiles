@@ -95,6 +95,7 @@ unset npath opath
 # set GOPATH
 [[ -d ~/go ]] && export GOPATH=~/go
 
+export TZ=Europe/Budapest
 export LANG=en_US.UTF-8
 export LC_COLLATE="C"                           # Makes ls sort dotfiles first
 
@@ -153,8 +154,8 @@ done
 # FIXME: create array of commands that are individually specified below and
 # wrap in a case statement like above (maybe?)
 
-# Test for lsd here so we can warn on it missing before znap init
-command -v lsd &>/dev/null || not_installed+="lsd"
+# Test for eza here so we can warn on it missing before znap init
+command -v eza &>/dev/null || not_installed+="eza"
 
 command -v less &>/dev/null && alias more=less; export PAGER=less
 
@@ -273,10 +274,10 @@ fi
 
 # {{{ 📜 ls config
 
-if command -v lsd &>/dev/null; then
-  alias ls='lsd --group-dirs first --classify'
+if command -v eza &>/dev/null; then
+  alias ls='eza --group-directories-first --classify --icons --color-scale'
 else
-  not_installed+="lsd"
+  not_installed+="eza"
   # use -F instead of --classify to appease busybox
   # alias ls='ls --color=auto --group-directories-first -F'
   # # dircolors is in coreutils on alpine
@@ -285,11 +286,14 @@ fi
 
 # This overwrides ls aliases of ohmyzsh/ohmyzsh/libs{directories} that I prefer
 alias l='ls'
-alias la='ls -a'
-alias ll='ls -lh'
-alias l1='ls -1'
-alias lla='ls -lah'
-alias lld='ls -ldh'
+alias la='ls --all'
+alias ll='ls --long'
+alias lla='ls --long --all'
+alias lld='ls --long --list-dirs'
+alias llg='ls --long --group'
+alias lls='ls --long --sort size'
+alias llt='ls --long --sort newest'
+alias lltr='ls --long --sort newest --time-style relative'
 
 # }}}
 
